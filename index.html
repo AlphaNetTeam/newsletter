@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AlphaNet Market Brief — Institutional-Grade Market Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   DESIGN SYSTEM — AlphaNet Market Brief
+   ============================================ */
+:root {
+  /* Colors — Dark Institutional */
+  --bg-base: #080C16;
+  --bg-primary: #0A0F1C;
+  --bg-secondary: #0F1626;
+  --bg-surface: #131B2E;
+  --bg-elevated: #182238;
+  --bg-hover: #1C2840;
+
+  --border-subtle: #1B2740;
+  --border-default: #243150;
+  --border-hover: #3B5277;
+
+  --accent: #60A5FA;
+  --accent-hover: #7DB8FC;
+  --accent-press: #3B82F6;
+  --accent-glow: rgba(96, 165, 250, 0.12);
+  --accent-soft: rgba(96, 165, 250, 0.08);
+
+  --success: #4ADE80;
+  --success-soft: rgba(74, 222, 128, 0.1);
+  --warning: #FBBF24;
+  --danger: #F87171;
+
+  --text-primary: #ECF2FC;
+  --text-secondary: #95A6C2;
+  --text-muted: #5E7090;
+  --text-faint: #3D4A66;
+
+  /* Category Colors */
+  --cat-market: #60A5FA;
+  --cat-strategy: #4ADE80;
+  --cat-product: #C084FC;
+
+  /* Typography */
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Spacing — 4px base */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  /* Transitions */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.25s;
+
+  /* Layout */
+  --max-width: 1200px;
+  --gutter: 24px;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 16px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input { font-family: inherit; }
+img { max-width: 100%; display: block; }
+
+::selection { background: var(--accent-glow); color: var(--accent-hover); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--border-default); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.section { padding: var(--space-24) 0; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(8, 12, 22, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: border-color var(--dur) var(--ease);
+}
+.nav-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+}
+.nav-logo-img {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+.nav-logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+.nav-logo-text small {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.nav-link:hover { color: var(--text-primary); background: var(--bg-surface); }
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bg-base);
+  background: var(--accent);
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  transition: background var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.nav-cta:hover { background: var(--accent-hover); }
+.nav-cta:active { transform: scale(0.97); }
+
+.nav-mobile-toggle { display: none; }
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
+  padding-top: 140px;
+  padding-bottom: var(--space-24);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 900px; height: 600px;
+  background: radial-gradient(ellipse at center top, var(--accent-glow) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: var(--space-16);
+  align-items: center;
+  position: relative;
+}
+
+/* Hero Left */
+.hero-left { max-width: 560px; }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(91, 159, 255, 0.2);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: var(--space-6);
+}
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  background: var(--success);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--success-soft);
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: var(--space-5);
+}
+.hero-title em {
+  font-style: normal;
+  color: var(--accent);
+}
+.hero-desc {
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-8);
+  max-width: 480px;
+}
+
+/* Subscribe Form */
+.subscribe-form {
+  display: flex;
+  gap: var(--space-2);
+  max-width: 480px;
+  margin-bottom: var(--space-5);
+}
+.subscribe-input {
+  flex: 1;
+  height: 52px;
+  padding: 0 18px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: 15px;
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.subscribe-input::placeholder { color: var(--text-muted); }
+.subscribe-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--bg-elevated);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.subscribe-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 52px;
+  padding: 0 24px;
+  background: var(--accent);
+  border-radius: var(--radius-md);
+  color: var(--bg-base);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.subscribe-btn:hover { background: var(--accent-hover); }
+.subscribe-btn:active { transform: scale(0.97); }
+.subscribe-btn svg { width: 16px; height: 16px; }
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.hero-meta-item { display: flex; align-items: center; gap: 6px; }
+.hero-meta-dot { width: 3px; height: 3px; background: var(--text-faint); border-radius: 50%; }
+
+/* Hero Right — Data Panel */
+.hero-right {
+  position: relative;
+}
+.data-panel {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 60px -20px rgba(0,0,0,0.5);
+}
+.data-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-secondary);
+}
+.data-panel-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.data-panel-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--success);
+}
+.data-panel-live::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.data-panel-body { padding: var(--space-5); }
+
+/* Metric Row */
+.metric-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-subtle);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-bottom: var(--space-5);
+}
+.metric-cell {
+  background: var(--bg-surface);
+  padding: var(--space-4) var(--space-3);
+  text-align: center;
+}
+.metric-value {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+.metric-value.positive { color: var(--success); }
+.metric-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Strategy Mini Table */
+.strategy-mini {
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+}
+.strategy-mini-head {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.strategy-mini-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  padding: 11px 14px;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background var(--dur) var(--ease);
+}
+.strategy-mini-row:last-child { border-bottom: none; }
+.strategy-mini-row:hover { background: var(--bg-hover); }
+.strategy-name {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.strategy-roi {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--success);
+}
+.strategy-sharpe, .strategy-dd {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Sparkline */
+.sparkline-section {
+  margin-top: var(--space-5);
+  padding: var(--space-4);
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+.sparkline-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+}
+.sparkline-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+.sparkline-value {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--success);
+}
+.sparkline-svg {
+  width: 100%;
+  height: 48px;
+  display: block;
+}
+
+/* ============================================
+   SECTION HEADER
+   ============================================ */
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: var(--space-12);
+  gap: var(--space-6);
+}
+.section-title-group h2 {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-top: var(--space-2);
+}
+.section-title-group p {
+  color: var(--text-secondary);
+  font-size: 16px;
+  margin-top: var(--space-3);
+  max-width: 480px;
+}
+
+/* ============================================
+   LATEST ISSUE — Featured
+   ============================================ */
+.latest-issue {
+  padding-top: var(--space-16);
+}
+.featured-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: border-color var(--dur) var(--ease);
+}
+.featured-card:hover { border-color: var(--border-default); }
+
+.featured-content {
+  padding: var(--space-10) var(--space-10);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.featured-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+.cat-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.cat-tag::before {
+  content: '';
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.cat-market { color: var(--cat-market); background: rgba(91, 159, 255, 0.1); }
+.cat-strategy { color: var(--cat-strategy); background: rgba(45, 212, 167, 0.1); }
+.cat-product { color: var(--cat-product); background: rgba(192, 132, 252, 0.1); }
+
+.featured-date {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.featured-title {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-4);
+  color: var(--text-primary);
+}
+.featured-excerpt {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+}
+.featured-stats {
+  display: flex;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.featured-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.featured-stat-value {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--success);
+}
+.featured-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+.featured-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+  transition: gap var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.featured-link:hover { gap: 12px; color: var(--accent-hover); }
+.featured-link svg { width: 18px; height: 18px; }
+
+/* Featured Visual */
+.featured-visual {
+  position: relative;
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8);
+  overflow: hidden;
+}
+.featured-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(var(--border-subtle) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-subtle) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.3;
+}
+.featured-visual-inner {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+}
+.price-chart-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.price-chart-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-4);
+}
+.price-chart-symbol {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.price-chart-change {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--danger);
+}
+.price-chart-price {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+.price-chart-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+.price-chart-svg {
+  width: 100%;
+  height: 100px;
+}
+
+/* ============================================
+   ARCHIVE — Filter + Grid
+   ============================================ */
+.archive { padding-top: var(--space-12); }
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-10);
+  flex-wrap: wrap;
+}
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--dur) var(--ease);
+}
+.filter-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--border-default);
+}
+.filter-btn.active {
+  background: var(--accent-soft);
+  border-color: rgba(91, 159, 255, 0.3);
+  color: var(--accent);
+}
+.filter-btn-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+
+.issue-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+  cursor: pointer;
+}
+.issue-card:hover {
+  border-color: var(--border-default);
+  transform: translateY(-2px);
+}
+.issue-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+.issue-card-date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.issue-card-title {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+  transition: color var(--dur) var(--ease);
+}
+.issue-card:hover .issue-card-title { color: var(--accent); }
+.issue-card-excerpt {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-5);
+  flex: 1;
+}
+.issue-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-subtle);
+}
+.issue-card-read {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.issue-card-arrow {
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  transition: all var(--dur) var(--ease);
+}
+.issue-card:hover .issue-card-arrow {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.issue-card-arrow svg { width: 14px; height: 14px; }
+
+/* ============================================
+   BOTTOM CTA
+   ============================================ */
+.cta-section {
+  padding: var(--space-24) 0;
+  position: relative;
+}
+.cta-box {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-16) var(--space-12);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-box::before {
+  content: '';
+  position: absolute;
+  top: -100px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 300px;
+  background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-4);
+  position: relative;
+}
+.cta-desc {
+  font-size: 17px;
+  color: var(--text-secondary);
+  max-width: 480px;
+  margin: 0 auto var(--space-8);
+  position: relative;
+}
+.cta-form {
+  display: flex;
+  gap: var(--space-2);
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+}
+.cta-trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+  font-size: 13px;
+  color: var(--text-muted);
+  position: relative;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: var(--space-12) 0 var(--space-8);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: var(--space-8);
+  margin-bottom: var(--space-10);
+}
+.footer-brand .nav-logo { margin-bottom: var(--space-4); }
+.footer-brand .nav-logo-img { height: 32px; }
+.footer-brand p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 280px;
+}
+.footer-col h4 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: var(--space-2); }
+.footer-col a {
+  font-size: 14px;
+  color: var(--text-secondary);
+  transition: color var(--dur) var(--ease);
+}
+.footer-col a:hover { color: var(--accent); }
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-subtle);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.footer-bottom-links { display: flex; gap: var(--space-5); }
+.footer-bottom-links a:hover { color: var(--text-secondary); }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 968px) {
+  .hero-grid { grid-template-columns: 1fr; gap: var(--space-12); }
+  .hero-right { max-width: 480px; }
+  .featured-card { grid-template-columns: 1fr; }
+  .featured-visual { border-left: none; border-top: 1px solid var(--border-subtle); min-height: 280px; }
+  .archive-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .nav-mobile-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .hero { padding-top: 110px; }
+  .subscribe-form, .cta-form { flex-direction: column; }
+  .subscribe-input, .subscribe-btn, .cta-form .subscribe-input, .cta-form .subscribe-btn { width: 100%; }
+  .archive-grid { grid-template-columns: 1fr; }
+  .featured-content { padding: var(--space-6); }
+  .featured-stats { flex-wrap: wrap; gap: var(--space-4); }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: var(--space-3); text-align: center; }
+  .section-header { flex-direction: column; align-items: flex-start; }
+  .metric-row { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================ NAVIGATION ============================================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <img src="logo.png" alt="AlphaNet" class="nav-logo-img">
+    </a>
+    <div class="nav-links">
+      <a href="#archive" class="nav-link">Archive</a>
+      <a href="#categories" class="nav-link">Categories</a>
+      <a href="https://alphanet.global" class="nav-link" target="_blank" rel="noopener">Platform</a>
+      <a href="https://wp.alphanet.global" class="nav-link" target="_blank" rel="noopener">Whitepaper</a>
+      <a href="#subscribe" class="nav-cta">Subscribe</a>
+    </div>
+    <button class="nav-mobile-toggle" aria-label="Menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ============================================ HERO ============================================ -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Left -->
+      <div class="hero-left">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          New Issue · July 2026
+        </div>
+        <h1 class="hero-title">
+          The machinery of institutional trading, <em>delivered to your inbox.</em>
+        </h1>
+        <p class="hero-desc">
+          AlphaNet Market Brief breaks down the quantitative edge — market dissection, strategy performance, and the architecture behind institutional-grade alpha. Written by the team building it.
+        </p>
+        <form class="subscribe-form" id="hero-subscribe">
+          <input type="email" class="subscribe-input" placeholder="your@email.com" required aria-label="Email address">
+          <button type="submit" class="subscribe-btn">
+            Subscribe
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+        <div class="hero-meta">
+          <div class="hero-meta-item">Free forever</div>
+          <div class="hero-meta-dot"></div>
+          <div class="hero-meta-item">Bi-weekly</div>
+          <div class="hero-meta-dot"></div>
+          <div class="hero-meta-item">No spam, ever</div>
+        </div>
+      </div>
+
+      <!-- Right — Data Panel -->
+      <div class="hero-right">
+        <div class="data-panel">
+          <div class="data-panel-header">
+            <span class="data-panel-title">Strategy Leaderboard</span>
+            <span class="data-panel-live">LIVE</span>
+          </div>
+          <div class="data-panel-body">
+            <!-- Key Metrics -->
+            <div class="metric-row">
+              <div class="metric-cell">
+                <div class="metric-value positive">176%</div>
+                <div class="metric-label">Avg Annual Return</div>
+              </div>
+              <div class="metric-cell">
+                <div class="metric-value">2.56</div>
+                <div class="metric-label">Avg Sharpe</div>
+              </div>
+              <div class="metric-cell">
+                <div class="metric-value">45+</div>
+                <div class="metric-label">Strategies</div>
+              </div>
+            </div>
+
+            <!-- Strategy Mini Table -->
+            <div class="strategy-mini">
+              <div class="strategy-mini-head">
+                <span>Strategy</span>
+                <span>30D ROI</span>
+                <span>Sharpe</span>
+                <span>Max DD</span>
+              </div>
+              <div class="strategy-mini-row">
+                <span class="strategy-name">HW OptimaShort · DOGE</span>
+                <span class="strategy-roi">+32.8%</span>
+                <span class="strategy-sharpe">3.46</span>
+                <span class="strategy-dd">3.40%</span>
+              </div>
+              <div class="strategy-mini-row">
+                <span class="strategy-name">HW OptimaShort · ADA</span>
+                <span class="strategy-roi">+14.9%</span>
+                <span class="strategy-sharpe">2.43</span>
+                <span class="strategy-dd">6.50%</span>
+              </div>
+              <div class="strategy-mini-row">
+                <span class="strategy-name">HW OptimaShort · SOL</span>
+                <span class="strategy-roi">+13.5%</span>
+                <span class="strategy-sharpe">3.18</span>
+                <span class="strategy-dd">2.50%</span>
+              </div>
+              <div class="strategy-mini-row">
+                <span class="strategy-name">HW OptimaShort · LINK</span>
+                <span class="strategy-roi">+9.7%</span>
+                <span class="strategy-sharpe">2.60</span>
+                <span class="strategy-dd">6.10%</span>
+              </div>
+            </div>
+
+            <!-- Sparkline -->
+            <div class="sparkline-section">
+              <div class="sparkline-label">
+                <span class="sparkline-name">DOGE · OptimaShort V2 — 90D Equity Curve</span>
+                <span class="sparkline-value">+1,876.7%</span>
+              </div>
+              <svg class="sparkline-svg" viewBox="0 0 300 48" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#4ADE80" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#4ADE80" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,38 L15,36 L30,34 L45,35 L60,30 L75,28 L90,31 L105,24 L120,26 L135,20 L150,22 L165,16 L180,18 L195,12 L210,14 L225,8 L240,10 L255,6 L270,7 L285,4 L300,3 L300,48 L0,48 Z" fill="url(#sparkGrad)"/>
+                <path d="M0,38 L15,36 L30,34 L45,35 L60,30 L75,28 L90,31 L105,24 L120,26 L135,20 L150,22 L165,16 L180,18 L195,12 L210,14 L225,8 L240,10 L255,6 L270,7 L285,4 L300,3" fill="none" stroke="#4ADE80" stroke-width="1.5"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================ ARCHIVE ============================================ -->
+<section class="section archive" id="archive">
+  <div class="container">
+    <div class="section-header" id="categories">
+      <div class="section-title-group">
+        <span class="eyebrow">Archive</span>
+        <h2>Every issue, indexed</h2>
+        <p>Market dissection, strategy performance, and product deep-dives. Filter by what matters to you.</p>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All <span class="filter-btn-count">6</span></button>
+      <button class="filter-btn" data-filter="market">Market Brief <span class="filter-btn-count">1</span></button>
+      <button class="filter-btn" data-filter="strategy">Strategy Reports <span class="filter-btn-count">5</span></button>
+    </div>
+
+    <!-- Grid -->
+    <div class="archive-grid">
+
+      <!-- Card 1 -->
+      <article class="issue-card" data-category="strategy" data-href="https://alphanet-info.github.io/Strategy_Spotlight_Prime_DOGE/">
+        <div class="issue-card-meta">
+          <span class="cat-tag cat-strategy">Strategy Report</span>
+          <span class="issue-card-date">Jul 27, 2026</span>
+        </div>
+        <h3 class="issue-card-title">Strategy Spotlight: Hackworth Prime × DOGE</h3>
+        <p class="issue-card-excerpt">DOGE fell 29.8% in two months. Prime returned +14.2% through both the crash and the flatline — 4.0 Sharpe, −4.7% max drawdown, recovered in 7 days.</p>
+        <div class="issue-card-footer">
+          <span class="issue-card-read">10 min read</span>
+          <div class="issue-card-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="issue-card" data-category="market" data-href="https://alphanet-info.github.io/Korea-Volatility/">
+        <div class="issue-card-meta">
+          <span class="cat-tag cat-market">Market Brief</span>
+          <span class="issue-card-date">Jul 13, 2026</span>
+        </div>
+        <h3 class="issue-card-title">Stop Trading Against Machines. Start Trading With One.</h3>
+        <p class="issue-card-excerpt">When SK Hynix dropped 15%, retail sold ₩4.15T at the lows. Institutions bought ₩4.2T. The lesson isn't about the stock — it's about the machinery.</p>
+        <div class="issue-card-footer">
+          <span class="issue-card-read">8 min read</span>
+          <div class="issue-card-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="issue-card" data-category="strategy" data-href="https://alphanet-info.github.io/June-OptimaShort-Casestudy/">
+        <div class="issue-card-meta">
+          <span class="cat-tag cat-strategy">Strategy Report</span>
+          <span class="issue-card-date">Jul 10, 2026</span>
+        </div>
+        <h3 class="issue-card-title">Hackworth OptimaShort: June Performance Report</h3>
+        <p class="issue-card-excerpt">Four previously under-the-radar strategies broke out in June. DOGE led with +32.8% ROI and a 3.46 Sharpe. All four delivered positive PnL across the cohort.</p>
+        <div class="issue-card-footer">
+          <span class="issue-card-read">12 min read</span>
+          <div class="issue-card-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="issue-card" data-category="strategy" data-href="https://alphanet-info.github.io/06-05-event-analysis/">
+        <div class="issue-card-meta">
+          <span class="cat-tag cat-strategy">Strategy Report</span>
+          <span class="issue-card-date">Jun 6, 2026</span>
+        </div>
+        <h3 class="issue-card-title">Privacy Coin Crisis: OptimaShort Stress Test</h3>
+        <p class="issue-card-excerpt">ZEC crashed 56% in two days as a Zcash shielded-pool vulnerability triggered the worst privacy-sector selloff in years. OptimaShort converted the chaos into net profit on both ZEC and XMR.</p>
+        <div class="issue-card-footer">
+          <span class="issue-card-read">10 min read</span>
+          <div class="issue-card-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="issue-card" data-category="strategy" data-href="https://alphanet-info.github.io/MarketEventAnalysis/">
+        <div class="issue-card-meta">
+          <span class="cat-tag cat-strategy">Strategy Report</span>
+          <span class="issue-card-date">Jun 5, 2026</span>
+        </div>
+        <h3 class="issue-card-title">Market Dump Response: 6 Strategies, 102 Trades</h3>
+        <p class="issue-card-excerpt">How six Hackworth Prime strategies navigated the June 1–3 downturn. Four posted positive returns — ZEC led at +8.83%, and five strategies went short simultaneously at the cascade.</p>
+        <div class="issue-card-footer">
+          <span class="issue-card-read">14 min read</span>
+          <div class="issue-card-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="issue-card" data-category="strategy" data-href="https://alphanet-info.github.io/Newsletter/">
+        <div class="issue-card-meta">
+          <span class="cat-tag cat-strategy">Strategy Report</span>
+          <span class="issue-card-date">Jun 1, 2026</span>
+        </div>
+        <h3 class="issue-card-title">May 2026 Snapshot: Six Spotlight Strategies</h3>
+        <p class="issue-card-excerpt">All six Hackworth spotlight strategies posted positive May returns, led by Prime ZEC at +20.3%. ~1,050 trades executed. A full technical breakdown of the engine architecture behind the results.</p>
+        <div class="issue-card-footer">
+          <span class="issue-card-read">15 min read</span>
+          <div class="issue-card-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ BOTTOM CTA ============================================ -->
+<section class="cta-section" id="subscribe">
+  <div class="container">
+    <div class="cta-box">
+      <h2 class="cta-title">Get the next issue in your inbox.</h2>
+      <p class="cta-desc">Bi-weekly market intelligence from the team building institutional-grade quant AI. No fluff, no shilling — just the data and the architecture behind it.</p>
+      <form class="cta-form" id="cta-subscribe">
+        <input type="email" class="subscribe-input" placeholder="your@email.com" required aria-label="Email address">
+        <button type="submit" class="subscribe-btn">
+          Subscribe
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+      <div class="cta-trust">
+        <div class="hero-meta-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Free forever
+        </div>
+        <div class="hero-meta-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Bi-weekly
+        </div>
+        <div class="hero-meta-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          No spam
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ FOOTER ============================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">
+          <img src="logo.png" alt="AlphaNet" class="nav-logo-img">
+        </a>
+        <p>Institutional-grade quantitative AI trading platform - redefining alpha and trading edge for retail.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="https://trade.alphanet.global/strategies" target="_blank" rel="noopener">Strategy Marketplace</a></li>
+          <li><a href="https://trade.alphanet.global/" target="_blank" rel="noopener">Launch Platform</a></li>
+          <li><a href="https://wp.alphanet.global/" target="_blank" rel="noopener">Technical Whitepaper</a></li>
+          <li><a href="https://guide.alphanet.global" target="_blank" rel="noopener">User Guide</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <ul>
+          <li><a href="#archive">Full Archive</a></li>
+          <li><a href="#categories">Categories</a></li>
+          <li><a href="#subscribe">Subscribe</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Research</h4>
+        <ul>
+          <li><a href="https://alphanet.global" target="_blank" rel="noopener">Dynamic Factor Mining</a></li>
+          <li><a href="https://alphanet.global" target="_blank" rel="noopener">Algo Execution Systems</a></li>
+          <li><a href="https://alphanet.global" target="_blank" rel="noopener">Alpha Mining vs Deep Learning</a></li>
+          <li><a href="https://alphanet.global" target="_blank" rel="noopener">Agentic Strategy Selection</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 AlphaNet. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="https://alphanet.global" target="_blank" rel="noopener">alphanet.global</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ============================================
+// CATEGORY FILTER
+// ============================================
+const filterBtns = document.querySelectorAll('.filter-btn');
+const issueCards = document.querySelectorAll('.issue-card');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const filter = btn.dataset.filter;
+
+    // Update active state
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Filter cards
+    issueCards.forEach(card => {
+      if (filter === 'all' || card.dataset.category === filter) {
+        card.style.display = '';
+        card.style.opacity = '0';
+        requestAnimationFrame(() => {
+          card.style.transition = 'opacity 0.3s ease';
+          card.style.opacity = '1';
+        });
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+});
+
+// ============================================
+// ISSUE CARD CLICKS
+// ============================================
+issueCards.forEach(card => {
+  if (card.dataset.href) {
+    card.addEventListener('click', () => {
+      window.open(card.dataset.href, '_blank', 'noopener');
+    });
+  }
+});
+
+// ============================================
+// SUBSCRIBE FORM (demo — replace with beehiiv embed)
+// ============================================
+function handleSubscribe(form, btnText) {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = form.querySelector('input[type="email"]');
+    const btn = form.querySelector('button');
+    const originalText = btn.innerHTML;
+
+    btn.innerHTML = 'Subscribing...';
+    btn.style.pointerEvents = 'none';
+
+    setTimeout(() => {
+      btn.innerHTML = 'Subscribed ✓';
+      btn.style.background = 'var(--success)';
+      input.value = '';
+      input.placeholder = 'Check your inbox to confirm';
+
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.background = '';
+        btn.style.pointerEvents = '';
+        input.placeholder = 'your@email.com';
+      }, 3000);
+    }, 1200);
+  });
+}
+
+handleSubscribe(document.getElementById('hero-subscribe'));
+handleSubscribe(document.getElementById('cta-subscribe'));
+
+// ============================================
+// NAV SCROLL EFFECT
+// ============================================
+const nav = document.querySelector('.nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 20) {
+    nav.style.borderBottomColor = 'var(--border-default)';
+  } else {
+    nav.style.borderBottomColor = 'var(--border-subtle)';
+  }
+});
+
+// ============================================
+// MOBILE MENU (simple toggle)
+// ============================================
+const mobileToggle = document.querySelector('.nav-mobile-toggle');
+const navLinks = document.querySelector('.nav-links');
+if (mobileToggle) {
+  mobileToggle.addEventListener('click', () => {
+    navLinks.style.display = navLinks.style.display === 'flex' ? '' : 'flex';
+    navLinks.style.flexDirection = 'column';
+    navLinks.style.position = 'absolute';
+    navLinks.style.top = '64px';
+    navLinks.style.left = '0';
+    navLinks.style.right = '0';
+    navLinks.style.background = 'var(--bg-primary)';
+    navLinks.style.padding = '16px';
+    navLinks.style.borderBottom = '1px solid var(--border-subtle)';
+  });
+}
+</script>
+
+</body>
+</html>

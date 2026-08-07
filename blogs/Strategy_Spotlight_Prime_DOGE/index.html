@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AlphaNet Strategy Spotlight — Hackworth Prime × DOGE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#060608;
+    --surface:#0b0b10;
+    --surface2:#0e0e14;
+    --line:rgba(255,255,255,.08);
+    --line2:rgba(255,255,255,.14);
+    --text:#ececf1;
+    --muted:#9b9ba7;
+    --dim:#6d6d78;
+    --green:#3ef0b6;
+    --green-dim:rgba(62,240,182,.12);
+    --red:#ff5470;
+    --red-dim:rgba(255,84,112,.12);
+    --amber:#f0b34a;
+    --steel:#7d8496;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:17px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:rgba(62,240,182,.25)}
+  .mono{font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+
+  /* ---------- header ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    background:rgba(6,6,8,.85);
+    backdrop-filter:blur(12px);
+    position:sticky;top:0;z-index:50;
+  }
+  .header-inner{
+    max-width:1160px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .header-logo{display:flex;align-items:center;gap:14px;text-decoration:none}
+  .header-logo img{height:20px;width:auto;display:block}
+  .header-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--dim);display:flex;align-items:center;gap:10px;
+  }
+  .header-meta .dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+  @media (max-width:640px){.header-meta .hm-text{display:none}}
+  .header-right{display:flex;align-items:center;gap:18px}
+  .header-btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);text-decoration:none;
+    border:1px solid var(--line2);border-radius:2px;
+    padding:7px 14px;transition:color .2s,border-color .2s,background .2s;
+    white-space:nowrap;
+  }
+  .header-btn:hover{color:var(--green);border-color:rgba(62,240,182,.5);background:var(--green-dim)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:88px 0 56px;border-bottom:1px solid var(--line)}
+  .kicker{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--green);display:flex;align-items:center;gap:12px;margin-bottom:28px;
+  }
+  .kicker::before{content:"";width:28px;height:1px;background:var(--green);display:inline-block}
+  h1{
+    font-size:clamp(38px,6.2vw,62px);
+    line-height:1.04;font-weight:800;letter-spacing:-.025em;margin-bottom:20px;
+  }
+  .hero-meta{
+    font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:28px;
+  }
+  .lede{font-size:clamp(18px,2.4vw,22px);line-height:1.55;color:var(--muted);max-width:720px;font-weight:500}
+  .lede strong{color:var(--text);font-weight:700}
+  .hero-stats{
+    display:flex;flex-wrap:wrap;gap:1px;background:var(--line);
+    border:1px solid var(--line);margin-top:52px;
+  }
+  .hero-stat{flex:1 1 180px;background:var(--bg);padding:20px 24px}
+  .hero-stat .v{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;letter-spacing:-.02em}
+  .hero-stat .v.red{color:var(--red)} .hero-stat .v.green{color:var(--green)} .hero-stat .v.amber{color:var(--amber)}
+  .hero-stat .k{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:6px;font-family:'JetBrains Mono',monospace}
+
+  /* ---------- article ---------- */
+  article{padding:64px 0 24px}
+  .sec{margin-bottom:64px}
+  h2{font-size:clamp(26px,3.6vw,34px);line-height:1.15;font-weight:800;letter-spacing:-.02em;margin-bottom:24px}
+  p{margin-bottom:18px;color:#c9c9d2}
+  p strong, li strong{color:var(--text);font-weight:700}
+  p .hl-g{color:var(--green);font-weight:700}
+  p .hl-r{color:var(--red);font-weight:700}
+  ul.bullets{list-style:none;margin:24px 0}
+  ul.bullets li{
+    position:relative;padding:14px 0 14px 28px;color:#c9c9d2;
+    border-bottom:1px solid var(--line);
+  }
+  ul.bullets li:last-child{border-bottom:none}
+  ul.bullets li::before{
+    content:"";position:absolute;left:0;top:26px;width:12px;height:2px;background:var(--green);
+  }
+  ul.bullets li strong{color:var(--text)}
+
+  /* ---------- data tables ---------- */
+  .tbl-wrap{overflow-x:auto;margin-top:28px}
+  .data-tbl{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
+  .data-tbl th{
+    font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--dim);text-align:left;padding:11px 14px;border-bottom:1px solid var(--line2);
+  }
+  .data-tbl th.r, .data-tbl td.r{text-align:right}
+  .data-tbl td{
+    padding:11px 14px;border-bottom:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace;color:var(--muted);white-space:nowrap;
+  }
+  .data-tbl td.lbl{font-family:'Inter',sans-serif;color:var(--text);font-weight:600}
+  .data-tbl td.pos{color:var(--green);font-weight:700}
+  .data-tbl td.neg{color:var(--red);font-weight:700}
+  .data-tbl tr.hl td{background:rgba(255,84,112,.06)}
+  .data-tbl tr.hl td:first-child{border-left:2px solid var(--red)}
+  .data-tbl tr.hlg td{background:rgba(62,240,182,.05)}
+  .data-tbl tr.hlg td:first-child{border-left:2px solid var(--green)}
+  .tbl-note{
+    margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.7;
+    color:var(--dim);letter-spacing:.03em;
+  }
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);padding:44px 0 56px;margin-top:24px}
+  footer .f-top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+  footer img{height:16px;opacity:.8}
+  footer .disc{font-size:12px;line-height:1.7;color:var(--dim);max-width:760px}
+  footer .follow{border-left:2px solid var(--green);padding:4px 0 4px 24px;margin:0 0 32px;display:flex;justify-content:space-between;align-items:center;gap:14px 24px;flex-wrap:wrap}
+  footer .follow .ft{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--muted)}
+  footer .follow .ft em{font-style:normal;color:var(--green);font-weight:700}
+  footer .follow .links{display:flex;gap:8px;flex-wrap:wrap}
+  footer .follow .links a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--line2);border-radius:2px;padding:7px 14px;transition:all .2s}
+  footer .follow .links a:hover{color:var(--green);border-color:var(--green)}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a class="header-logo" href="#"><img src="logo.png" alt="AlphaNet"></a>
+    <div class="header-right">
+      <div class="header-meta">
+        <span class="dot"></span>
+        <span class="hm-text">AlphaNet&nbsp;&nbsp;·&nbsp;&nbsp;Strategy Spotlight&nbsp;&nbsp;·&nbsp;&nbsp;28 May – 24 Jul 2026</span>
+      </div>
+      <a class="header-btn" href="https://alphanet.global/blog" target="_blank" rel="noopener">Blog</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="kicker">Strategy Spotlight · Live On-Chain Results</div>
+    <h1>Hackworth Prime × DOGE</h1>
+    <div class="hero-meta">28 May – 24 July 2026 · 58 sessions · updated 27 July</div>
+    <p class="lede">Over the past two months, DOGE lost nearly 30% of its value — a brutal crash in June, then a listless drift through July. One of the standout strategies on AlphaNet traded it through both — and returned <strong>+14.2%</strong>.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="v green">+14.2%</div><div class="k">total return</div></div>
+      <div class="hero-stat"><div class="v green">−4.7%</div><div class="k">max drawdown</div></div>
+      <div class="hero-stat"><div class="v amber">4.0</div><div class="k">annualised Sharpe</div></div>
+      <div class="hero-stat"><div class="v red">−29.8%</div><div class="k">DOGE, same period</div></div>
+    </div>
+  </section>
+
+  <article>
+    <section class="sec">
+      <p>Hackworth Prime is the balanced, all-weather version of AlphaNet's multi-alpha engine: up to <strong>20 low-correlation alpha signals</strong> combined and hedged into one strategy, with low average directional exposure and dynamic sizing. “All-weather” is an easy thing to put in a spec sheet. These two months handed it two completely different markets to prove it in.</p>
+    </section>
+
+    <!-- ============ TEST ONE ============ -->
+    <section class="sec">
+      <h2>Test one: the crash</h2>
+      <p>June was brutal. DOGE dropped <strong class="hl-r">28.2%</strong> in a month, with multiple sessions down 4% or more. Prime × DOGE returned <strong class="hl-g">+10.2%</strong>.</p>
+      <p>This is what the design means by “capturing fat-tails.” Prime doesn't sit at a fixed exposure — it sizes dynamically as its alpha signals shift, and when the market broke hard, the book was positioned to profit from it rather than merely survive it. Week by week, against the asset:</p>
+
+      <div class="tbl-wrap">
+        <table class="data-tbl">
+          <thead>
+            <tr><th>Week ending</th><th class="r">DOGE</th><th class="r">Strategy</th></tr>
+          </thead>
+          <tbody>
+            <tr class="hl"><td class="lbl">5 Jun</td><td class="r neg">−18.3%</td><td class="r pos">+4.3%</td></tr>
+            <tr><td class="lbl">12 Jun</td><td class="r pos">+5.5%</td><td class="r pos">+3.3%</td></tr>
+            <tr><td class="lbl">19 Jun</td><td class="r neg">−2.8%</td><td class="r neg">−0.5%</td></tr>
+            <tr class="hl"><td class="lbl">26 Jun</td><td class="r neg">−9.3%</td><td class="r pos">+3.1%</td></tr>
+            <tr><td class="lbl">3 Jul</td><td class="r pos">+2.3%</td><td class="r pos">+0.7%</td></tr>
+            <tr><td class="lbl">10 Jul</td><td class="r neg">−4.4%</td><td class="r pos">+2.5%</td></tr>
+            <tr><td class="lbl">17 Jul</td><td class="r neg">−2.1%</td><td class="r">−0.0%</td></tr>
+            <tr><td class="lbl">24 Jul</td><td class="r neg">−3.7%</td><td class="r pos">+2.4%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tbl-note">WEEKLY RETURNS, STRATEGY VS. ASSET · HIGHLIGHTED: DOGE'S TWO WORST WEEKS OF THE PERIOD.</p>
+
+      <p style="margin-top:28px">Read the whole column, not just the crash rows. The strategy was positive in DOGE's worst week (<strong class="hl-g">+4.3%</strong> against <strong class="hl-r">−18.3%</strong>) — and positive again in DOGE's best week (<strong class="hl-g">+3.3%</strong> against +5.5%). Its worst week in two months was −0.5%. Wins on both sides of the market, losses that stay small: that asymmetry, not any single week, is the result.</p>
+    </section>
+
+    <!-- ============ TEST TWO ============ -->
+    <section class="sec">
+      <h2>Test two: the flatline</h2>
+      <p>Then July took the opposite exam. DOGE spent most of the month drifting in a narrow band — no trend, no momentum, one single air pocket late in the month. Prime returned <strong class="hl-g">+5.2%</strong> in July so far.</p>
+      <p>This is the harder test, and the one most strategies fail quietly. A strategy that made +10% in the crash could just be a short bet in disguise — but a short bet earns little when the market flatlines. Prime kept earning because its return doesn't come from one view; it comes from <strong>many small, hedged signals firing independently</strong>, each incremental trade attributed to a specific alpha. Some of those signals need volatility, some need mean-reversion, none of them need DOGE to pick a direction.</p>
+      <p>The single best day of the entire period makes the point: <strong class="hl-g">+3.28% on 7 July</strong> — a quiet day, DOGE down barely 3%, well inside its range. The strategy's best day didn't need a dramatic market. It needed its signals to be right.</p>
+    </section>
+
+    <!-- ============ ONE WEEK UNDER THE HOOD ============ -->
+    <section class="sec">
+      <h2>One week under the hood</h2>
+      <p>Here's what that looks like at daily resolution — the most recent seven sessions:</p>
+
+      <div class="tbl-wrap">
+        <table class="data-tbl">
+          <thead>
+            <tr><th>Day</th><th class="r">DOGE move</th><th class="r">Strategy</th></tr>
+          </thead>
+          <tbody>
+            <tr class="hlg"><td class="lbl">Sat 18</td><td class="r">−0.04%</td><td class="r pos">+1.22%</td></tr>
+            <tr><td class="lbl">Sun 19</td><td class="r">−0.14%</td><td class="r">−0.01%</td></tr>
+            <tr><td class="lbl">Mon 20</td><td class="r">−0.33%</td><td class="r pos">+0.20%</td></tr>
+            <tr><td class="lbl">Tue 21</td><td class="r pos">+1.66%</td><td class="r neg">−0.46%</td></tr>
+            <tr><td class="lbl">Wed 22</td><td class="r">−0.55%</td><td class="r">0.00%</td></tr>
+            <tr class="hl"><td class="lbl">Thu 23</td><td class="r neg">−5.19%</td><td class="r neg">−0.30%</td></tr>
+            <tr><td class="lbl">Fri 24</td><td class="r pos">+0.97%</td><td class="r pos">+1.75%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="tbl-note">DAILY RETURNS, 18–24 JULY · HIGHLIGHTED: THE WEEK'S BEST DAY CAME ON ITS FLATTEST MARKET — AND THE WEEK'S WORST MARKET COST ALMOST NOTHING.</p>
+
+      <p style="margin-top:28px">Two rows tell the story. Saturday: DOGE closed <strong>four basis points</strong> from where it opened — as flat as crypto gets — and it was one of the strategy's best days, <strong class="hl-g">+1.22%</strong>. Thursday: DOGE gapped down <strong class="hl-r">5.2%</strong>, its worst session in weeks, and the strategy gave up just <strong>0.30%</strong> — then earned <strong class="hl-g">+1.75%</strong> on Friday's bounce. That texture — small, frequent, uncorrelated with the asset — is what compounds into +14.2% over two months without the ride making you sick.</p>
+      <p>The consistency numbers back it up across the full period: profitable on <strong>58% of active sessions</strong>, longest losing streak just <strong>3 sessions</strong>, and the deepest drawdown of the period — 4.7% — <strong>fully recovered within 7 days</strong>.</p>
+    </section>
+
+    <!-- ============ THE SCOREBOARD ============ -->
+    <section class="sec">
+      <h2>The scoreboard</h2>
+
+      <div class="tbl-wrap">
+        <table class="data-tbl">
+          <thead>
+            <tr><th></th><th class="r">Prime × DOGE</th><th class="r">Holding DOGE</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="lbl">Total return, 58 sessions</td><td class="r pos">+14.2%</td><td class="r neg">−29.8%</td></tr>
+            <tr><td class="lbl">Annualised volatility</td><td class="r pos">21.7%</td><td class="r neg">47%</td></tr>
+            <tr><td class="lbl">Max drawdown</td><td class="r pos">−4.7%</td><td class="r neg">−31.6%</td></tr>
+            <tr><td class="lbl">Time to recover</td><td class="r pos">7 days</td><td class="r neg">still underwater</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin-top:28px">The drawdown line is the one to sit with: the worst dip in two months was <strong>4.7%</strong>, in an asset that fell <strong class="hl-r">31.6%</strong> peak-to-trough. Net directional exposure across the Prime book averaged roughly <strong>20% of capital</strong> at daily close, which is why the return stream looks nothing like the asset underneath it. And one honest note on the Sharpe of 4.0 — it's real and computed from live daily returns, but <strong>58 sessions is a short sample</strong>, and no strategy holds a number like that forever.</p>
+    </section>
+
+    <!-- ============ THE HONEST COMPARISON ============ -->
+    <section class="sec">
+      <h2>The honest comparison</h2>
+      <p>A sharp reader should ask: if DOGE fell 30%, wouldn't simply shorting it have made more? <strong>Yes.</strong> With perfect hindsight, a static short held from day one would have returned roughly +24% — well above the strategy. We'd rather tell you that than have you compute it yourself.</p>
+      <p>But that trade only exists in hindsight, and it's fragile in every direction the market didn't go. It eats every rally at full size, and it earns nothing in a market like July's. Prime gave up the hindsight jackpot and bought something else: a return stream that was <strong>positive in the crash, in the bounce, and in the flatline</strong>, with single-digit drawdowns throughout. You're not paying for a prediction. You're paying for a portfolio of small edges that doesn't need one.</p>
+    </section>
+
+    <!-- ============ ONE ENGINE, THREE TEMPERAMENTS ============ -->
+    <section class="sec">
+      <h2>One engine, three temperaments</h2>
+      <p>Prime is one of three versions of the Hackworth engine, each running the same alpha library with a different risk personality:</p>
+      <ul class="bullets">
+        <li><strong>Hackworth Prime</strong> — the balanced, all-weather version you've just read about: low directional exposure, spread across the full alpha set, built to capture fat-tails in either direction.</li>
+        <li><strong>Hackworth Trend</strong> — the long-biased, fat-tail-heavy version, built to deliver maximum returns in uptrends while keeping reduced short-side exposure.</li>
+        <li><strong>Hackworth OptimaShort</strong> — the most risk-averse version, heavier on mean-reversion and shorting, designed for smaller drawdowns at the cost of lower expected returns.</li>
+      </ul>
+      <p>You're not locked into any of them. AlphaNet lets you switch versions freely and start or stop strategies at any time — so the regime call stays in your hands, and the execution stays out of them. If you want the conservative build, OptimaShort ran the same DOGE book with an even smaller footprint. If you think the next leg is up, Trend exists for exactly that view.</p>
+    </section>
+
+    <!-- ============ SEE FOR YOURSELF ============ -->
+    <section class="sec">
+      <h2>See for yourself</h2>
+      <p>Every figure in this piece comes from <strong>realised, on-chain P&amp;L</strong> — wallet by wallet, day by day, the same data you can open right now on the AlphaNet dashboard. No cherry-picked windows. No simulated fills. And when any strategy hits a rough stretch, you'll see it in the data and read about it here first.</p>
+      <p style="font-size:12px;line-height:1.7;color:var(--dim);max-width:760px;margin-top:32px">Returns are on deployed USDC, gross of fees and funding, 28 May – 24 July 2026 (58 sessions), computed from daily realised P&amp;L over daily deployed capital and compounded. Sharpe and volatility are annualised from daily returns over a short sample and should be read with caution. Past performance does not predict future results. Digital asset perpetual futures involve substantial risk of loss. Nothing here is investment advice.</p>
+    </section>
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <img src="logo.png" alt="AlphaNet">
+    </div>
+    <div class="follow">
+      <div class="ft">Follow us to get <em>early access</em> to our new product releases.</div>
+      <div class="links">
+        <a href="https://alphanet.global/" target="_blank" rel="noopener">Website</a>
+        <a href="https://x.com/AlphaNet_AI" target="_blank" rel="noopener">X</a>
+        <a href="https://t.me/AlphaNet_AI" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </div>
+    <p class="disc">Not investment advice. Perpetual futures and other derivatives involve substantial risk of loss. Risk-management features, including stop-loss and drawdown controls, reduce but cannot eliminate risk. Simulated and hypothetical performance shown in this brief is illustrative only, has not been achieved in live trading, and is not a guarantee or projection of future results. Product availability varies by jurisdiction.</p>
+  </div>
+</footer>
+</body>
+</html>

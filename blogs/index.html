@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Optional: override subscription API (POST JSON { "email": "..." }) -->
+<meta name="subscribe-api" content="">
 <title>AlphaNet Market Brief — Institutional-Grade Market Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1682,31 +1684,74 @@ issueCards.forEach(card => {
 });
 
 // ============================================
-// SUBSCRIBE FORM (demo — replace with beehiiv embed)
+// SUBSCRIBE FORM — sub-app email API
 // ============================================
-function handleSubscribe(form, btnText) {
-  form.addEventListener('submit', (e) => {
+const SUBSCRIBE_API_URL = (() => {
+  const fromMeta = document.querySelector('meta[name="subscribe-api"]')?.content?.trim();
+  if (fromMeta) return fromMeta;
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    return 'http://127.0.0.1:20001';
+  }
+  return new URL('/api/subscribe', location.origin).href;
+})();
+
+async function subscribeEmail(email) {
+  const res = await fetch(SUBSCRIBE_API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+
+  let data = {};
+  try {
+    data = await res.json();
+  } catch {
+    /* non-JSON body */
+  }
+
+  if (!res.ok) {
+    const err = new Error(data.error || 'Subscription failed');
+    err.status = res.status;
+    throw err;
+  }
+  return data;
+}
+
+function handleSubscribe(form) {
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const input = form.querySelector('input[type="email"]');
     const btn = form.querySelector('button');
     const originalText = btn.innerHTML;
+    const email = input.value.trim();
 
     btn.innerHTML = 'Subscribing...';
+    btn.disabled = true;
     btn.style.pointerEvents = 'none';
 
-    setTimeout(() => {
+    try {
+      await subscribeEmail(email);
       btn.innerHTML = 'Subscribed ✓';
       btn.style.background = 'var(--success)';
       input.value = '';
-      input.placeholder = 'Check your inbox to confirm';
+      input.placeholder = 'Thanks for subscribing!';
+    } catch (err) {
+      const alreadySubscribed = err.status === 409;
+      btn.innerHTML = alreadySubscribed ? 'Already subscribed' : 'Try again';
+      btn.style.background = alreadySubscribed ? 'var(--warning)' : 'var(--danger)';
+      if (!alreadySubscribed) input.value = '';
+      input.placeholder = err.message || 'Something went wrong';
+    }
 
-      setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.style.background = '';
-        btn.style.pointerEvents = '';
-        input.placeholder = 'your@email.com';
-      }, 3000);
-    }, 1200);
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.background = '';
+      btn.disabled = false;
+      btn.style.pointerEvents = '';
+      input.placeholder = 'your@email.com';
+    }, 3000);
   });
 }
 

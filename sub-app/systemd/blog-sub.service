@@ -1,0 +1,22 @@
+[Unit]
+Description=Blog email subscription API (Deno)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__SERVICE_USER__
+Group=__SERVICE_GROUP__
+WorkingDirectory=__PROJECT_DIR__
+ExecStart=__DENO_BIN__ task start
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=blog-sub
+
+# Deno + SQLite need net, read/write project dir, env, ffi
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

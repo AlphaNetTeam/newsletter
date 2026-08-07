@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AlphaNet Weekly — The 439% Margin Call</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#060608;
+    --surface:#0b0b10;
+    --surface2:#0e0e14;
+    --line:rgba(255,255,255,.08);
+    --line2:rgba(255,255,255,.14);
+    --text:#ececf1;
+    --muted:#9b9ba7;
+    --dim:#6d6d78;
+    --green:#3ef0b6;
+    --green-dim:rgba(62,240,182,.12);
+    --red:#ff5470;
+    --red-dim:rgba(255,84,112,.12);
+    --amber:#f0b34a;
+    --steel:#7d8496;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:17px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:rgba(62,240,182,.25)}
+  .mono{font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+
+  /* ---------- header ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    background:rgba(6,6,8,.85);
+    backdrop-filter:blur(12px);
+    position:sticky;top:0;z-index:50;
+  }
+  .header-inner{
+    max-width:1160px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .header-logo{display:flex;align-items:center;gap:14px;text-decoration:none}
+  .header-logo img{height:20px;width:auto;display:block}
+  .header-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--dim);display:flex;align-items:center;gap:10px;
+  }
+  .header-meta .dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+  @media (max-width:640px){.header-meta .hm-text{display:none}}
+  .header-right{display:flex;align-items:center;gap:18px}
+  .header-btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);text-decoration:none;
+    border:1px solid var(--line2);border-radius:2px;
+    padding:7px 14px;transition:color .2s,border-color .2s,background .2s;
+    white-space:nowrap;
+  }
+  .header-btn:hover{color:var(--green);border-color:rgba(62,240,182,.5);background:var(--green-dim)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:88px 0 56px;border-bottom:1px solid var(--line)}
+  .kicker{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--green);display:flex;align-items:center;gap:12px;margin-bottom:28px;
+  }
+  .kicker::before{content:"";width:28px;height:1px;background:var(--green);display:inline-block}
+  h1{
+    font-size:clamp(38px,6.2vw,62px);
+    line-height:1.04;font-weight:800;letter-spacing:-.025em;margin-bottom:28px;
+  }
+  h1 .thin{color:var(--dim);font-weight:600}
+  .lede{font-size:clamp(18px,2.4vw,22px);line-height:1.55;color:var(--muted);max-width:720px;font-weight:500}
+  .lede strong{color:var(--text);font-weight:700}
+  .hero-stats{
+    display:flex;flex-wrap:wrap;gap:1px;background:var(--line);
+    border:1px solid var(--line);margin-top:52px;
+  }
+  .hero-stat{flex:1 1 180px;background:var(--bg);padding:20px 24px}
+  .hero-stat .v{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;letter-spacing:-.02em}
+  .hero-stat .v.red{color:var(--red)} .hero-stat .v.green{color:var(--green)} .hero-stat .v.amber{color:var(--amber)}
+  .hero-stat .k{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:6px;font-family:'JetBrains Mono',monospace}
+
+  /* ---------- article ---------- */
+  article{padding:64px 0 0}
+  .sec{margin-bottom:72px}
+  .sec-tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:12px;
+  }
+  .sec-tag .n{color:var(--green)}
+  h2{font-size:clamp(26px,3.6vw,34px);line-height:1.15;font-weight:800;letter-spacing:-.02em;margin-bottom:24px}
+  h3{font-size:19px;font-weight:700;letter-spacing:-.01em;margin:36px 0 12px}
+  p{margin-bottom:18px;color:#c9c9d2}
+  p strong, li strong{color:var(--text);font-weight:700}
+  p .hl-g{color:var(--green);font-weight:700}
+  p .hl-r{color:var(--red);font-weight:700}
+  p .hl-a{color:var(--amber);font-weight:700}
+  .pull{
+    border-left:2px solid var(--green);
+    padding:6px 0 6px 28px;margin:36px 0;
+    font-size:clamp(21px,3vw,26px);line-height:1.4;font-weight:700;letter-spacing:-.015em;color:var(--text);
+  }
+  .pull span{color:var(--dim)}
+
+  /* ---------- reason cards ---------- */
+  .fails{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+  @media (max-width:760px){.fails{grid-template-columns:1fr}}
+  .fail{
+    background:var(--surface);border:1px solid var(--line);
+    padding:28px;position:relative;transition:border-color .25s;
+  }
+  .fail:hover{border-color:var(--line2)}
+  .fail.span{grid-column:1/-1}
+  .fail .num{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;
+    color:var(--red);margin-bottom:16px;display:flex;align-items:center;gap:10px;
+  }
+  .fail .num.green{color:var(--green)}
+  .fail h4{font-size:18px;font-weight:750;line-height:1.35;margin-bottom:12px;letter-spacing:-.01em}
+  .fail p{font-size:14.5px;line-height:1.7;color:var(--muted);margin-bottom:12px}
+  .fail p:last-child{margin-bottom:0}
+  .fail .kickerline{
+    margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
+    font-size:13.5px;color:var(--text);font-weight:600;
+  }
+  .fail .kickerline em{font-style:normal;color:var(--red)}
+  .fail .kickerline em.g{color:var(--green)}
+
+  /* ---------- transaction band ---------- */
+  .chart-sec{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:72px 0}
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+  @media (max-width:760px){.vs{grid-template-columns:1fr}}
+  .vs .side{background:#08080c;border:1px solid var(--line);padding:28px}
+  .vs .side.sell{border-top:2px solid var(--red)}
+  .vs .side.buy{border-top:2px solid var(--green)}
+  .vs .side .tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:14px}
+  .vs .side.sell .tag{color:var(--red)} .vs .side.buy .tag{color:var(--green)}
+  .vs .side h4{font-size:18px;font-weight:750;letter-spacing:-.01em;margin-bottom:12px;line-height:1.35}
+  .vs .side p{font-size:14.5px;line-height:1.7;color:var(--muted);margin-bottom:10px}
+  .vs .side p:last-child{margin-bottom:0}
+  .chart-note{
+    margin-top:24px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.7;
+    color:var(--dim);letter-spacing:.03em;
+  }
+
+  /* ---------- CTA / footer ---------- */
+  .cta{
+    border:1px solid rgba(62,240,182,.3);
+    background:linear-gradient(160deg,rgba(62,240,182,.07),rgba(62,240,182,.015) 55%,transparent);
+    padding:52px 44px;margin:64px 0;text-align:left;position:relative;overflow:hidden;
+  }
+  .cta h2{margin-bottom:14px}
+  .cta p{color:var(--muted);max-width:560px}
+  .cta .cta-link{
+    display:inline-block;margin-top:22px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--green);text-decoration:none;border:1px solid rgba(62,240,182,.5);border-radius:2px;
+    padding:12px 22px;transition:all .2s;
+  }
+  .cta .cta-link:hover{background:var(--green);color:#060608}
+  footer{border-top:1px solid var(--line);padding:44px 0 56px;margin-top:24px}
+  footer .f-top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+  footer img{height:16px;opacity:.8}
+  footer .disc{font-size:12px;line-height:1.7;color:var(--dim);max-width:760px}
+  footer .follow{border-left:2px solid var(--green);padding:4px 0 4px 24px;margin:0 0 32px;display:flex;justify-content:space-between;align-items:center;gap:14px 24px;flex-wrap:wrap}
+  footer .follow .ft{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--muted)}
+  footer .follow .ft em{font-style:normal;color:var(--green);font-weight:700}
+  footer .follow .links{display:flex;gap:8px;flex-wrap:wrap}
+  footer .follow .links a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--line2);border-radius:2px;padding:7px 14px;transition:all .2s}
+  footer .follow .links a:hover{color:var(--green);border-color:var(--green)}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a class="header-logo" href="#"><img src="logo.png" alt="AlphaNet"></a>
+    <div class="header-right">
+      <div class="header-meta">
+        <span class="dot"></span>
+        <span class="hm-text">AlphaNet Weekly&nbsp;&nbsp;·&nbsp;&nbsp;August 2026&nbsp;&nbsp;·&nbsp;&nbsp;Week 1</span>
+      </div>
+      <a class="header-btn" href="https://alphanet.global/blog" target="_blank" rel="noopener">Blog</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="kicker">AlphaNet Weekly · The Structure Brief</div>
+    <h1>The 439%<br><span class="thin">Margin Call.</span></h1>
+    <p class="lede">The best-performing large fund in the world this year — up <strong>439% net</strong> in the first half — was forced to sell roughly <strong>$16 billion</strong> of stock in a 24-hour block deal. The best trade of the week required <strong>no opinion about AI at all.</strong></p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="v green">+439%</div><div class="k">H1 net return · world's top large fund</div></div>
+      <div class="hero-stat"><div class="v amber">~4×</div><div class="k">Reported leverage · unconfirmed</div></div>
+      <div class="hero-stat"><div class="v red">$16bn</div><div class="k">Equity book sold in a 24-hour block</div></div>
+      <div class="hero-stat"><div class="v amber">1</div><div class="k">Buyer · Citadel</div></div>
+    </div>
+  </section>
+
+  <article>
+    <!-- ============ THE TAPE ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">01</span> The Tape</div>
+      <h2>The week that ate a genius</h2>
+      <p>Recap, for anyone who spent the week away from a screen.</p>
+      <p>Situational Awareness was the best-performing large fund in the world this year: up <strong class="hl-g">439% net</strong> in the first half on a concentrated bet — reportedly run at roughly 4x leverage — that AI infrastructure — chips, data centers, power — would eat the market's imagination. For a while it did: by early July the fund's assets had reportedly swelled to around <strong>$45 billion</strong>. <em>(Neither the peak figure nor the leverage ratio has been officially confirmed.)</em> Then in mid-July the AI complex topped and rolled over hard, with major names down 30% or more in two weeks. The same unwind we wrote about in the Korean market had reached the top of the food chain.</p>
+      <p>Falling positions meant falling collateral. Falling collateral meant lenders wanted cash. And a fund built around a multi-year thesis discovered it was suddenly living hour to hour. Within days, the bulk of its public equity book — roughly <strong class="hl-r">$16 billion of stock</strong> — was sold in a block deal assembled in about 24 hours. The buyer: Citadel.</p>
+      <p>Here's the detail that makes the story perfect: in a July 24 investor letter — seen by the Financial Times — the fund's founder described the selloff as one of the best buying opportunities in over a year, and invited clients to add capital from August 1. Six days after writing it, he was the forced seller into it. <strong>He wasn't wrong about the opportunity. He just wasn't the one who got to take it.</strong></p>
+      <p>The forced sale marked the short-term bottom. Within days, the same chip names he was forced to dump bounced 15–20%. The market rebounded strongly — vindicating, almost immediately, the thesis of the man who could no longer hold it.</p>
+      <div class="pull">Being brilliant doesn't exempt you. <span>Being right doesn't exempt you.</span></div>
+    </section>
+
+    <!-- ============ WRONG LESSONS ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">02</span> The Misread</div>
+      <h2>The lessons everyone will draw — and why they're wrong</h2>
+      <div class="fails">
+        <div class="fail">
+          <div class="num">MISREAD 01</div>
+          <h4>"He was wrong about AI."</h4>
+          <p>He wasn't. The thesis didn't break; prices reverted toward it within the week. Whatever the merits of the AI trade, this episode isn't evidence against it.</p>
+        </div>
+        <div class="fail">
+          <div class="num">MISREAD 02</div>
+          <h4>"Leverage did it."</h4>
+          <p>Closer, but incomplete — because here's the symmetry almost nobody mentions: Citadel reportedly financed part of the purchase with borrowed money too. Both sides of this trade were levered. Leverage didn't decide the outcome.</p>
+        </div>
+        <div class="fail span">
+          <div class="num">MISREAD 03</div>
+          <h4>"Retail can't win against these people."</h4>
+          <p>This wasn't retail. This was the most successful fund manager of the year, with the best returns on Wall Street and every informational advantage money buys — margin-called exactly like an overleveraged perp trader on a Tuesday cascade. Which is the actually interesting fact of the week.</p>
+          <div class="kickerline">The liquidation mechanic doesn't check your credentials. <em>It runs the same arithmetic on a $45 account and a $45 billion book.</em></div>
+        </div>
+      </div>
+    </section>
+  </article>
+</div>
+
+<!-- ============ THE TRANSACTION ============ -->
+<section class="chart-sec">
+  <div class="wrap">
+    <div class="sec-tag"><span class="n">03</span> The Transaction</div>
+    <h2>What actually got sold</h2>
+    <p style="max-width:760px">Strip the names away and look at the transaction. What did Situational Awareness actually sell that week — and what did Citadel actually buy?</p>
+    <div class="vs">
+      <div class="side sell">
+        <div class="tag">The Seller</div>
+        <h4>Sold: the ability to wait.</h4>
+        <p>Position structure — the leverage ratio, the liquidity buffer, the gap between what lenders could demand and what could be raised — quietly converted a temporary drawdown into a permanent transfer.</p>
+        <p>The fund's returns said it was the smartest money in the market. Its structure said it was the most fragile.</p>
+      </div>
+      <div class="side buy">
+        <div class="tag">The Buyer</div>
+        <h4>Bought: someone else's forced flow.</h4>
+        <p>At a discount, at the moment of maximum stress — a trade that required deep liquidity, fast execution, and precisely zero opinion about artificial intelligence.</p>
+        <p>The seller had to transact now; the buyer didn't have to be right about anything except that forced sellers overshoot.</p>
+      </div>
+    </div>
+    <p class="chart-note">THE UNCOMFORTABLE TRUTH OF THE WEEK: THE MARKET DIDN'T PAY THE BEST ANALYST. IT PAID THE BEST-STRUCTURED BALANCE SHEET.</p>
+  </div>
+</section>
+
+<div class="wrap">
+  <article>
+    <!-- ============ PRICE FIRST ============ -->
+    <section class="sec" style="margin-top:72px">
+      <div class="sec-tag"><span class="n">04</span> The Sequence</div>
+      <h2>Price prints before the story does</h2>
+      <p>One more detail worth keeping. During the selloff, nobody knew who was selling or why — traders could see abnormal flow days before the name behind it was confirmed. The vacuum filled with rumors, some of them absurd. By the time the story was public and the narrative was settled, <strong>the bottom was already in and the rebound underway.</strong></p>
+      <p>That sequence is general, and it matters for how you trade: in forced-flow events, price moves first, explanations arrive later. If your process requires knowing the story before acting, you are structurally late — not because you're slow, but because <strong>confirmation is what ends the opportunity.</strong> The participants who got paid this week acted on what was happening, not on why.</p>
+    </section>
+
+    <!-- ============ CRYPTO ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">05</span> The Parallel</div>
+      <h2>This happens in crypto every month</h2>
+      <p>Everything above should sound familiar to anyone who trades perps, because a liquidation cascade is the same event played at 100x speed. Collateral falls, forced sells hit the book, price overshoots any reasonable estimate of value, and then — once the forced flow exhausts — it snaps back, paying whoever was positioned on the other side.</p>
+      <p>The difference on a DEX: on a transparent venue, the forced flow isn't hidden behind Bloomberg sourcing and a week of rumors. <strong>Liquidations print on-chain, in public, in real time.</strong> The information vacuum barely exists. What's missing isn't the data — it's being structured to act on it: awake when the cascade hits, disciplined enough to buy into maximum ugliness, and sized so that you're never the one being liquidated into it.</p>
+    </section>
+
+    <!-- ============ TWO SIDES ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">06</span> The Machine For It</div>
+      <h2>Every forced sale has two sides. Choose yours.</h2>
+      <p>This story has exactly two roles, and every trader is permanently cast in one of them.</p>
+      <div class="fails">
+        <div class="fail">
+          <div class="num">THE SELLER'S SIDE</div>
+          <h4>Avoiding it is engineering, not virtue.</h4>
+          <p>The ability to wait is not a feeling; it's a position parameter. AlphaNet's strategies are built with it from the first fill: exposure sized to volatility so ordinary swings can't trigger the spiral, hard drawdown limits enforced at the system level, no structure that hands your exit to a lender or a liquidation engine.</p>
+          <div class="kickerline">Returns don't protect you. Structure does. <em>A 439% first half bought exactly zero days of patience.</em></div>
+        </div>
+        <div class="fail">
+          <div class="num green">THE BUYER'S SIDE</div>
+          <h4>Not an intelligence contest — a readiness contest.</h4>
+          <p>Liquidity available at the worst moment, execution at machine speed, and a process that doesn't need the narrative confirmed before it acts. When the regime turns violent and the forced flow starts, a machine doesn't need to know whose margin call it is. It only needs to recognize what forced selling looks like — and be standing there, within its limits, when the market pays whoever showed up structured.</p>
+          <div class="kickerline">That is machinery. <em class="g">And machinery can be built.</em></div>
+        </div>
+      </div>
+      <div class="pull">The most sophisticated trader of 2026 became exit liquidity in 24 hours. <span>Everything that separated the two sides can be engineered.</span></div>
+
+      <div class="cta">
+        <div class="kicker" style="margin-bottom:18px">AlphaNet × Hyperliquid</div>
+        <h2>Live end of August.</h2>
+        <p>Regime detection, volatility-scaled sizing, hard system-level drawdown limits and machine-speed execution — the structure that kept the buyer side of this trade alive — coming to Hyperliquid at the end of August. Deploy in your own account. Watch every decision. Stop whenever you want.</p>
+        <p style="margin-top:16px;font-size:13px;color:var(--dim)">Early members get priority access to the first strategies.</p>
+      </div>
+    </section>
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <img src="logo.png" alt="AlphaNet">
+    </div>
+    <div class="follow">
+      <div class="ft">Follow us to get <em>early access</em> to our new product releases.</div>
+      <div class="links">
+        <a href="https://alphanet.global/" target="_blank" rel="noopener">Website</a>
+        <a href="https://x.com/AlphaNet_AI" target="_blank" rel="noopener">X</a>
+        <a href="https://t.me/AlphaNet_AI" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </div>
+    <p class="disc">Not investment advice. Trading involves substantial risk of loss. Past performance does not guarantee future results. Figures referenced in this brief are drawn from public reporting; certain figures — including the fund's peak assets and leverage ratio — have not been officially confirmed. Product availability varies by jurisdiction.</p>
+  </div>
+</footer>
+</body>
+</html>

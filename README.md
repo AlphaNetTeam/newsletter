@@ -5,6 +5,11 @@
 git clone https://github.com/AlphaNetTeam/newsletter
 ```
 
+从 github 更新
+``` bash
+git pull
+```
+
 上传 blogs 到服务器
 ``` bash
 # !!!! 先 cd 到 blogs 所在文件夹

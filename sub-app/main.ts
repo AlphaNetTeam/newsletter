@@ -24,31 +24,40 @@ db.run(`
 `);
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const LIST_PASSWORD = "alphanet-0807";
 const port = 20001;
 const hostname = "127.0.0.1";
 
 function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
+function txt(body: string, status = 200, filename = "subscribers.txt"): Response {
+  return new Response(body, {
+    status,
     headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
+      "Content-Type": "text/plain; charset=utf-8",
+      "Content-Disposition": `attachment; filename="${filename}"`,
     },
   });
 }
 
+function listEmails(): string {
+  const rows = db.exec("SELECT email_key FROM subscribers ORDER BY created_at ASC");
+  if (rows.length === 0) return "";
+  return rows[0].values.map((row) => String(row[0]).toLowerCase()).join("\n");
+}
+
 Deno.serve({ port, hostname }, async (req) => {
-  if (req.method === "OPTIONS") {
-    return new Response(null, {
-      status: 204,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
-    });
+  if (req.method === "GET") {
+    const password = new URL(req.url).searchParams.get("password") ?? "";
+    if (password !== LIST_PASSWORD) {
+      return json({ error: "密码无效" }, 401);
+    }
+    return txt(listEmails());
   }
 
   if (req.method !== "POST") {

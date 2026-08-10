@@ -1,0 +1,16 @@
+[Unit]
+Description=Blog email subscription API (Deno)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/alphanet-space/blog-sub
+ExecStart=/home/ubuntu/.deno/bin/deno task start
+Restart=on-failure
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target

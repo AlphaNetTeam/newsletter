@@ -1263,6 +1263,70 @@ img { max-width: 100%; display: block; }
 .footer-bottom-links a:hover { color: var(--text-secondary); }
 
 /* ============================================
+   NAV DROPDOWN (Resources)
+   ============================================ */
+.nav-dropdown {
+  position: relative;
+}
+.nav-dropdown-trigger {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.nav-dropdown-trigger:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface);
+}
+.nav-dropdown-arrow {
+  width: 14px; height: 14px;
+  transition: transform var(--dur) var(--ease);
+}
+.nav-dropdown.open .nav-dropdown-arrow { transform: rotate(180deg); }
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  padding: var(--space-2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity var(--dur) var(--ease), visibility var(--dur) var(--ease), transform var(--dur) var(--ease);
+  z-index: 110;
+}
+.nav-dropdown.open .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.nav-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.nav-dropdown-item:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface);
+}
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 968px) {
@@ -1425,9 +1489,17 @@ img { max-width: 100%; display: block; }
     </a>
     <div class="nav-links">
       <a href="https://trade.alphanet.global" class="nav-link" target="_blank" rel="noopener">Launch Trading</a>
-      <a href="https://wp.alphanet.global" class="nav-link" target="_blank" rel="noopener">Whitepaper</a>
-      <a href="https://guide.alphanet.global" class="nav-link" target="_blank" rel="noopener">User Guide</a>
-      <a href="https://points.alphanet.global/" class="nav-link" target="_blank" rel="noopener">Points</a>
+      <div class="nav-dropdown" id="nav-dropdown">
+        <button class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+          Resources
+          <svg class="nav-dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="https://alphanet.global/docs/whitepaper/" class="nav-dropdown-item" target="_blank" rel="noopener">Whitepaper</a>
+          <a href="https://alphanet.global/docs/guide/" class="nav-dropdown-item" target="_blank" rel="noopener">User Guide</a>
+          <a href="https://alphanet.global/docs/points/" class="nav-dropdown-item" target="_blank" rel="noopener">Points</a>
+        </div>
+      </div>
     </div>
     <button class="nav-mobile-toggle" aria-label="Menu">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -1471,7 +1543,7 @@ img { max-width: 100%; display: block; }
     <!-- FAQ Category Grid -->
     <div class="faq-grid">
       <!-- Category 1 -->
-      <a href="what-alphanet-is/" class="faq-card">
+      <a href="comingsoon/" class="faq-card">
         <span class="faq-card-index">01</span>
         <h2 class="faq-card-title">What AlphaNet Is</h2>
         <p class="faq-card-desc">Understand the core of AlphaNet — its mission, the problem it solves, and the institutional-grade quantitative AI trading platform it provides for retail traders.</p>
@@ -1484,7 +1556,7 @@ img { max-width: 100%; display: block; }
       </a>
 
       <!-- Category 2 -->
-      <a href="quant-trading-and-perps/" class="faq-card">
+      <a href="comingsoon/" class="faq-card">
         <span class="faq-card-index">02</span>
         <h2 class="faq-card-title">Quant Trading and Perps</h2>
         <p class="faq-card-desc">Learn how quantitative trading works on AlphaNet, the role of perpetual contracts (perps), leverage, margin mechanics, and how the AI engine executes trades on your behalf.</p>
@@ -1497,7 +1569,7 @@ img { max-width: 100%; display: block; }
       </a>
 
       <!-- Category 3 -->
-      <a href="wallets-custody-and-usage-flow/" class="faq-card">
+      <a href="comingsoon/" class="faq-card">
         <span class="faq-card-index">03</span>
         <h2 class="faq-card-title">Wallets, Custody, and Usage Flow</h2>
         <p class="faq-card-desc">How to connect your wallet, fund your account, manage custody of assets, and the complete end-to-end user flow from onboarding to placing your first automated trade.</p>
@@ -1510,7 +1582,7 @@ img { max-width: 100%; display: block; }
       </a>
 
       <!-- Category 4 -->
-      <a href="strategies-autopilot-and-ai-execution/" class="faq-card">
+      <a href="comingsoon/" class="faq-card">
         <span class="faq-card-index">04</span>
         <h2 class="faq-card-title">Strategies, Autopilot, and AI Execution</h2>
         <p class="faq-card-desc">Explore the strategy marketplace, how Autopilot mode selects and rotates strategies, the role of AI in execution, and how dynamic factor mining keeps strategies adaptive.</p>
@@ -1523,7 +1595,7 @@ img { max-width: 100%; display: block; }
       </a>
 
       <!-- Category 5 -->
-      <a href="returns-risk-and-evaluation-metrics/" class="faq-card">
+      <a href="comingsoon/" class="faq-card">
         <span class="faq-card-index">05</span>
         <h2 class="faq-card-title">Returns, Risk, and Evaluation Metrics</h2>
         <p class="faq-card-desc">How to read performance reports — ROI, Sharpe ratio, max drawdown, win rate — and the risk management framework that protects capital across all strategies.</p>
@@ -1536,7 +1608,7 @@ img { max-width: 100%; display: block; }
       </a>
 
       <!-- Category 6 -->
-      <a href="business-model-and-ecosystem-position/" class="faq-card">
+      <a href="comingsoon/" class="faq-card">
         <span class="faq-card-index">06</span>
         <h2 class="faq-card-title">Business Model and Ecosystem Position</h2>
         <p class="faq-card-desc">How AlphaNet makes money, its token economics, revenue-sharing with strategy creators, and where it sits in the broader DeFi and on-chain trading ecosystem.</p>
@@ -1587,10 +1659,10 @@ img { max-width: 100%; display: block; }
       <div class="footer-col">
         <h4>Resources</h4>
         <ul>
-          <li><a href="https://wp.alphanet.global/" target="_blank" rel="noopener">Whitepaper</a></li>
-          <li><a href="https://guide.alphanet.global" target="_blank" rel="noopener">User Guide</a></li>
-          <li><a href="https://points.alphanet.global/" target="_blank" rel="noopener">Points</a></li>
-          <li><a href="https://alphanet.global/faq" target="_blank" rel="noopener">FAQ</a></li>
+          <li><a href="https://alphanet.global/docs/whitepaper/" target="_blank" rel="noopener">Whitepaper</a></li>
+          <li><a href="https://alphanet.global/docs/guide/" target="_blank" rel="noopener">User Guide</a></li>
+          <li><a href="https://alphanet.global/docs/points/" target="_blank" rel="noopener">Points</a></li>
+          <li><a href="https://alphanet.global/blog/" target="_blank" rel="noopener">Blog</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -1717,6 +1789,34 @@ if (mobileToggle) {
     navLinks.style.background = 'var(--bg-primary)';
     navLinks.style.padding = '16px';
     navLinks.style.borderBottom = '1px solid var(--border-subtle)';
+  });
+}
+
+// ============================================
+// NAV DROPDOWN (Resources)
+// ============================================
+const navDropdown = document.getElementById('nav-dropdown');
+const navDropdownTrigger = navDropdown?.querySelector('.nav-dropdown-trigger');
+if (navDropdownTrigger) {
+  navDropdownTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = navDropdown.classList.toggle('open');
+    navDropdownTrigger.setAttribute('aria-expanded', open);
+  });
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (!navDropdown.contains(e.target)) {
+      navDropdown.classList.remove('open');
+      navDropdownTrigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+  // Close on Esc
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navDropdown.classList.contains('open')) {
+      navDropdown.classList.remove('open');
+      navDropdownTrigger.setAttribute('aria-expanded', 'false');
+      navDropdownTrigger.focus();
+    }
   });
 }
 </script>

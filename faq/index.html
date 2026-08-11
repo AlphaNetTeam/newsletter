@@ -1263,70 +1263,6 @@ img { max-width: 100%; display: block; }
 .footer-bottom-links a:hover { color: var(--text-secondary); }
 
 /* ============================================
-   NAV DROPDOWN (Resources)
-   ============================================ */
-.nav-dropdown {
-  position: relative;
-}
-.nav-dropdown-trigger {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  padding: 8px 14px;
-  border-radius: var(--radius-sm);
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
-}
-.nav-dropdown-trigger:hover {
-  color: var(--text-primary);
-  background: var(--bg-surface);
-}
-.nav-dropdown-arrow {
-  width: 14px; height: 14px;
-  transition: transform var(--dur) var(--ease);
-}
-.nav-dropdown.open .nav-dropdown-arrow { transform: rotate(180deg); }
-
-.nav-dropdown-menu {
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  min-width: 200px;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-  padding: var(--space-2);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-4px);
-  transition: opacity var(--dur) var(--ease), visibility var(--dur) var(--ease), transform var(--dur) var(--ease);
-  z-index: 110;
-}
-.nav-dropdown.open .nav-dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-.nav-dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 14px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  border-radius: var(--radius-sm);
-  transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
-}
-.nav-dropdown-item:hover {
-  color: var(--text-primary);
-  background: var(--bg-surface);
-}
-
-/* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 968px) {
@@ -1370,6 +1306,107 @@ img { max-width: 100%; display: block; }
   .metric-row { grid-template-columns: 1fr; }
 }
 
+/* ============================================
+   FAQ PAGE — Category Grid
+   ============================================ */
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5);
+}
+.faq-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  transition: border-color var(--dur) var(--ease), transform var(--dur) var(--ease);
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  min-height: 220px;
+  position: relative;
+  overflow: hidden;
+}
+.faq-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur) var(--ease);
+}
+.faq-card:hover {
+  border-color: var(--border-default);
+  transform: translateY(-3px);
+}
+.faq-card:hover::before { transform: scaleX(1); }
+.faq-card:hover .faq-card-title { color: var(--accent); }
+.faq-card-index {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-4);
+}
+.faq-card-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+  transition: color var(--dur) var(--ease);
+}
+.faq-card-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-6);
+  flex: 1;
+}
+.faq-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-subtle);
+}
+.faq-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+.faq-card-arrow {
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  transition: all var(--dur) var(--ease);
+}
+.faq-card:hover .faq-card-arrow {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.faq-card-arrow svg { width: 16px; height: 16px; }
+
+@media (max-width: 768px) {
+  .faq-grid { grid-template-columns: 1fr; }
+  .faq-card { min-height: auto; padding: var(--space-6); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -1388,17 +1425,9 @@ img { max-width: 100%; display: block; }
     </a>
     <div class="nav-links">
       <a href="https://trade.alphanet.global" class="nav-link" target="_blank" rel="noopener">Launch Trading</a>
-      <div class="nav-dropdown" id="nav-dropdown">
-        <button class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
-          Resources
-          <svg class="nav-dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="nav-dropdown-menu">
-          <a href="https://alphanet.global/docs/whitepaper/" class="nav-dropdown-item" target="_blank" rel="noopener">Whitepaper</a>
-          <a href="https://alphanet.global/docs/guide/" class="nav-dropdown-item" target="_blank" rel="noopener">User Guide</a>
-          <a href="https://alphanet.global/docs/points/" class="nav-dropdown-item" target="_blank" rel="noopener">Points</a>
-        </div>
-      </div>
+      <a href="https://wp.alphanet.global" class="nav-link" target="_blank" rel="noopener">Whitepaper</a>
+      <a href="https://guide.alphanet.global" class="nav-link" target="_blank" rel="noopener">User Guide</a>
+      <a href="https://points.alphanet.global/" class="nav-link" target="_blank" rel="noopener">Points</a>
     </div>
     <button class="nav-mobile-toggle" aria-label="Menu">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -1412,9 +1441,9 @@ img { max-width: 100%; display: block; }
     <!-- Blog Header -->
     <div class="blog-page-header">
       <div class="blog-page-header-left">
-        <h1 class="blog-page-title">AlphaNet Blog</h1>
+        <h1 class="blog-page-title">FAQ</h1>
         <p class="blog-page-desc">
-          Institutional-grade quantitative AI trading intelligence, market dissection, and strategy performance reports.
+          Everything you need to know about AlphaNet — what it is, how it works, and how to get the most out of it.
         </p>
       </div>
       <!-- Follow Us (parallel with title) -->
@@ -1439,199 +1468,85 @@ img { max-width: 100%; display: block; }
       </div>
     </div>
 
-    <!-- Two-Column Layout -->
-    <div class="blog-layout">
-      <!-- Main: Blog List -->
-      <div class="blog-main">
-        <!-- Filter Bar -->
-        <div class="filter-bar" id="categories">
-          <button class="filter-btn active" data-filter="all">All <span class="filter-btn-count">0</span></button>
-          <button class="filter-btn" data-filter="market">Market Brief <span class="filter-btn-count">0</span></button>
-          <button class="filter-btn" data-filter="strategy">Strategy Reports <span class="filter-btn-count">0</span></button>
+    <!-- FAQ Category Grid -->
+    <div class="faq-grid">
+      <!-- Category 1 -->
+      <a href="what-alphanet-is/" class="faq-card">
+        <span class="faq-card-index">01</span>
+        <h2 class="faq-card-title">What AlphaNet Is</h2>
+        <p class="faq-card-desc">Understand the core of AlphaNet — its mission, the problem it solves, and the institutional-grade quantitative AI trading platform it provides for retail traders.</p>
+        <div class="faq-card-footer">
+          <span class="faq-card-link">View Section</span>
+          <div class="faq-card-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
         </div>
+      </a>
 
-        <!-- Blog Cards -->
-        <div class="blog-list" id="archive">
-
-          <!-- Card 1 -->
-          <article class="blog-card" data-category="market" data-href="439-margin-call/">
-            <div class="blog-card-cover" data-cat="market" data-cover="1">
-              <img src="blog-covers/cover-1-margin-call.png" alt="The 439% Margin Call" class="blog-card-cover-img">
-            </div>
-            <div class="blog-card-content">
-              <div class="blog-card-meta">
-                <span class="cat-tag cat-market">Market Brief</span>
-                <span class="blog-card-date">Aug 2, 2026</span>
-              </div>
-              <h3 class="blog-card-title">The 439% Margin Call</h3>
-              <p class="blog-card-excerpt">The best-performing large fund in the world — up 439% net in H1 — was forced to sell $16 billion of stock in 24 hours. The best trade of the week required no opinion about AI at all.</p>
-              <div class="blog-card-footer">
-                <span class="blog-card-read">12 min read</span>
-                <div class="blog-card-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 2 -->
-          <article class="blog-card" data-category="strategy" data-href="Strategy_Spotlight_Prime_DOGE/">
-            <div class="blog-card-cover" data-cat="strategy" data-cover="2">
-              <img src="blog-covers/cover-2-prime-doge.png" alt="Strategy Spotlight: Hackworth Prime x DOGE" class="blog-card-cover-img">
-            </div>
-            <div class="blog-card-content">
-              <div class="blog-card-meta">
-                <span class="cat-tag cat-strategy">Strategy Report</span>
-                <span class="blog-card-date">Jul 27, 2026</span>
-              </div>
-              <h3 class="blog-card-title">Strategy Spotlight: Hackworth Prime × DOGE</h3>
-              <p class="blog-card-excerpt">DOGE fell 29.8% in two months. Prime returned +14.2% through both the crash and the flatline — 4.0 Sharpe, −4.7% max drawdown, recovered in 7 days.</p>
-              <div class="blog-card-footer">
-                <span class="blog-card-read">10 min read</span>
-                <div class="blog-card-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 4 -->
-          <article class="blog-card" data-category="market" data-href="Korea-Volatility/">
-            <div class="blog-card-cover" data-cat="market" data-cover="3">
-              <img src="blog-covers/cover-3-vs-machines.png" alt="Stop Trading Against Machines" class="blog-card-cover-img">
-            </div>
-            <div class="blog-card-content">
-              <div class="blog-card-meta">
-                <span class="cat-tag cat-market">Market Brief</span>
-                <span class="blog-card-date">Jul 13, 2026</span>
-              </div>
-              <h3 class="blog-card-title">Stop Trading Against Machines. Start Trading With One.</h3>
-              <p class="blog-card-excerpt">When SK Hynix dropped 15%, retail sold ₩4.15T at the lows. Institutions bought ₩4.2T. The lesson isn't about the stock — it's about the machinery.</p>
-              <div class="blog-card-footer">
-                <span class="blog-card-read">8 min read</span>
-                <div class="blog-card-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 5 -->
-          <article class="blog-card" data-category="strategy" data-href="June-OptimaShort-Casestudy/">
-            <div class="blog-card-cover" data-cat="strategy" data-cover="4">
-              <img src="blog-covers/cover-4-june-optima.png" alt="Hackworth OptimaShort: June Performance" class="blog-card-cover-img">
-            </div>
-            <div class="blog-card-content">
-              <div class="blog-card-meta">
-                <span class="cat-tag cat-strategy">Strategy Report</span>
-                <span class="blog-card-date">Jul 10, 2026</span>
-              </div>
-              <h3 class="blog-card-title">Hackworth OptimaShort: June Performance Report</h3>
-              <p class="blog-card-excerpt">Four previously under-the-radar strategies broke out in June. DOGE led with +32.8% ROI and a 3.46 Sharpe. All four delivered positive PnL across the cohort.</p>
-              <div class="blog-card-footer">
-                <span class="blog-card-read">12 min read</span>
-                <div class="blog-card-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 6 -->
-          <article class="blog-card" data-category="strategy" data-href="06-05-event-analysis/">
-            <div class="blog-card-cover" data-cat="strategy" data-cover="5">
-              <img src="blog-covers/cover-5-privacy-crisis.png" alt="Privacy Coin Crisis" class="blog-card-cover-img">
-            </div>
-            <div class="blog-card-content">
-              <div class="blog-card-meta">
-                <span class="cat-tag cat-strategy">Strategy Report</span>
-                <span class="blog-card-date">Jun 6, 2026</span>
-              </div>
-              <h3 class="blog-card-title">Privacy Coin Crisis: OptimaShort Stress Test</h3>
-              <p class="blog-card-excerpt">ZEC crashed 56% in two days as a Zcash shielded-pool vulnerability triggered the worst privacy-sector selloff in years. OptimaShort converted the chaos into net profit on both ZEC and XMR.</p>
-              <div class="blog-card-footer">
-                <span class="blog-card-read">10 min read</span>
-                <div class="blog-card-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 7 -->
-          <article class="blog-card" data-category="strategy" data-href="MarketEventAnalysis/">
-            <div class="blog-card-cover" data-cat="strategy" data-cover="6">
-              <img src="blog-covers/cover-6-market-dump.png" alt="Market Dump Response" class="blog-card-cover-img">
-            </div>
-            <div class="blog-card-content">
-              <div class="blog-card-meta">
-                <span class="cat-tag cat-strategy">Strategy Report</span>
-                <span class="blog-card-date">Jun 5, 2026</span>
-              </div>
-              <h3 class="blog-card-title">Market Dump Response: 6 Strategies, 102 Trades</h3>
-              <p class="blog-card-excerpt">How six Hackworth Prime strategies navigated the June 1–3 downturn. Four posted positive returns — ZEC led at +8.83%, and five strategies went short simultaneously at the cascade.</p>
-              <div class="blog-card-footer">
-                <span class="blog-card-read">14 min read</span>
-                <div class="blog-card-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- Card 8 -->
-          <article class="blog-card" data-category="strategy" data-href="may-2026-snapshot/">
-            <div class="blog-card-cover" data-cat="strategy" data-cover="7">
-              <img src="blog-covers/cover-7-may-snapshot.png" alt="May 2026 Snapshot" class="blog-card-cover-img">
-            </div>
-            <div class="blog-card-content">
-              <div class="blog-card-meta">
-                <span class="cat-tag cat-strategy">Strategy Report</span>
-                <span class="blog-card-date">Jun 1, 2026</span>
-              </div>
-              <h3 class="blog-card-title">May 2026 Snapshot: Six Spotlight Strategies</h3>
-              <p class="blog-card-excerpt">All six Hackworth spotlight strategies posted positive May returns, led by Prime ZEC at +20.3%. ~1,050 trades executed. A full technical breakdown of the engine architecture behind the results.</p>
-              <div class="blog-card-footer">
-                <span class="blog-card-read">15 min read</span>
-                <div class="blog-card-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-                </div>
-              </div>
-            </div>
-          </article>
-
+      <!-- Category 2 -->
+      <a href="quant-trading-and-perps/" class="faq-card">
+        <span class="faq-card-index">02</span>
+        <h2 class="faq-card-title">Quant Trading and Perps</h2>
+        <p class="faq-card-desc">Learn how quantitative trading works on AlphaNet, the role of perpetual contracts (perps), leverage, margin mechanics, and how the AI engine executes trades on your behalf.</p>
+        <div class="faq-card-footer">
+          <span class="faq-card-link">View Section</span>
+          <div class="faq-card-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
         </div>
+      </a>
 
-        <!-- Pagination -->
-        <div class="pagination" id="pagination"></div>
-
-      </div>
-
-      <!-- Sidebar -->
-      <aside class="blog-sidebar">
-        <!-- Subscribe -->
-        <div class="sidebar-section sidebar-subscribe">
-          <h3 class="sidebar-section-title">Subscribe</h3>
-          <p class="sidebar-subscribe-text">Get the latest AlphaNet research, strategy reports, and market briefs delivered straight to your inbox.</p>
-          <form class="sidebar-subscribe-form" id="sidebar-subscribe">
-            <input type="email" class="subscribe-input" placeholder="your@email.com" required aria-label="Email address">
-            <button type="submit" class="subscribe-btn">
-              Subscribe
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-            </button>
-          </form>
+      <!-- Category 3 -->
+      <a href="wallets-custody-and-usage-flow/" class="faq-card">
+        <span class="faq-card-index">03</span>
+        <h2 class="faq-card-title">Wallets, Custody, and Usage Flow</h2>
+        <p class="faq-card-desc">How to connect your wallet, fund your account, manage custody of assets, and the complete end-to-end user flow from onboarding to placing your first automated trade.</p>
+        <div class="faq-card-footer">
+          <span class="faq-card-link">View Section</span>
+          <div class="faq-card-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
         </div>
+      </a>
 
-        <!-- Join Our Community -->
-        <div class="sidebar-section sidebar-join">
-          <h3 class="sidebar-section-title">Join Our Community</h3>
-          <p class="sidebar-join-text">Discuss quant strategies, market events, and platform updates with the AlphaNet team and other traders.</p>
-          <a href="https://t.me/AlphaNet_AI" class="sidebar-join-btn" target="_blank" rel="noopener">
-            Join Now
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
+      <!-- Category 4 -->
+      <a href="strategies-autopilot-and-ai-execution/" class="faq-card">
+        <span class="faq-card-index">04</span>
+        <h2 class="faq-card-title">Strategies, Autopilot, and AI Execution</h2>
+        <p class="faq-card-desc">Explore the strategy marketplace, how Autopilot mode selects and rotates strategies, the role of AI in execution, and how dynamic factor mining keeps strategies adaptive.</p>
+        <div class="faq-card-footer">
+          <span class="faq-card-link">View Section</span>
+          <div class="faq-card-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
         </div>
-      </aside>
+      </a>
+
+      <!-- Category 5 -->
+      <a href="returns-risk-and-evaluation-metrics/" class="faq-card">
+        <span class="faq-card-index">05</span>
+        <h2 class="faq-card-title">Returns, Risk, and Evaluation Metrics</h2>
+        <p class="faq-card-desc">How to read performance reports — ROI, Sharpe ratio, max drawdown, win rate — and the risk management framework that protects capital across all strategies.</p>
+        <div class="faq-card-footer">
+          <span class="faq-card-link">View Section</span>
+          <div class="faq-card-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- Category 6 -->
+      <a href="business-model-and-ecosystem-position/" class="faq-card">
+        <span class="faq-card-index">06</span>
+        <h2 class="faq-card-title">Business Model and Ecosystem Position</h2>
+        <p class="faq-card-desc">How AlphaNet makes money, its token economics, revenue-sharing with strategy creators, and where it sits in the broader DeFi and on-chain trading ecosystem.</p>
+        <div class="faq-card-footer">
+          <span class="faq-card-link">View Section</span>
+          <div class="faq-card-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </div>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -1672,9 +1587,9 @@ img { max-width: 100%; display: block; }
       <div class="footer-col">
         <h4>Resources</h4>
         <ul>
-          <li><a href="https://alphanet.global/docs/whitepaper/" target="_blank" rel="noopener">Whitepaper</a></li>
-          <li><a href="https://alphanet.global/docs/guide/" target="_blank" rel="noopener">User Guide</a></li>
-          <li><a href="https://alphanet.global/docs/points/" target="_blank" rel="noopener">Points</a></li>
+          <li><a href="https://wp.alphanet.global/" target="_blank" rel="noopener">Whitepaper</a></li>
+          <li><a href="https://guide.alphanet.global" target="_blank" rel="noopener">User Guide</a></li>
+          <li><a href="https://points.alphanet.global/" target="_blank" rel="noopener">Points</a></li>
           <li><a href="https://alphanet.global/faq" target="_blank" rel="noopener">FAQ</a></li>
         </ul>
       </div>
@@ -1700,64 +1615,6 @@ img { max-width: 100%; display: block; }
 </footer>
 
 <script>
-// ============================================
-// AUTO-COUNT FILTER BUTTONS
-// ============================================
-const allCards = document.querySelectorAll('.blog-card');
-const counts = { all: allCards.length, market: 0, strategy: 0 };
-allCards.forEach(card => {
-  const cat = card.dataset.category;
-  if (counts[cat] !== undefined) counts[cat]++;
-});
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  const filter = btn.dataset.filter;
-  const countEl = btn.querySelector('.filter-btn-count');
-  if (countEl && counts[filter] !== undefined) {
-    countEl.textContent = counts[filter];
-  }
-});
-
-// ============================================
-// CATEGORY FILTER
-// ============================================
-const filterBtns = document.querySelectorAll('.filter-btn');
-const issueCards = document.querySelectorAll('.blog-card');
-
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const filter = btn.dataset.filter;
-
-    // Update active state
-    filterBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-
-    // Filter cards
-    issueCards.forEach(card => {
-      if (filter === 'all' || card.dataset.category === filter) {
-        card.style.display = '';
-        card.style.opacity = '0';
-        requestAnimationFrame(() => {
-          card.style.transition = 'opacity 0.3s ease';
-          card.style.opacity = '1';
-        });
-      } else {
-        card.style.display = 'none';
-      }
-    });
-  });
-});
-
-// ============================================
-// ISSUE CARD CLICKS
-// ============================================
-issueCards.forEach(card => {
-  if (card.dataset.href) {
-    card.addEventListener('click', () => {
-      window.location.href = card.dataset.href;
-    });
-  }
-});
-
 // ============================================
 // SUBSCRIBE FORM — sub-app email API
 // ============================================
@@ -1862,117 +1719,6 @@ if (mobileToggle) {
     navLinks.style.borderBottom = '1px solid var(--border-subtle)';
   });
 }
-
-// ============================================
-// NAV DROPDOWN (Resources)
-// ============================================
-const navDropdown = document.getElementById('nav-dropdown');
-const navDropdownTrigger = navDropdown?.querySelector('.nav-dropdown-trigger');
-if (navDropdownTrigger) {
-  navDropdownTrigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const open = navDropdown.classList.toggle('open');
-    navDropdownTrigger.setAttribute('aria-expanded', open);
-  });
-  // Close on outside click
-  document.addEventListener('click', (e) => {
-    if (!navDropdown.contains(e.target)) {
-      navDropdown.classList.remove('open');
-      navDropdownTrigger.setAttribute('aria-expanded', 'false');
-    }
-  });
-  // Close on Esc
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navDropdown.classList.contains('open')) {
-      navDropdown.classList.remove('open');
-      navDropdownTrigger.setAttribute('aria-expanded', 'false');
-      navDropdownTrigger.focus();
-    }
-  });
-}
-
-// ============================================
-// PAGINATION (10 per page)
-// ============================================
-const PER_PAGE = 10;
-const paginationEl = document.getElementById('pagination');
-let currentPage = 1;
-
-function renderPagination() {
-  const cards = Array.from(document.querySelectorAll('.blog-card'));
-  // Determine filter-visible cards: check active filter button
-  const activeFilter = document.querySelector('.filter-btn.active');
-  const filterVal = activeFilter ? activeFilter.dataset.filter : 'all';
-  const filterVisible = cards.filter(c => filterVal === 'all' || c.dataset.category === filterVal);
-  const totalPages = Math.ceil(filterVisible.length / PER_PAGE);
-
-  // If only 1 page, hide pagination and show all filter-visible cards
-  if (totalPages <= 1) {
-    paginationEl.style.display = 'none';
-    cards.forEach(c => {
-      const matchFilter = filterVal === 'all' || c.dataset.category === filterVal;
-      c.style.display = matchFilter ? '' : 'none';
-    });
-    return;
-  }
-  paginationEl.style.display = 'flex';
-
-  // Show only current page's cards (within filter-visible set)
-  const start = (currentPage - 1) * PER_PAGE;
-  const end = start + PER_PAGE;
-  cards.forEach(c => {
-    const matchFilter = filterVal === 'all' || c.dataset.category === filterVal;
-    if (!matchFilter) {
-      c.style.display = 'none';
-      return;
-    }
-    const idx = filterVisible.indexOf(c);
-    c.style.display = (idx >= start && idx < end) ? '' : 'none';
-  });
-
-  // Build pagination buttons
-  let html = '';
-  // Prev button
-  html += `<button class="pagination-btn" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>&laquo;</button>`;
-
-  // Page numbers with ellipsis logic
-  for (let p = 1; p <= totalPages; p++) {
-    if (p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1) {
-      html += `<button class="pagination-btn ${p === currentPage ? 'active' : ''}" data-page="${p}">${p}</button>`;
-    } else if (p === 2 || p === totalPages - 1) {
-      html += `<span class="pagination-dots">...</span>`;
-    }
-  }
-
-  // Next button
-  html += `<button class="pagination-btn" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>&raquo;</button>`;
-
-  paginationEl.innerHTML = html;
-
-  // Bind click events
-  paginationEl.querySelectorAll('.pagination-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const page = parseInt(btn.dataset.page);
-      if (page >= 1 && page <= totalPages) {
-        currentPage = page;
-        renderPagination();
-        // Scroll to archive top
-        document.getElementById('archive').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-}
-
-// Initial render
-renderPagination();
-
-// Re-render pagination when category filter changes
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    currentPage = 1;
-    setTimeout(renderPagination, 50);
-  });
-});
 </script>
 
 </body>

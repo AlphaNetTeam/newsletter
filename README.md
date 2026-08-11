@@ -14,4 +14,5 @@ git pull
 ``` bash
 # !!!! 先 cd 到 blogs 所在文件夹
 scp -r ./blogs/* ubuntu@18.136.207.229:/home/ubuntu/alphanet-new/blog
+scp -r ./faq/* ubuntu@18.136.207.229:/home/ubuntu/alphanet-new/faq
 ```

@@ -195,6 +195,124 @@ img { max-width: 100%; display: block; }
 /* ARTICLE BODY */
 .article-page { padding-top: 100px; padding-bottom: var(--space-16); }
 .article-container { max-width: var(--article-width); margin: 0 auto; padding: 32px var(--gutter) 80px; }
+
+/* Hero */
+.page-hero {
+  position: relative;
+  padding: 140px 24px 56px;
+  text-align: center;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+  pointer-events: none;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 24px;
+  position: relative;
+}
+.hero-badge::before {
+  content: '';
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.page-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  max-width: 800px;
+  margin: 0 auto 20px;
+  position: relative;
+  color: var(--text-primary);
+}
+.page-hero h1 .highlight { color: var(--accent); }
+.hero-subtitle {
+  font-size: 19px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 32px;
+  position: relative;
+}
+.hero-cta-group {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  position: relative;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent); color: var(--bg-base);
+  padding: 14px 28px; border-radius: var(--radius-sm);
+  font-weight: 700; font-size: 16px; text-decoration: none;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--accent-glow); }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--bg-elevated); color: var(--text-primary);
+  padding: 14px 28px; border-radius: var(--radius-sm);
+  font-weight: 600; font-size: 16px; text-decoration: none;
+  border: 1px solid var(--border-default);
+  transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.btn-secondary:hover { border-color: var(--accent); background: var(--bg-surface); }
+
+/* Stats Bar */
+.stats-bar {
+  display: flex; justify-content: center; gap: 48px;
+  padding: 32px 24px; background: var(--bg-primary);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+}
+.stat-item { text-align: center; }
+.stat-value { font-size: 28px; font-weight: 800; color: var(--accent); letter-spacing: -1px; }
+.stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, var(--bg-primary), var(--bg-elevated));
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: 40px; text-align: center; margin: 48px 0;
+}
+.cta-section h3 { font-family: var(--font-display); font-size: 24px; font-weight: 700; margin-bottom: 12px; color: var(--text-primary); }
+.cta-section p { color: var(--text-secondary); margin-bottom: 24px; }
+.cta-section .btn-primary { font-size: 17px; padding: 16px 36px; }
+
+/* Conclusion */
+.conclusion { background: var(--bg-primary); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 36px; margin: 48px 0; }
+.conclusion h2 { border-top: none; margin-top: 0; padding-top: 0; }
+.conclusion-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+.conclusion-links a {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--bg-elevated); border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm); padding: 10px 20px;
+  font-size: 14px; font-weight: 600; color: var(--text-primary);
+  text-decoration: none; border-bottom: none;
+  transition: border-color var(--dur) var(--ease);
+}
+.conclusion-links a:hover { border-color: var(--accent); }
+
 .article-container > .intro { font-size: 19px; line-height: 1.8; color: var(--text-primary); margin-bottom: 32px; }
 .article-container > .intro p { margin-bottom: 20px; }
 .article-container h2 {
@@ -260,19 +378,6 @@ table tr:hover td { background: var(--bg-surface); }
 }
 .disclaimer strong { color: var(--warning); }
 .disclaimer ul { margin-top: 10px; margin-bottom: 0; }
-
-.conclusion { background: var(--bg-primary); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 36px; margin: 48px 0; }
-.conclusion h2 { border-top: none; margin-top: 0; padding-top: 0; }
-.conclusion-links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
-.conclusion-links a {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--bg-elevated); border: 1px solid var(--border-default);
-  border-radius: var(--radius-sm); padding: 10px 20px;
-  font-size: 14px; font-weight: 600; color: var(--text-primary);
-  text-decoration: none; border-bottom: none;
-  transition: border-color var(--dur) var(--ease);
-}
-.conclusion-links a:hover { border-color: var(--accent); }
 
 /* Override article link styles for buttons inside article */
 .article-container .btn-primary, .article-container .btn-secondary { border-bottom: none; }
@@ -362,6 +467,26 @@ table tr:hover td { background: var(--bg-surface); }
 </nav>
 
 <main class="article-page">
+
+  <!-- Hero -->
+  <header class="page-hero">
+    <div class="hero-badge">Quantitative AI Trading Platform</div>
+    <h1>What is <span class="highlight">AlphaNet</span>?</h1>
+    <p class="hero-subtitle">The DEX-native platform bringing institutional-grade deep-learning trading strategies to everyone — 45+ AI strategies, one-click deployment, fully on-chain.</p>
+    <div class="hero-cta-group">
+      <a href="https://trade.alphanet.global/" class="btn-primary" target="_blank" rel="noopener">Launch Platform →</a>
+      <a href="https://trade.alphanet.global/strategies" class="btn-secondary" target="_blank" rel="noopener">Explore Strategies</a>
+    </div>
+  </header>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-value">45+</div><div class="stat-label">AI Strategies</div></div>
+    <div class="stat-item"><div class="stat-value">2.56</div><div class="stat-label">Avg Sharpe Ratio</div></div>
+    <div class="stat-item"><div class="stat-value">12</div><div class="stat-label">Chains Supported</div></div>
+    <div class="stat-item"><div class="stat-value">100K+</div><div class="stat-label">Alpha Search Space</div></div>
+  </div>
+
   <article class="article-container">
     <div class="intro">
       <p>If you've ever tried trading crypto, you already know the deck is stacked against you. By the time a narrative hits Twitter, the move has already happened. You pay 0.1% per trade while institutional players get paid to provide liquidity. Your stop losses are visible to whales who hunt them for sport. And while you're wrestling with FOMO and revenge trading, a Python script on a co-located server has already executed 10,000 trades with zero emotion.</p>
@@ -498,6 +623,8 @@ table tr:hover td { background: var(--bg-surface); }
           <tr><td><strong>Risk Management</strong></td><td>Dynamic stop-loss + signal-strength position sizing</td><td>Fixed percentage stop-loss</td></tr>
           <tr><td><strong>Execution Redundancy</strong></td><td>Dual-exchange TWAP with sub-second backup</td><td>Single-venue execution</td></tr>
           <tr><td><strong>Transparency</strong></td><td>Fully on-chain, verifiable</td><td>Opaque, server-side</td></tr>
+          <tr><td><strong>Anti Alpha-Decay</strong></td><td>Proprietary robustness testing</td><td>None</td></tr>
+          <tr><td><strong>Strategy Selection</strong></td><td>AI agentic system for strategy selection</td><td>Manual selection</td></tr>
         </tbody>
       </table>
     </div>
@@ -523,8 +650,25 @@ table tr:hover td { background: var(--bg-surface); }
       </ul>
     </div>
 
-    <h2>How to Get Started with AlphaNet</h2>
+    <p>AlphaNet mitigates some of these risks through its anti alpha-decay framework, dynamic risk management, and robustness testing, but no trading system can eliminate risk entirely. The platform's commitment to transparency (all strategies are verifiable on-chain, with full performance history available on the <a href="https://trade.alphanet.global/leaderboard" target="_blank" rel="noopener">leaderboard</a>) allows users to make informed decisions.</p>
 
+    <p>For those interested in the technical foundations, AlphaNet has published its <a href="https://alphanet.global/docs/whitepaper/" target="_blank" rel="noopener">technical whitepaper</a> along with several research papers:</p>
+    <ul>
+      <li><strong>Dynamic Factor Mining</strong>: Systematic feature and factor mining methodology</li>
+      <li><strong>Algo Execution Systems</strong>: Dynamic TWAP Control vs. Deep Reinforcement Learning</li>
+      <li><strong>Novel Agentic System for Strategy Selection</strong>: AI agent-based strategy selection</li>
+      <li><strong>Alpha Mining vs. Deep Learning</strong>: Comparing traditional alpha discovery with DL approaches</li>
+    </ul>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <h3>Ready to Experience Institutional-Grade AI Trading?</h3>
+      <p>Launch AlphaNet and deploy your first strategy in minutes.</p>
+      <a href="https://trade.alphanet.global/" class="btn-primary" target="_blank" rel="noopener">Launch Platform →</a>
+    </div>
+
+    <h2>How to Get Started with AlphaNet</h2>
+    <p>Getting started with AlphaNet is designed to be straightforward. You can also follow the <a href="https://alphanet.global/docs/guide/" target="_blank" rel="noopener">step-by-step user guide</a> for detailed walkthroughs:</p>
     <div class="step"><div class="step-number">1</div><div class="step-content"><h4>Connect Your Wallet</h4><p>Visit <a href="https://trade.alphanet.global/" target="_blank" rel="noopener">trade.alphanet.global</a> and connect any wallet from supported networks. Acknowledge the terms of service and complete the wallet signatures.</p></div></div>
     <div class="step"><div class="step-number">2</div><div class="step-content"><h4>Deposit USDC</h4><p>Click "Deposit," select USDC, enter the amount, and confirm. Funds are typically credited within a few minutes.</p></div></div>
     <div class="step"><div class="step-number">3</div><div class="step-content"><h4>Choose a Trading Mode</h4><p><strong>Autopilot Mode</strong>: Browse the Strategy Marketplace, select a strategy, enter your USDC amount, and click "Deploy Strategy." <strong>Standard Mode</strong>: Trade manually with AI-powered execution.</p></div></div>
@@ -537,11 +681,26 @@ table tr:hover td { background: var(--bg-surface); }
     <details class="faq-item"><summary>What's the difference between AlphaNet and a regular trading bot?</summary><div class="faq-answer">Regular trading bots use simple rules (grid trading, DCA, technical indicator crossovers). AlphaNet uses <strong>deep learning models</strong> that analyze hundreds of variables, adapt to 27 market regimes, and employ a SOTA algo execution engine.</div></details>
     <details class="faq-item"><summary>Do I need coding skills to use AlphaNet?</summary><div class="faq-answer">No. AlphaNet's Autopilot Mode allows you to deploy AI strategies with a single click.</div></details>
     <details class="faq-item"><summary>What assets can I trade on AlphaNet?</summary><div class="faq-answer">AlphaNet currently trades <strong>perpetual futures</strong> on pairs including XMR/USDC, DOGE/USDC, and ZEC/USDC. All pairs are quoted in USDC.</div></details>
+    <details class="faq-item"><summary>What is the minimum deposit to start trading on AlphaNet?</summary><div class="faq-answer">There is no strict minimum, but the deposit amount should be sufficient to make strategy deployment meaningful after accounting for gas fees on the respective blockchain network. Users can start with any amount of USDC they're comfortable with.</div></details>
     <details class="faq-item"><summary>Can I run multiple strategies at the same time?</summary><div class="faq-answer">Yes. AlphaNet allows you to deploy multiple strategies simultaneously, creating a "portfolio of strategies" that diversifies across markets, timeframes, and trading styles.</div></details>
     <details class="faq-item"><summary>How does AlphaNet's AI execution engine work?</summary><div class="faq-answer">AlphaNet's Dynamic TWAP engine uses deep learning to dynamically break orders into smaller chunks, adjusting execution speed in real-time based on price drift risk, directional predictions, and liquidity conditions.</div></details>
+    <details class="faq-item"><summary>Is AlphaNet available in my country?</summary><div class="faq-answer">As a DEX-native platform, AlphaNet is permissionless and does not require KYC. However, users should ensure they comply with their local regulations regarding cryptocurrency trading and derivatives.</div></details>
 
     <div class="disclaimer">
-      <strong>Disclaimer:</strong> This article is for informational purposes only and does not constitute financial advice. All performance metrics mentioned are historical averages and are not indicative of future results. Cryptocurrency trading involves significant risk of loss.
+      <strong>Disclaimer:</strong> This article is for informational purposes only and does not constitute financial advice. All performance metrics mentioned are historical averages and are not indicative of future results. Cryptocurrency trading involves significant risk of loss. Always do your own research and never invest more than you can afford to lose.
+    </div>
+
+    <!-- Conclusion -->
+    <div class="conclusion">
+      <h2>Conclusion</h2>
+      <p>AlphaNet rewrites the rules of crypto trading, giving retail traders access to a quantitative AI trading platform that was previously reserved for hedge funds and quant desks. By combining deep-learning-based quantitative strategies, a SOTA algo execution engine, and a DEX-native end-to-end protocol, AlphaNet delivers pro-level trading capabilities to anyone with a wallet.</p>
+      <p>The platform's 45+ AI strategies, transparent on-chain performance metrics, and one-click deployment make it accessible to traders at every level. Whether you want to automate your trading entirely via Autopilot Mode or enhance your manual execution with AI-powered Dynamic TWAP, AlphaNet provides the tools that were previously out of reach.</p>
+      <p>As the crypto market continues to institutionalize, the question isn't whether you need these tools, it's whether you can afford to trade without them.</p>
+      <div class="conclusion-links">
+        <a href="https://trade.alphanet.global/" target="_blank" rel="noopener">🚀 Launch the Platform</a>
+        <a href="https://trade.alphanet.global/strategies" target="_blank" rel="noopener">📈 Explore Strategies</a>
+        <a href="https://alphanet.global/docs/whitepaper/" target="_blank" rel="noopener">📖 Read the Whitepaper</a>
+      </div>
     </div>
   </article>
 </main>

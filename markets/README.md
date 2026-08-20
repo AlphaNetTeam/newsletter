@@ -6,8 +6,11 @@ Market data is fetched on the server from Hyperliquid, AlphaNet's strategy API, 
 
 ## Run
 
+Requires **Node.js 16.14+** (Next.js 13.5). The production server runs Node 16.20.2.
+
 ```bash
 cd markets
+node -v   # e.g. v16.20.2
 npm install
 npm run dev
 ```

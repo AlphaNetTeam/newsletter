@@ -16,10 +16,9 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ symbol: string }>;
+  params: { symbol: string };
 }): Promise<Metadata> {
-  const { symbol: raw } = await params;
-  const symbol = raw.toUpperCase();
+  const symbol = params.symbol.toUpperCase();
   if (!isKnownSymbol(symbol)) return {};
   const data = await loadMarketPage(symbol);
   return symbolMetadata(symbol, data.stats);
@@ -28,10 +27,9 @@ export async function generateMetadata({
 export default async function MarketSymbolPage({
   params,
 }: {
-  params: Promise<{ symbol: string }>;
+  params: { symbol: string };
 }) {
-  const { symbol: raw } = await params;
-  const symbol = raw.toUpperCase();
+  const symbol = params.symbol.toUpperCase();
   if (!isKnownSymbol(symbol)) notFound();
 
   const data = await loadMarketPage(symbol);

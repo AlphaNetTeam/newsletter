@@ -1,13 +1,12 @@
-import { ImageResponse } from "next/og";
+import { ImageResponse } from "next/server";
 import { SYMBOLS, isKnownSymbol } from "@/lib/config";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const revalidate = 3600;
 
-export default async function OgImage({ params }: { params: Promise<{ symbol: string }> }) {
-  const { symbol: raw } = await params;
-  const symbol = raw.toUpperCase();
+export default async function OgImage({ params }: { params: { symbol: string } }) {
+  const symbol = params.symbol.toUpperCase();
   const name = isKnownSymbol(symbol) ? SYMBOLS[symbol].name : symbol;
 
   return new ImageResponse(

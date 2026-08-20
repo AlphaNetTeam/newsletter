@@ -1,1 +1,5 @@
 subscribers.db
+markets/node_modules
+markets/.next
+markets/.DS_Store
+

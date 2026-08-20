@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import ResourcesMenu from "./ResourcesMenu";
+import { BASE_PATH } from "@/lib/config";
 
 const navLinkStyle: React.CSSProperties = {
   fontSize: 14,
@@ -41,7 +41,7 @@ export default function Header() {
         }}
       >
         <Link href="/BTC" style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <Image src="/logo.png" alt="AlphaNet" width={110} height={22} priority />
+          <img src={`${BASE_PATH}/logo.png`} alt="AlphaNet" width={110} height={22} />
           <span style={{ width: 1, height: 16, background: "var(--border-strong)" }} />
           <span style={{ fontSize: 14, color: "var(--text-secondary)" }}>Trading Evolved</span>
         </Link>

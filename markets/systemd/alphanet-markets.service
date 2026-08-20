@@ -7,7 +7,7 @@ Wants=network-online.target
 Type=simple
 User=ubuntu
 Group=ubuntu
-WorkingDirectory=/home/ubuntu/alphanet-space/markets
+WorkingDirectory=/home/wxf/workspace/newsletter/markets
 Environment=NEXT_PUBLIC_SITE_URL=https://alphanet.global/markets
 ExecStart=/home/wxf/.local/share/mise/installs/node/16/bin/npm start -- --hostname 127.0.0.1 --port 20002
 Restart=on-failure

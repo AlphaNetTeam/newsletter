@@ -1,8 +1,21 @@
-import { Database } from "@db/sqlite";
+import initSqlJs, { type Database } from "sql.js";
 
-const db = new Database("subscribers.db");
+const DB_PATH = "subscribers.db";
 
-db.exec(`
+const SQL = await initSqlJs();
+let db: Database;
+try {
+  const bytes = await Deno.readFile(DB_PATH);
+  db = new SQL.Database(bytes);
+} catch {
+  db = new SQL.Database();
+}
+
+function persistDb(): void {
+  Deno.writeFileSync(DB_PATH, db.export());
+}
+
+db.run(`
   CREATE TABLE IF NOT EXISTS subscribers (
     email_key TEXT PRIMARY KEY,
     email TEXT NOT NULL,
@@ -11,31 +24,40 @@ db.exec(`
 `);
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const LIST_PASSWORD = "alphanet-0807";
 const port = 20001;
-const hostname = '127.0.0.1';
+const hostname = "127.0.0.1";
 
 function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), {
     status,
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
+function txt(body: string, status = 200, filename = "subscribers.txt"): Response {
+  return new Response(body, {
+    status,
     headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
+      "Content-Type": "text/plain; charset=utf-8",
+      "Content-Disposition": `attachment; filename="${filename}"`,
     },
   });
 }
 
-Deno.serve({ port, hostname }, async req => {
-  if (req.method === "OPTIONS") {
-    return new Response(null, {
-      status: 204,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
-    });
+function listEmails(): string {
+  const rows = db.exec("SELECT email_key FROM subscribers ORDER BY created_at ASC");
+  if (rows.length === 0) return "";
+  return rows[0].values.map((row) => String(row[0]).toLowerCase()).join("\n");
+}
+
+Deno.serve({ port, hostname }, async (req) => {
+  if (req.method === "GET") {
+    const password = new URL(req.url).searchParams.get("password") ?? "";
+    if (password !== LIST_PASSWORD) {
+      return json({ error: "密码无效" }, 401);
+    }
+    return txt(listEmails());
   }
 
   if (req.method !== "POST") {
@@ -60,13 +82,15 @@ Deno.serve({ port, hostname }, async req => {
   }
 
   try {
-    db.prepare("INSERT INTO subscribers (email_key, email) VALUES (?, ?)").run(
-      emailKey,
-      email,
+    db.run(
+      "INSERT INTO subscribers (email_key, email) VALUES (?, ?)",
+      [emailKey, email],
     );
+    persistDb();
     return json({ ok: true, message: "订阅成功" }, 201);
   } catch (err) {
-    if (err instanceof Error && err.message.includes("UNIQUE")) {
+    const message = err instanceof Error ? err.message : String(err);
+    if (message.includes("UNIQUE")) {
       return json({ error: "该邮箱已订阅" }, 409);
     }
     console.error(err);

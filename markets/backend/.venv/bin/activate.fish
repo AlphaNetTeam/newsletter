@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/lixiping/Documents/New project 2/alphanet-clone/markets/backend/.venv"
+set -gx VIRTUAL_ENV "/Users/lixiping/workspace/newsletter/markets/backend/.venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

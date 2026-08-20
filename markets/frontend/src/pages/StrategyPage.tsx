@@ -27,6 +27,7 @@ import TabsNav, { type TabKey } from "../components/TabsNav";
 import VolatilityPanel from "../components/VolatilityPanel";
 import { useInterval } from "../hooks/useInterval";
 import { useLiveMids } from "../hooks/useLiveMids";
+import { applySeoCopy } from "../utils/seo";
 
 // REST polling fallback/complement cadences. The websocket (useLiveMids)
 // covers second-by-second price ticks; these intervals keep the
@@ -67,6 +68,17 @@ export default function StrategyPage() {
       .then(setSymbols)
       .catch((e) => setError(String(e.message ?? e)));
   }, []);
+
+  // <title> / meta-description follow the selected symbol's real
+  // assetClass (crypto vs. everything else) rather than a hardcoded
+  // ticker list — see utils/seo.ts. Re-runs whenever the symbol changes
+  // or the symbol list finishes loading (assetClass isn't known until
+  // then), so this also self-corrects if it ever resolves to "unknown"
+  // before `symbols` has loaded.
+  useEffect(() => {
+    const current = symbols.find((s) => s.symbol === symbol);
+    applySeoCopy(current?.assetClass);
+  }, [symbol, symbols]);
 
   const refreshStatsPanels = () => {
     Promise.all([

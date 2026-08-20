@@ -37,7 +37,10 @@ def _ensure_symbol(symbol: str) -> str:
 
 @router.get("/symbols", response_model=ApiResponse[list[SymbolInfo]])
 async def list_symbols():
-    data = [SymbolInfo(symbol=sym, name=cfg["name"]) for sym, cfg in SYMBOLS.items()]
+    data = [
+        SymbolInfo(symbol=sym, name=cfg["name"], assetClass=cfg["asset_class"])
+        for sym, cfg in SYMBOLS.items()
+    ]
     return ApiResponse(data=data)
 
 

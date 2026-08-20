@@ -16,6 +16,14 @@ from typing import Dict, TypedDict
 
 class SymbolConfig(TypedDict):
     name: str
+    # "crypto" for everything today — every SYMBOLS entry currently is a
+    # Hyperliquid perp. Kept explicit (not inferred from the symbol string)
+    # so the frontend can pick the right <title>/meta-description copy
+    # ("Crypto Trading Strategies" vs "Quant Trading Strategy") from real
+    # backend data instead of hardcoding a crypto-ticker allowlist — this
+    # is the field that makes that switch correct the day a non-crypto
+    # symbol (gold, an equity index, ...) is added to SYMBOLS.
+    asset_class: str
     # Fallback-only values, used exclusively when Hyperliquid is
     # completely unreachable (both the background poller AND the
     # on-demand retry fail). Real current/historical prices, open
@@ -36,6 +44,7 @@ class SymbolConfig(TypedDict):
 SYMBOLS: Dict[str, SymbolConfig] = {
     "BTC": {
         "name": "Bitcoin",
+        "asset_class": "crypto",
         "fallback_start_price": 26_010.0,
         "fallback_current_price": 118_420.0,
         "fallback_volatility": 0.020,
@@ -45,6 +54,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     },
     "ETH": {
         "name": "Ethereum",
+        "asset_class": "crypto",
         "fallback_start_price": 1_650.0,
         "fallback_current_price": 4_260.0,
         "fallback_volatility": 0.024,
@@ -54,6 +64,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     },
     "SOL": {
         "name": "Solana",
+        "asset_class": "crypto",
         "fallback_start_price": 24.0,
         "fallback_current_price": 172.0,
         "fallback_volatility": 0.030,
@@ -63,6 +74,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     },
     "DOGE": {
         "name": "Dogecoin",
+        "asset_class": "crypto",
         "fallback_start_price": 0.062,
         "fallback_current_price": 0.21,
         "fallback_volatility": 0.033,
@@ -81,6 +93,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     # price/funding/OI/volume always come from Hyperliquid at runtime.
     "BNB": {
         "name": "Binance",
+        "asset_class": "crypto",
         "fallback_start_price": 245.0,
         "fallback_current_price": 620.0,
         "fallback_volatility": 0.018,
@@ -90,6 +103,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     },
     "ZEC": {
         "name": "Zcash",
+        "asset_class": "crypto",
         "fallback_start_price": 30.0,
         "fallback_current_price": 500.0,
         "fallback_volatility": 0.05,
@@ -99,6 +113,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     },
     "LINK": {
         "name": "Chainlink",
+        "asset_class": "crypto",
         "fallback_start_price": 6.5,
         "fallback_current_price": 9.4,
         "fallback_volatility": 0.028,
@@ -108,6 +123,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     },
     "ADA": {
         "name": "Cardano",
+        "asset_class": "crypto",
         "fallback_start_price": 0.25,
         "fallback_current_price": 0.45,
         "fallback_volatility": 0.03,
@@ -117,6 +133,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     },
     "XMR": {
         "name": "Monero",
+        "asset_class": "crypto",
         "fallback_start_price": 160.0,
         "fallback_current_price": 780.0,
         "fallback_volatility": 0.045,
@@ -126,6 +143,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     },
     "XRP": {
         "name": "XRP",
+        "asset_class": "crypto",
         "fallback_start_price": 0.34,
         "fallback_current_price": 1.00,
         "fallback_volatility": 0.026,
@@ -135,6 +153,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     },
     "TAO": {
         "name": "Bittensor",
+        "asset_class": "crypto",
         "fallback_start_price": 350.0,
         "fallback_current_price": 195.0,
         "fallback_volatility": 0.05,
@@ -144,6 +163,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     },
     "HYPE": {
         "name": "Hyperliquid",
+        "asset_class": "crypto",
         "fallback_start_price": 5.0,
         "fallback_current_price": 59.0,
         "fallback_volatility": 0.04,
@@ -153,6 +173,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     },
     "NEAR": {
         "name": "NEAR Protocol",
+        "asset_class": "crypto",
         "fallback_start_price": 1.8,
         "fallback_current_price": 1.6,
         "fallback_volatility": 0.032,
@@ -162,6 +183,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     },
     "TRX": {
         "name": "TRON",
+        "asset_class": "crypto",
         "fallback_start_price": 0.06,
         "fallback_current_price": 0.33,
         "fallback_volatility": 0.015,
@@ -171,6 +193,7 @@ SYMBOLS: Dict[str, SymbolConfig] = {
     },
     "PENGU": {
         "name": "Pudgy Penguins",
+        "asset_class": "crypto",
         "fallback_start_price": 0.02,
         "fallback_current_price": 0.012,
         "fallback_volatility": 0.06,

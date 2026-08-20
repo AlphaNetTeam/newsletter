@@ -20,6 +20,7 @@ class ApiResponse(BaseModel, Generic[T]):
 class SymbolInfo(BaseModel):
     symbol: str
     name: str
+    assetClass: str  # "crypto" today for every symbol — see SymbolConfig.asset_class
 
 
 class PricePointOut(BaseModel):

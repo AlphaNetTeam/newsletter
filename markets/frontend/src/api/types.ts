@@ -7,6 +7,7 @@ export interface ApiResponse<T> {
 export interface SymbolInfo {
   symbol: string;
   name: string;
+  assetClass: string; // "crypto" today for every symbol — backend-driven, see SymbolConfig.asset_class
 }
 
 export interface PricePoint {

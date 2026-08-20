@@ -10,8 +10,8 @@ Group=ubuntu
 WorkingDirectory=/home/ubuntu/alphanet-space/newsletter/markets
 Environment=SITE_URL=https://alphanet.global/markets
 Environment=NEXT_PUBLIC_SITE_URL=https://alphanet.global/markets
-Environment="PATH=/home/ubuntu/.local/share/mise/installs/node/16/bin/:/usr/local/bin:/usr/bin:/bin"
-ExecStart=npm start -- --hostname 127.0.0.1 --port 20002
+Environment=PATH=/home/ubuntu/.local/share/mise/installs/node/16/bin/:/usr/local/bin:/usr/bin:/bin
+ExecStart=/home/ubuntu/.local/share/mise/installs/node/16/bin/npm start -- --hostname 127.0.0.1 --port 20002
 Restart=on-failure
 RestartSec=60
 

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Optional: override subscription API (POST JSON { "email": "..." }) -->
 <meta name="subscribe-api" content="">
-<title>AlphaNet Market Brief — Institutional-Grade Market Intelligence</title>
+<title>AlphaNet Blog | Market Briefs, Research &amp; Trading Insights</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1076,6 +1076,8 @@ img { max-width: 100%; display: block; }
 .follow-icon-btn.medium:hover { background: rgba(62,240,182, 0.2); }
 .follow-icon-btn.reddit { background: rgba(255, 86, 0, 0.12); color: #FF5600; border-color: rgba(255, 86, 0, 0.2); }
 .follow-icon-btn.reddit:hover { background: rgba(255, 86, 0, 0.2); }
+.follow-icon-btn.youtube { background: rgba(255, 0, 0, 0.12); color: #FF0000; border-color: rgba(255, 0, 0, 0.2); }
+.follow-icon-btn.youtube:hover { background: rgba(255, 0, 0, 0.2); }
 
 /* ============================================
    SIDEBAR SECTIONS (Subscribe + Join Community)
@@ -1112,6 +1114,8 @@ img { max-width: 100%; display: block; }
 .sidebar-subscribe-form .subscribe-input {
   width: 100%;
   min-width: 0;
+  height: 50px !important;
+  min-height: 50px !important;
 }
 .sidebar-subscribe-form .subscribe-btn {
   width: 100%;
@@ -1261,6 +1265,70 @@ img { max-width: 100%; display: block; }
 .footer-bottom-links a:hover { color: var(--text-secondary); }
 
 /* ============================================
+   NAV DROPDOWN (Resources)
+   ============================================ */
+.nav-dropdown {
+  position: relative;
+}
+.nav-dropdown-trigger {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.nav-dropdown-trigger:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface);
+}
+.nav-dropdown-arrow {
+  width: 14px; height: 14px;
+  transition: transform var(--dur) var(--ease);
+}
+.nav-dropdown.open .nav-dropdown-arrow { transform: rotate(180deg); }
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  padding: var(--space-2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity var(--dur) var(--ease), visibility var(--dur) var(--ease), transform var(--dur) var(--ease);
+  z-index: 110;
+}
+.nav-dropdown.open .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.nav-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.nav-dropdown-item:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface);
+}
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 968px) {
@@ -1317,14 +1385,22 @@ img { max-width: 100%; display: block; }
 <!-- ============================================ NAVIGATION ============================================ -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="#" class="nav-logo">
+    <a href="https://alphanet.global/" class="nav-logo" style="cursor:pointer;">
       <img src="logo.png" alt="AlphaNet" class="nav-logo-img">
     </a>
     <div class="nav-links">
-      <a href="https://trade.alphanet.global" class="nav-link" target="_blank" rel="noopener">Launch Trading</a>
-      <a href="https://wp.alphanet.global" class="nav-link" target="_blank" rel="noopener">Whitepaper</a>
-      <a href="https://guide.alphanet.global" class="nav-link" target="_blank" rel="noopener">User Guide</a>
-      <a href="https://points.alphanet.global/" class="nav-link" target="_blank" rel="noopener">Points</a>
+      <a href="https://trade.alphanet.global/" class="nav-link" target="_blank" rel="noopener">Launch Trading</a>
+      <div class="nav-dropdown" id="nav-dropdown">
+        <button class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+          Resources
+          <svg class="nav-dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="https://alphanet.global/docs/whitepaper/" class="nav-dropdown-item" target="_blank" rel="noopener">Whitepaper</a>
+          <a href="https://alphanet.global/docs/guide/" class="nav-dropdown-item" target="_blank" rel="noopener">User Guide</a>
+          <a href="https://alphanet.global/docs/points/" class="nav-dropdown-item" target="_blank" rel="noopener">Points</a>
+        </div>
+      </div>
     </div>
     <button class="nav-mobile-toggle" aria-label="Menu">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -1354,11 +1430,14 @@ img { max-width: 100%; display: block; }
             <a href="https://x.com/AlphaNet_AI" class="follow-icon-btn x" target="_blank" rel="noopener" aria-label="X (Twitter)">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
-            <a href="https://alphanet.global/" class="follow-icon-btn medium" target="_blank" rel="noopener" aria-label="Medium">
+            <a href="https://medium.com/@AlphaNet_AI" class="follow-icon-btn medium" target="_blank" rel="noopener" aria-label="Medium">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42z"/></svg>
             </a>
-            <a href="https://alphanet.global/" class="follow-icon-btn reddit" target="_blank" rel="noopener" aria-label="Reddit">
+            <a href="https://www.reddit.com/user/AlphaNet_AI" class="follow-icon-btn reddit" target="_blank" rel="noopener" aria-label="Reddit">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.07 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+            </a>
+            <a href="https://www.youtube.com/@alphanet.global" class="follow-icon-btn youtube" target="_blank" rel="noopener" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
             </a>
           </div>
         </div>
@@ -1380,7 +1459,7 @@ img { max-width: 100%; display: block; }
         <div class="blog-list" id="archive">
 
           <!-- Card 1 -->
-          <article class="blog-card" data-category="market" data-href="https://alphanet-info.github.io/439-margin-call/">
+          <article class="blog-card" data-category="market" data-href="439-margin-call/">
             <div class="blog-card-cover" data-cat="market" data-cover="1">
               <img src="blog-covers/cover-1-margin-call.png" alt="The 439% Margin Call" class="blog-card-cover-img">
             </div>
@@ -1401,7 +1480,7 @@ img { max-width: 100%; display: block; }
           </article>
 
           <!-- Card 2 -->
-          <article class="blog-card" data-category="strategy" data-href="https://alphanet-info.github.io/Strategy_Spotlight_Prime_DOGE/">
+          <article class="blog-card" data-category="strategy" data-href="Strategy_Spotlight_Prime_DOGE/">
             <div class="blog-card-cover" data-cat="strategy" data-cover="2">
               <img src="blog-covers/cover-2-prime-doge.png" alt="Strategy Spotlight: Hackworth Prime x DOGE" class="blog-card-cover-img">
             </div>
@@ -1422,7 +1501,7 @@ img { max-width: 100%; display: block; }
           </article>
 
           <!-- Card 4 -->
-          <article class="blog-card" data-category="market" data-href="https://alphanet-info.github.io/Korea-Volatility/">
+          <article class="blog-card" data-category="market" data-href="Korea-Volatility/">
             <div class="blog-card-cover" data-cat="market" data-cover="3">
               <img src="blog-covers/cover-3-vs-machines.png" alt="Stop Trading Against Machines" class="blog-card-cover-img">
             </div>
@@ -1443,7 +1522,7 @@ img { max-width: 100%; display: block; }
           </article>
 
           <!-- Card 5 -->
-          <article class="blog-card" data-category="strategy" data-href="https://alphanet-info.github.io/June-OptimaShort-Casestudy/">
+          <article class="blog-card" data-category="strategy" data-href="June-OptimaShort-Casestudy/">
             <div class="blog-card-cover" data-cat="strategy" data-cover="4">
               <img src="blog-covers/cover-4-june-optima.png" alt="Hackworth OptimaShort: June Performance" class="blog-card-cover-img">
             </div>
@@ -1464,7 +1543,7 @@ img { max-width: 100%; display: block; }
           </article>
 
           <!-- Card 6 -->
-          <article class="blog-card" data-category="strategy" data-href="https://alphanet-info.github.io/06-05-event-analysis/">
+          <article class="blog-card" data-category="strategy" data-href="06-05-event-analysis/">
             <div class="blog-card-cover" data-cat="strategy" data-cover="5">
               <img src="blog-covers/cover-5-privacy-crisis.png" alt="Privacy Coin Crisis" class="blog-card-cover-img">
             </div>
@@ -1485,7 +1564,7 @@ img { max-width: 100%; display: block; }
           </article>
 
           <!-- Card 7 -->
-          <article class="blog-card" data-category="strategy" data-href="https://alphanet-info.github.io/MarketEventAnalysis/">
+          <article class="blog-card" data-category="strategy" data-href="MarketEventAnalysis/">
             <div class="blog-card-cover" data-cat="strategy" data-cover="6">
               <img src="blog-covers/cover-6-market-dump.png" alt="Market Dump Response" class="blog-card-cover-img">
             </div>
@@ -1506,7 +1585,7 @@ img { max-width: 100%; display: block; }
           </article>
 
           <!-- Card 8 -->
-          <article class="blog-card" data-category="strategy" data-href="https://alphanet-info.github.io/Newsletter/">
+          <article class="blog-card" data-category="strategy" data-href="may-2026-snapshot/">
             <div class="blog-card-cover" data-cat="strategy" data-cover="7">
               <img src="blog-covers/cover-7-may-snapshot.png" alt="May 2026 Snapshot" class="blog-card-cover-img">
             </div>
@@ -1552,7 +1631,7 @@ img { max-width: 100%; display: block; }
         <div class="sidebar-section sidebar-join">
           <h3 class="sidebar-section-title">Join Our Community</h3>
           <p class="sidebar-join-text">Discuss quant strategies, market events, and platform updates with the AlphaNet team and other traders.</p>
-          <a href="https://t.me/AlphaNet_AI" class="sidebar-join-btn" target="_blank" rel="noopener">
+          <a href="https://t.me/AlphaNet_AI/" class="sidebar-join-btn" target="_blank" rel="noopener">
             Join Now
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </a>
@@ -1567,7 +1646,7 @@ img { max-width: 100%; display: block; }
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a href="#" class="nav-logo">
+        <a href="https://alphanet.global/" class="nav-logo" style="cursor:pointer;">
           <img src="logo.png" alt="AlphaNet" class="nav-logo-img">
         </a>
         <p>Institutional-grade quantitative AI trading platform - redefining alpha and trading edge for retail.</p>
@@ -1578,11 +1657,14 @@ img { max-width: 100%; display: block; }
           <a href="https://x.com/AlphaNet_AI" class="follow-icon-btn x" target="_blank" rel="noopener" aria-label="X (Twitter)">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           </a>
-          <a href="https://alphanet.global/" class="follow-icon-btn medium" target="_blank" rel="noopener" aria-label="Medium">
+          <a href="https://medium.com/@AlphaNet_AI" class="follow-icon-btn medium" target="_blank" rel="noopener" aria-label="Medium">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42z"/></svg>
           </a>
-          <a href="https://alphanet.global/" class="follow-icon-btn reddit" target="_blank" rel="noopener" aria-label="Reddit">
+          <a href="https://www.reddit.com/user/AlphaNet_AI" class="follow-icon-btn reddit" target="_blank" rel="noopener" aria-label="Reddit">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.07 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@alphanet.global" class="follow-icon-btn youtube" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
           </a>
         </div>
       </div>
@@ -1590,26 +1672,27 @@ img { max-width: 100%; display: block; }
         <h4>Platform</h4>
         <ul>
           <li><a href="https://trade.alphanet.global/" target="_blank" rel="noopener">Launch Trading</a></li>
-          <li><a href="https://trade.alphanet.global/strategies" target="_blank" rel="noopener">Strategy Marketplace</a></li>
-          <li><a href="https://trade.alphanet.global/leaderboard" target="_blank" rel="noopener">Leaderboard</a></li>
-          <li><a href="https://trade.alphanet.global/portfolio" target="_blank" rel="noopener">Portfolio</a></li>
+          <li><a href="https://trade.alphanet.global/strategies/" target="_blank" rel="noopener">Strategy Marketplace</a></li>
+          <li><a href="https://trade.alphanet.global/leaderboard/" target="_blank" rel="noopener">Leaderboard</a></li>
+          <li><a href="https://trade.alphanet.global/portfolio/" target="_blank" rel="noopener">Portfolio</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Docs</h4>
+        <h4>Resources</h4>
         <ul>
-          <li><a href="https://wp.alphanet.global/" target="_blank" rel="noopener">Whitepaper</a></li>
-          <li><a href="https://guide.alphanet.global" target="_blank" rel="noopener">User Guide</a></li>
-          <li><a href="https://points.alphanet.global/" target="_blank" rel="noopener">Points</a></li>
+          <li><a href="https://alphanet.global/docs/whitepaper/" target="_blank" rel="noopener">Whitepaper</a></li>
+          <li><a href="https://alphanet.global/docs/guide/" target="_blank" rel="noopener">User Guide</a></li>
+          <li><a href="https://alphanet.global/docs/points/" target="_blank" rel="noopener">Points</a></li>
+          <li><a href="https://alphanet.global/faq/">FAQ</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Research</h4>
         <ul>
-          <li><a href="https://alphanet.global" target="_blank" rel="noopener">Dynamic Factor Mining</a></li>
-          <li><a href="https://alphanet.global" target="_blank" rel="noopener">Algo Execution Systems</a></li>
-          <li><a href="https://alphanet.global" target="_blank" rel="noopener">Alpha Mining vs Deep Learning</a></li>
-          <li><a href="https://alphanet.global" target="_blank" rel="noopener">Agentic Strategy Selection</a></li>
+          <li><a href="https://alphanet.global/" target="_blank" rel="noopener">Dynamic Factor Mining</a></li>
+          <li><a href="https://alphanet.global/" target="_blank" rel="noopener">Algo Execution Systems</a></li>
+          <li><a href="https://alphanet.global/" target="_blank" rel="noopener">Alpha Mining vs Deep Learning</a></li>
+          <li><a href="https://alphanet.global/" target="_blank" rel="noopener">Agentic Strategy Selection</a></li>
         </ul>
       </div>
     </div>
@@ -1618,7 +1701,7 @@ img { max-width: 100%; display: block; }
       <div class="footer-bottom-links">
         <a href="https://alphanet.global/" target="_blank" rel="noopener">Privacy</a>
         <a href="https://alphanet.global/" target="_blank" rel="noopener">Terms</a>
-        <a href="https://alphanet.global" target="_blank" rel="noopener">alphanet.global</a>
+        <a href="https://alphanet.global/" target="_blank" rel="noopener">alphanet.global</a>
       </div>
     </div>
   </div>
@@ -1785,6 +1868,34 @@ if (mobileToggle) {
     navLinks.style.background = 'var(--bg-primary)';
     navLinks.style.padding = '16px';
     navLinks.style.borderBottom = '1px solid var(--border-subtle)';
+  });
+}
+
+// ============================================
+// NAV DROPDOWN (Resources)
+// ============================================
+const navDropdown = document.getElementById('nav-dropdown');
+const navDropdownTrigger = navDropdown?.querySelector('.nav-dropdown-trigger');
+if (navDropdownTrigger) {
+  navDropdownTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = navDropdown.classList.toggle('open');
+    navDropdownTrigger.setAttribute('aria-expanded', open);
+  });
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (!navDropdown.contains(e.target)) {
+      navDropdown.classList.remove('open');
+      navDropdownTrigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+  // Close on Esc
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navDropdown.classList.contains('open')) {
+      navDropdown.classList.remove('open');
+      navDropdownTrigger.setAttribute('aria-expanded', 'false');
+      navDropdownTrigger.focus();
+    }
   });
 }
 

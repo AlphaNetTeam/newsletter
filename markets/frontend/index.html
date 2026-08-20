@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Static fallback for pre-JS paint / non-JS crawlers, matching the
+         default initial symbol (BTC, a crypto asset) — StrategyPage.tsx
+         overwrites both of these client-side to match whatever symbol is
+         actually selected (see utils/seo.ts). Since this is a client-only
+         SPA (no SSR), a crawler that doesn't execute JS only ever sees
+         this static version, not the per-symbol dynamic one. -->
+    <title>AlphaNet | Crypto Trading Strategies</title>
+    <meta
+      name="description"
+      content="AlphaNet is an AI quantitative trading platform with live-tracked crypto trading strategies for BTC, ETH, SOL and more — real ROI, Sharpe ratio and drawdown."
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

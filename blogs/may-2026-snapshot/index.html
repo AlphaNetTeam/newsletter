@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlphaNet | May 2026 Snapshot</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+        --bg: #000000;
+        --bg-panel: #0a0a0a;
+        --bg-elevated: #111111;
+        --border: #222222;
+        --border-light: #333333;
+        --text: #e8e8e8;
+        --text-secondary: #999999;
+        --text-tertiary: #666666;
+        --accent-blue: #2979ff;
+        --accent-yellow: #ffb300;
+        --accent-green: #00c853;
+        --accent-red: #ff1744;
+        --line: rgba(255,255,255,.08);
+        --line2: rgba(255,255,255,.14);
+        --muted: #9b9ba7;
+        --dim: #6d6d78;
+        --green: #3ef0b6;
+        --green-dim: rgba(62,240,182,.12);
+        --font-mono: 'SF Mono', 'Fira Code', 'Consolas', 'Monaco', monospace;
+        --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ── Header Bar ── */
+        .top-bar {
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .top-bar-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .top-bar-brand {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: var(--text);
+        }
+        .top-bar-brand span {
+            color: var(--accent-blue);
+        }
+        .top-bar-meta {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-tertiary);
+            letter-spacing: 1px;
+        }
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .top-bar-nav a {
+            font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+            letter-spacing: 0.16em; text-transform: uppercase;
+            color: var(--muted); text-decoration: none;
+            border: 1px solid var(--line2); border-radius: 2px;
+            padding: 7px 14px; transition: color .2s, border-color .2s, background .2s;
+            white-space: nowrap;
+        }
+        .top-bar-nav a:hover { color: var(--green); border-color: rgba(62,240,182,.5); background: var(--green-dim); }
+
+        /* ── Masthead ── */
+        .masthead {
+            border-bottom: 1px solid var(--border);
+            padding: 40px 0 32px;
+        }
+        .masthead-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-yellow);
+            margin-bottom: 16px;
+        }
+        .masthead h1 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+        .masthead p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            max-width: 680px;
+            line-height: 1.65;
+        }
+
+        /* ── Ticker Bar ── */
+        .ticker-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .ticker-cell {
+            background: var(--bg);
+            padding: 18px 20px;
+        }
+        .ticker-label {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .ticker-value {
+            font-family: var(--font-mono);
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .ticker-value.green { color: var(--accent-green); }
+        .ticker-value.blue { color: var(--accent-blue); }
+        .ticker-value.yellow { color: var(--accent-yellow); }
+        .ticker-note {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-tertiary);
+            margin-top: 4px;
+        }
+
+        /* ── Section Headers ── */
+        .section {
+            margin-bottom: 48px;
+        }
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 16px;
+            padding: 28px 0 16px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 24px;
+        }
+        .section-tag {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            white-space: nowrap;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: -0.3px;
+        }
+
+        /* ── Strategy Grid ── */
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--border);
+        }
+        .strategy-card {
+            background: var(--bg-panel);
+            padding: 24px;
+            transition: background 0.15s;
+        }
+        .strategy-card:hover {
+            background: var(--bg-elevated);
+        }
+        .strategy-card.featured {
+            background: #0d1117;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+        .strategy-engine {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .strategy-pair {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            margin-top: 2px;
+        }
+        .may-return {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+        .card-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+        .metric-label {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+        .metric-value {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* ── Tables ── */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-mono);
+            font-size: 12px;
+        }
+        .data-table thead th {
+            background: var(--bg-panel);
+            padding: 12px 14px;
+            text-align: left;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-light);
+            border-top: 1px solid var(--border);
+        }
+        .data-table tbody td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        .data-table tbody tr:hover td {
+            background: var(--bg-panel);
+            color: var(--text);
+        }
+        .data-table .col-name {
+            color: var(--text);
+            font-weight: 600;
+        }
+        .col-return { color: var(--accent-green); font-weight: 600; }
+        .col-sharpe { color: var(--accent-blue); }
+        .col-dd { color: var(--accent-yellow); }
+
+        /* ── Info Blocks ── */
+        .info-block {
+            background: var(--bg-panel);
+            border-left: 2px solid var(--accent-blue);
+            padding: 20px 24px;
+            margin: 16px 0;
+        }
+        .info-block.yellow { border-left-color: var(--accent-yellow); }
+        .info-block.green { border-left-color: var(--accent-green); }
+        .info-title {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-tertiary);
+            margin-bottom: 8px;
+        }
+        .info-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ── Engine Section ── */
+        .engine-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--border);
+        }
+        .engine-card {
+            background: var(--bg-panel);
+            padding: 24px;
+        }
+        .engine-card.full {
+            grid-column: 1 / -1;
+        }
+        .engine-card-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+        .engine-card-text {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .code-block {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 14px 16px;
+            margin-top: 12px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        .param-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+            margin-top: 12px;
+        }
+        .param-cell {
+            background: var(--bg);
+            padding: 14px;
+            text-align: center;
+        }
+        .param-val {
+            font-family: var(--font-mono);
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent-blue);
+        }
+        .param-lbl {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+
+        /* ── Variants ── */
+        .variant-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+        }
+        .variant-cell {
+            background: var(--bg-panel);
+            padding: 20px;
+        }
+        .variant-name {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .variant-prime { color: var(--accent-blue); }
+        .variant-trend { color: var(--accent-green); }
+        .variant-short { color: var(--accent-yellow); }
+        .variant-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ── Bullet List ── */
+        .term-list {
+            list-style: none;
+            padding: 0;
+        }
+        .term-list li {
+            padding: 10px 0 10px 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+        .term-list li:last-child { border-bottom: none; }
+        .term-list li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+            font-family: var(--font-mono);
+            font-weight: 600;
+        }
+
+        /* ── Footer ── */
+        footer{border-top:1px solid var(--line);padding:44px 0 56px;margin-top:24px}
+        footer .f-top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+        footer img{height:16px;opacity:.8}
+        footer .follow{border-left:2px solid var(--green);padding:4px 0 4px 24px;margin:0 0 32px;display:flex;justify-content:space-between;align-items:center;gap:14px 24px;flex-wrap:wrap}
+        footer .follow .ft{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--muted)}
+        footer .follow .ft em{font-style:normal;color:var(--green);font-weight:700}
+        footer .follow .links{display:flex;gap:8px;flex-wrap:wrap}
+        footer .follow .links a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--line2);border-radius:2px;padding:7px 14px;transition:all .2s}
+        footer .follow .links a:hover{color:var(--green);border-color:var(--green)}
+        footer .disc{font-size:12px;line-height:1.7;color:var(--dim);max-width:760px}
+
+        /* ── Responsive ── */
+        @media (max-width: 640px) {
+            .strategy-grid { grid-template-columns: 1fr; }
+            .ticker-bar { grid-template-columns: repeat(2, 1fr); }
+            .engine-grid { grid-template-columns: 1fr; }
+            .variant-grid { grid-template-columns: 1fr; }
+            .param-grid { grid-template-columns: repeat(2, 1fr); }
+            .metrics-row { grid-template-columns: repeat(2, 1fr); }
+            .masthead h1 { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <img src="https://alphanet.global/assets/logo-Bx0-plbv.webp" alt="AlphaNet" style="height: 22px; width: auto;">
+            <div class="top-bar-right">
+                <div class="top-bar-meta">MAY 2026 SNAPSHOT // UPDATED 06.02.2026</div>
+                <div class="top-bar-nav"><a href="https://alphanet.global/blog" rel="noopener">BLOG</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- Masthead -->
+        <div class="masthead">
+            <div class="masthead-label">Monthly Update</div>
+            <h1>May in a Snapshot</h1>
+            <p>A monthly update covering Hackworth Series strategy performance in May, a deep-dive spotlight on six strategy-and-pair combinations, and a technical overview of the engine powering the results. All six spotlight strategies posted positive returns, with Prime ZEC leading at +20.3%.</p>
+        </div>
+
+        <!-- Ticker Bar -->
+        <div class="ticker-bar">
+            <div class="ticker-cell">
+                <div class="ticker-label">Prime ZEC</div>
+                <div class="ticker-value green">+20.3%</div>
+                <div class="ticker-note">May return</div>
+            </div>
+            <div class="ticker-cell">
+                <div class="ticker-label">Total May Trades</div>
+                <div class="ticker-value blue">~1,050</div>
+                <div class="ticker-note">Across spotlight strategies</div>
+            </div>
+            <div class="ticker-cell">
+                <div class="ticker-label">Highest Sharpe</div>
+                <div class="ticker-value yellow">3.52</div>
+                <div class="ticker-note">OptimaShort BNB</div>
+            </div>
+            <div class="ticker-cell">
+                <div class="ticker-label">Spotlight Strategies</div>
+                <div class="ticker-value">6 / 6</div>
+                <div class="ticker-note">Positive in May</div>
+            </div>
+        </div>
+
+        <!-- STRATEGY SPOTLIGHT -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-tag">01 // Spotlight</div>
+                <div class="section-title">Strategy Deep-Dive: Six Combinations</div>
+            </div>
+
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
+                Below is a focused analysis of six strategy-and-pair combinations selected for deep-dive review this month. These spotlights showcase the breadth of the Hackworth Series across two engine variants (Prime, OptimaShort) and four assets (ZEC, BNB, XMR, LINK). Metrics include all-time performance and May trade counts tallied from transaction logs.
+            </p>
+
+            <div class="strategy-grid">
+                <div class="strategy-card featured">
+                    <div class="card-header">
+                        <div>
+                            <div class="strategy-engine">Hackworth Prime</div>
+                            <div class="strategy-pair">PERP_ZEC_USDC</div>
+                        </div>
+                        <div class="may-return">+20.3%</div>
+                    </div>
+                    <div class="card-desc">Standout performer. ZEC's elevated intraday volatility provided rich alpha capture across the multi-alpha ensemble. ~210 trades executed in May.</div>
+                    <div class="metrics-row">
+                        <div>
+                            <div class="metric-label">All-Time ROI</div>
+                            <div class="metric-value">7,110%</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">May Trades</div>
+                            <div class="metric-value">~210</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Sharpe</div>
+                            <div class="metric-value">2.69</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Max DD</div>
+                            <div class="metric-value">42.73%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="strategy-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="strategy-engine">Hackworth OptimaShort</div>
+                            <div class="strategy-pair">PERP_XMR_USDC</div>
+                        </div>
+                        <div class="may-return">+8.8%</div>
+                    </div>
+                    <div class="card-desc">Short-bias variant outperformed Prime on XMR by 220 bps. Choppy range action with false breakouts favored mean-reversion alphas. ~150 trades in May.</div>
+                    <div class="metrics-row">
+                        <div>
+                            <div class="metric-label">All-Time ROI</div>
+                            <div class="metric-value">860%</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">May Trades</div>
+                            <div class="metric-value">~150</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Sharpe</div>
+                            <div class="metric-value">2.52</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Max DD</div>
+                            <div class="metric-value">35.30%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="strategy-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="strategy-engine">Hackworth Prime</div>
+                            <div class="strategy-pair">PERP_BNB_USDC</div>
+                        </div>
+                        <div class="may-return">+8.3%</div>
+                    </div>
+                    <div class="card-desc">Range-bound BNB suited Prime's balanced approach. Captured both breakout and mean-reversion signals without excessive directional risk. ~200 trades.</div>
+                    <div class="metrics-row">
+                        <div>
+                            <div class="metric-label">All-Time ROI</div>
+                            <div class="metric-value">522%</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">May Trades</div>
+                            <div class="metric-value">~200</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Sharpe</div>
+                            <div class="metric-value">2.73</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Max DD</div>
+                            <div class="metric-value">23.10%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="strategy-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="strategy-engine">Hackworth Prime</div>
+                            <div class="strategy-pair">PERP_XMR_USDC</div>
+                        </div>
+                        <div class="may-return">+6.7%</div>
+                    </div>
+                    <div class="card-desc">+6.7% achieved with only 17.54% average net exposure. Low-stress capital utilization through selective, high-conviction multi-alpha entries. ~150 trades.</div>
+                    <div class="metrics-row">
+                        <div>
+                            <div class="metric-label">All-Time ROI</div>
+                            <div class="metric-value">1,290%</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">May Trades</div>
+                            <div class="metric-value">~150</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Sharpe</div>
+                            <div class="metric-value">1.70</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Max DD</div>
+                            <div class="metric-value">37.43%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="strategy-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="strategy-engine">Hackworth OptimaShort</div>
+                            <div class="strategy-pair">PERP_BNB_USDC</div>
+                        </div>
+                        <div class="may-return">+5.8%</div>
+                    </div>
+                    <div class="card-desc">Defensive posture delivered +5.8% with the highest Sharpe in the spotlight set (3.52). Lowest max drawdown across all Hackworth variants at 13.99%. ~200 trades.</div>
+                    <div class="metrics-row">
+                        <div>
+                            <div class="metric-label">All-Time ROI</div>
+                            <div class="metric-value">556%</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">May Trades</div>
+                            <div class="metric-value">~200</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Sharpe</div>
+                            <div class="metric-value">3.52</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Max DD</div>
+                            <div class="metric-value">13.99%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="strategy-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="strategy-engine">Hackworth OptimaShort</div>
+                            <div class="strategy-pair">PERP_LINK_USDC</div>
+                        </div>
+                        <div class="may-return">+3.1%</div>
+                    </div>
+                    <div class="card-desc">Most conservative spotlight return. Lower LINK volatility translated to steady, defensive accumulation with minimal stress on the equity curve. ~140 trades.</div>
+                    <div class="metrics-row">
+                        <div>
+                            <div class="metric-label">All-Time ROI</div>
+                            <div class="metric-value">837%</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">May Trades</div>
+                            <div class="metric-value">~140</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Sharpe</div>
+                            <div class="metric-value">2.60</div>
+                        </div>
+                        <div>
+                            <div class="metric-label">Max DD</div>
+                            <div class="metric-value">22.42%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- METRICS TABLE -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-tag">02 // Metrics</div>
+                <div class="section-title">Spotlight Strategy Comparison</div>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Strategy</th>
+                        <th>May Rtn</th>
+                        <th>May Trades</th>
+                        <th>All-Time ROI</th>
+                        <th>Sharpe</th>
+                        <th>Max DD</th>
+                        <th>Win Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-name">Prime &mdash; ZEC</td>
+                        <td class="col-return">+20.3%</td>
+                        <td>~210</td>
+                        <td>7,110%</td>
+                        <td class="col-sharpe">2.69</td>
+                        <td class="col-dd">42.73%</td>
+                        <td>45.48%</td>
+                    </tr>
+                    <tr>
+                        <td class="col-name">OptimaShort &mdash; XMR</td>
+                        <td class="col-return">+8.8%</td>
+                        <td>~150</td>
+                        <td>860%</td>
+                        <td class="col-sharpe">2.52</td>
+                        <td class="col-dd">35.30%</td>
+                        <td>51.46%</td>
+                    </tr>
+                    <tr>
+                        <td class="col-name">Prime &mdash; BNB</td>
+                        <td class="col-return">+8.3%</td>
+                        <td>~200</td>
+                        <td>522%</td>
+                        <td class="col-sharpe">2.73</td>
+                        <td class="col-dd">23.10%</td>
+                        <td>51.73%</td>
+                    </tr>
+                    <tr>
+                        <td class="col-name">Prime &mdash; XMR</td>
+                        <td class="col-return">+6.7%</td>
+                        <td>~150</td>
+                        <td>1,290%</td>
+                        <td class="col-sharpe">1.70</td>
+                        <td class="col-dd">37.43%</td>
+                        <td>52.48%</td>
+                    </tr>
+                    <tr>
+                        <td class="col-name">OptimaShort &mdash; BNB</td>
+                        <td class="col-return">+5.8%</td>
+                        <td>~200</td>
+                        <td>556%</td>
+                        <td class="col-sharpe">3.52</td>
+                        <td class="col-dd">13.99%</td>
+                        <td>51.73%</td>
+                    </tr>
+                    <tr>
+                        <td class="col-name">OptimaShort &mdash; LINK</td>
+                        <td class="col-return">+3.1%</td>
+                        <td>~140</td>
+                        <td>837%</td>
+                        <td class="col-sharpe">2.60</td>
+                        <td class="col-dd">22.42%</td>
+                        <td>51.08%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TRADING ACTIVITY -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-tag">03 // Activity</div>
+                <div class="section-title">May Trading Activity</div>
+            </div>
+
+            <div class="info-block">
+                <div class="info-title">Total Volume</div>
+                <div style="font-family: var(--font-mono); font-size: 28px; font-weight: 600; color: var(--text); margin-bottom: 8px;">~1,050 <span style="font-size: 13px; color: var(--text-tertiary); font-weight: 400;">trades across spotlight strategies</span></div>
+                <div class="info-text">Trade counts estimated from transaction logs under the Trades tab using a 1-month lookback (10 entries per page). Prime ZEC logged the highest activity at ~210 trades, consistent with the asset's elevated volatility. OptimaShort LINK was lowest at ~140, reflecting LINK's calmer price action and the variant's lower-frequency mean-reversion style.</div>
+            </div>
+        </div>
+
+        <!-- BEHAVIOR ANALYSIS -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-tag">04 // Analysis</div>
+                <div class="section-title">Trading Behavior in May</div>
+            </div>
+
+            <div class="info-block green">
+                <div class="info-title">ZEC &mdash; Volatility Capture</div>
+                <div class="info-text">Prime ZEC executed ~210 BUY/SELL rotations, capitalizing on sharp intraday swings. Average winning trade (3.83%) versus average loss (-2.21%) produced an asymmetric 1.73x payoff ratio. The 27.15% average net exposure kept the strategy nimble &mdash; enough participation to capture meaningful alpha, low enough to exit quickly on reversals.</div>
+            </div>
+
+            <div class="info-block">
+                <div class="info-title">XMR &mdash; Variant Divergence</div>
+                <div class="info-text">OptimaShort XMR (+8.8%) outperformed Prime XMR (+6.7%) by 220 bps. XMR's choppy range with repeated false breakouts created ideal conditions for OptimaShort's short-biased mean-reversion overlay. The variant actively added shorts at local highs and covered into support, cycling positions rapidly. Prime's more balanced 17.54% net exposure delivered steadier but smaller gains.</div>
+            </div>
+
+            <div class="info-block yellow">
+                <div class="info-title">BNB &mdash; Range Efficiency</div>
+                <div class="info-text">Both Prime (+8.3%) and OptimaShort (+5.8%) posted positive returns on BNB, but Prime's balanced multi-alpha approach captured more of the two-sided range action. OptimaShort's defensive short-bias missed some bullish reversals but produced a superior Sharpe (3.52 vs 2.73) through smoother equity progression.</div>
+            </div>
+
+            <div class="info-block">
+                <div class="info-title">LINK &mdash; Defensive Accumulation</div>
+                <div class="info-text">LINK's subdued volatility in May resulted in OptimaShort's most conservative spotlight return (+3.1%) but with the calmest drawdown profile. ~140 trades at lower position sizes accumulated steady edge without stressing the portfolio. The 22.42% historical max drawdown reflects the strategy's conservative risk architecture.</div>
+            </div>
+        </div>
+
+        <!-- HACKWORTH ENGINE -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-tag">05 // Engine</div>
+                <div class="section-title">Hackworth Series: Technical Specifications</div>
+            </div>
+
+            <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
+                The Hackworth Series is AlphaNet's flagship quantitative engine. It is not a single model but an ensemble orchestration layer that combines up to 20 distinct alpha signals &mdash; each produced by its own specialized deep learning model &mdash; into one unified, dynamically hedged portfolio. Below is an overview of the architecture, data pipeline, search methodology, and trading mechanics.
+            </p>
+
+            <div class="engine-grid">
+                <div class="engine-card full">
+                    <div class="engine-card-title">Model-Agnostic Architecture</div>
+                    <div class="engine-card-text">The engine runs a heterogeneous ensemble of deep learning model families, dynamically weighted by a model router that allocates compute based on prevailing market entropy:</div>
+                    <div class="param-grid">
+                        <div class="param-cell">
+                            <div class="param-val">TF</div>
+                            <div class="param-lbl">Transformers</div>
+                        </div>
+                        <div class="param-cell">
+                            <div class="param-val">LS</div>
+                            <div class="param-lbl">LSTM</div>
+                        </div>
+                        <div class="param-cell">
+                            <div class="param-val">GR</div>
+                            <div class="param-lbl">GRU</div>
+                        </div>
+                        <div class="param-cell">
+                            <div class="param-val">CN</div>
+                            <div class="param-lbl">CNN</div>
+                        </div>
+                    </div>
+                    <div class="engine-card-text" style="margin-top: 14px;">Transformers handle long-range regime context. LSTM/GRU variants model sequential momentum and trend persistence. CNN extractors identify local microstructure patterns &mdash; support/resistance clusters, order book imbalance artifacts. The router shifts weight in real-time as market conditions change.</div>
+                </div>
+
+                <div class="engine-card">
+                    <div class="engine-card-title">Data Pipeline</div>
+                    <div class="engine-card-text">Multi-modal ingestion processing ~50,000 data points per minute per pair:</div>
+                    <div class="code-block">
+Price &amp; Volume (L1/L2 OHLCV)
+Order Book (bid/ask depth, imbalance)
+Funding &amp; Open Interest (perps)
+Cross-Market Correlation (10+ pairs)
+On-Chain Flows (exchange in/out)
+Volatility Surface (realized / implied)
+                    </div>
+                    <div class="engine-card-text" style="margin-top: 10px;">Features are normalized through adaptive z-scoring with rolling windows that auto-adjust to regime volatility.</div>
+                </div>
+
+                <div class="engine-card">
+                    <div class="engine-card-title">Smart Parameter Search</div>
+                    <div class="engine-card-text">Rather than brute-force enumeration, Hackworth uses an intelligent genetic algorithm with early stopping to navigate a high-dimensional configuration space. The search covers:</div>
+                    <div class="code-block">
+Model Architectures:
+  Transformer, LSTM, GRU, CNN,
+  CNN-Transformer hybrid, Autoencoder,
+  Attention-only, Gated residual variants
+
+Prediction Horizons:
+  1H, 2H, 4H, 8H, 12H, 1D, 3D, 7D
+
+Feature & Dataset Combinations:
+  256 subsets across price, volume,
+  order book, funding, on-chain,
+  cross-market, volatility surface
+
+Signal Mechanisms:
+  Threshold crossing, z-score mean reversion,
+  momentum breakout, volatility expansion,
+  pattern completion, flow divergence
+
+Trading Layer Config:
+  Position sizing (8 risk models),
+  Entry/exit logic (64 threshold combos),
+  Ensemble weighting (16 schemes),
+  Drawdown circuit breaker levels
+                    </div>
+                    <div class="engine-card-text" style="margin-top: 10px;">The smart search prunes 99.7% of candidates before full backtesting, surfacing high-probability configurations without exhaustive computation.</div>
+                </div>
+
+                <div class="engine-card full">
+                    <div class="engine-card-title">Dynamic Trading Rules</div>
+                    <div class="engine-card-text">A meta-learning controller adjusts trading rules in real-time through four integrated mechanisms:</div>
+                    <ul class="term-list">
+                        <li><strong style="color: var(--text);">Regime Detection:</strong> Proprietary unsupervised learning model classifies market regime across multiple dimensions: trend strength, entropy, volatility, macro correlation, and volume profile. This multi-factor classification enables finer-grained adaptation than single-signal approaches</li>
+                        <li><strong style="color: var(--text);">Alpha Selector:</strong> Re-weights the 20 constituent alphas based on regime &mdash; trend alphas ramp in directional markets, mean-reversion alphas dominate in ranges</li>
+                        <li><strong style="color: var(--text);">Kelly Sizing:</strong> Fractional Kelly criterion with drawdown circuit breakers; max single-trade risk capped at 2%</li>
+                        <li><strong style="color: var(--text);">Correlation Hedge:</strong> When inter-alpha correlation exceeds 0.4, exposure is reduced automatically to prevent cluster risk</li>
+                    </ul>
+                </div>
+
+                <div class="engine-card full">
+                    <div class="engine-card-title">Multi-Alpha Composition: 20 Distinct Strategies</div>
+                    <div class="engine-card-text">Each "alpha" is a complete, independently trained deep learning strategy with its own pipeline, architecture, and signal generator. They are trained on different horizons, features, and objectives to ensure low cross-correlation (target &lt;0.15 pairwise):</div>
+                    <div class="code-block">
+Alpha 01-05:  Momentum / Trend Following (LSTM/GRU)
+Alpha 06-10:  Mean Reversion (CNN + Transformer)
+Alpha 11-14:  Volatility Expansion (autoencoder anomaly)
+Alpha 15-17:  Cross-Market Arbitrage (correlation break)
+Alpha 18-20:  Microstructure (order book, flow prediction)
+                    </div>
+                    <div class="engine-card-text" style="margin-top: 14px;">The ensemble layer combines all 20 signals via a learned attention mechanism that adapts to which alpha types are performing best in the current regime. When one alpha class underperforms, others typically compensate, producing smoother equity curves than any single-strategy approach.</div>
+                </div>
+
+                <div class="engine-card">
+                    <div class="engine-card-title">Online Training</div>
+                    <div class="engine-card-text">Models update every 4 hours via continual learning with Elastic Weight Consolidation (EWC), preventing catastrophic forgetting while adapting to evolving microstructure. All updates are validated in a shadow sandbox before production promotion.</div>
+                </div>
+
+                <div class="engine-card">
+                    <div class="engine-card-title">Risk Control Layer</div>
+                    <div class="engine-card-text">A dedicated risk network monitors portfolio heat: gross exposure (max 130%), net exposure (variant-dependent 17-32%), daily drawdown circuit breakers (-5% reduce, -10% halt), and VaR-based dynamic leverage scaling.</div>
+                </div>
+            </div>
+
+            <!-- Variants -->
+            <div style="margin-top: 24px;">
+                <div class="section-header" style="padding-top: 0;">
+                    <div class="section-tag"></div>
+                    <div class="section-title" style="font-size: 14px;">Three Engine Variants</div>
+                </div>
+                <div class="variant-grid">
+                    <div class="variant-cell">
+                        <div class="variant-name variant-prime">Hackworth Prime</div>
+                        <div class="variant-desc">Balanced flagship. ~25% directional exposure, relatively equal across all 20 alphas. Captures fat-tails in all regimes. General deployment default.</div>
+                    </div>
+                    <div class="variant-cell">
+                        <div class="variant-name variant-trend">Hackworth Trend</div>
+                        <div class="variant-desc">Long-bias, fat-tail heavy. Maximum returns in uptrends with reduced but maintained short exposure. Deploy in directional markets.</div>
+                    </div>
+                    <div class="variant-cell">
+                        <div class="variant-name variant-short">Hackworth OptimaShort</div>
+                        <div class="variant-desc">Mean-reversion and short-bias heavy. Most risk-averse variant. Lower returns, smaller drawdowns. Excels in choppy conditions.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAKEAWAYS -->
+        <div class="section">
+            <div class="section-header">
+                <div class="section-tag">06 // Summary</div>
+                <div class="section-title">May Snapshot: Key Points</div>
+            </div>
+
+            <ul class="term-list">
+                <li>All six spotlight strategies posted positive May returns, led by Prime ZEC at +20.3%</li>
+                <li>~1,050 total trades executed across the spotlight set, tallied from transaction logs</li>
+                <li>ZEC's volatility provided rich alpha; the multi-alpha ensemble extracted value through 210+ rotations</li>
+                <li>OptimaShort XMR (+8.8%) outperformed Prime XMR (+6.7%) by 220 bps in choppy range conditions</li>
+                <li>OptimaShort BNB achieved the highest Sharpe (3.52) with the lowest max drawdown (13.99%)</li>
+                <li>No spotlight strategy approached its historical max drawdown during May</li>
+                <li>Dynamic regime detection and 20-alpha ensemble reallocation enabled consistent risk-adjusted returns across diverse market conditions</li>
+            </ul>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+          <div class="container">
+            <div class="f-top">
+              <img src="https://alphanet.global/assets/logo-Bx0-plbv.webp" alt="AlphaNet">
+            </div>
+            <div class="follow">
+              <div class="ft">Follow us to get <em>early access</em> to our new product releases.</div>
+              <div class="links">
+                <a href="https://alphanet.global/" target="_blank" rel="noopener">Website</a>
+                <a href="https://x.com/AlphaNet_AI" target="_blank" rel="noopener">X</a>
+                <a href="https://t.me/AlphaNet_AI" target="_blank" rel="noopener">Telegram</a>
+              </div>
+            </div>
+            <p class="disc">Not investment advice. Trading involves substantial risk of loss. Past performance does not guarantee future results. All trading signals and strategy data shown are generated by artificial intelligence models and may contain errors, omissions, or latency. AlphaNet does not guarantee the accuracy, completeness, or timeliness of any information provided. Users should conduct their own due diligence and consult with a qualified financial advisor before making any investment decisions. Cryptocurrency products referenced are not FDIC or SIPC insured. Certain strategies and performance metrics may be backtested or simulated using historical data and assumptions; actual trading results may differ materially. AlphaNet may hold positions in assets discussed. Use of this report constitutes acceptance of our Terms of Service.</p>
+          </div>
+        </footer>
+
+    </div>
+</body>
+</html>

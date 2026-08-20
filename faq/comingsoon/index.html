@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Optional: override subscription API (POST JSON { "email": "..." }) -->
+<meta name="subscribe-api" content="">
+<title>AlphaNet FAQ — Coming Soon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   DESIGN SYSTEM — AlphaNet Market Brief
+   ============================================ */
+:root {
+  /* Colors — matched to alphanet-info article pages */
+  --bg-base: #060608;
+  --bg-primary: #0b0b10;
+  --bg-secondary: #0e0e14;
+  --bg-surface: #0e0e14;
+  --bg-elevated: #141420;
+  --bg-hover: #181820;
+
+  --border-subtle: rgba(255,255,255,0.08);
+  --border-default: rgba(255,255,255,0.14);
+  --border-hover: rgba(255,255,255,0.22);
+
+  /* Button / accent colors — kept as-is per user request */
+  --accent: #60A5FA;
+  --accent-hover: #7DB8FC;
+  --accent-press: #3B82F6;
+  --accent-glow: rgba(96, 165, 250, 0.12);
+  --accent-soft: rgba(96, 165, 250, 0.08);
+
+  --success: #3ef0b6;
+  --success-soft: rgba(62,240,182,0.12);
+  --warning: #f0b34a;
+  --danger: #ff5470;
+
+  --text-primary: #ececf1;
+  --text-secondary: #9b9ba7;
+  --text-muted: #6d6d78;
+  --text-faint: #5a5a65;
+
+  /* Category Colors */
+  --cat-market: #60A5FA;
+  --cat-strategy: #3ef0b6;
+  --cat-product: #C084FC;
+
+  /* Typography — matched to article pages */
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Spacing — 4px base */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  /* Transitions */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.25s;
+
+  /* Layout */
+  --max-width: 1200px;
+  --gutter: 24px;
+}
+
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-base);
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 16px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input { font-family: inherit; }
+img { max-width: 100%; display: block; }
+
+::selection { background: var(--accent-glow); color: var(--accent-hover); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--border-default); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+
+/* ============================================
+   LAYOUT UTILITIES
+   ============================================ */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.section { padding: var(--space-24) 0; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(6, 6, 8, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: border-color var(--dur) var(--ease);
+}
+.nav-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+}
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+}
+.nav-logo-img {
+  height: 20px;
+  width: auto;
+  display: block;
+}
+.nav-logo-text { display: flex; flex-direction: column; line-height: 1.1; }
+.nav-logo-text small {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.nav-link:hover { color: var(--text-primary); background: var(--bg-surface); }
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--bg-base);
+  background: var(--accent);
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  transition: background var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.nav-cta:hover { background: var(--accent-hover); }
+.nav-cta:active { transform: scale(0.97); }
+
+.nav-mobile-toggle { display: none; }
+
+/* ============================================
+   BLOG PAGE HEADER (shared layout)
+   ============================================ */
+.blog-page {
+  padding-top: 120px;
+  padding-bottom: var(--space-16);
+}
+.blog-page-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-8);
+  align-items: start;
+  margin-bottom: var(--space-10);
+}
+.blog-page-header-left { min-width: 0; }
+.blog-page-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--text-primary);
+  margin-bottom: var(--space-4);
+}
+.blog-page-desc {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 600px;
+}
+.blog-header-follow {
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+/* ============================================
+   FOLLOW US SIDEBAR
+   ============================================ */
+.follow-section {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-6);
+}
+.follow-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+.follow-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.follow-icon-btn {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  transition: transform var(--dur) var(--ease), border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.follow-icon-btn svg { width: 18px; height: 18px; }
+.follow-icon-btn:hover { transform: translateY(-2px); }
+.follow-icon-btn.telegram { background: rgba(36, 161, 222, 0.15); color: #24A1DE; border-color: rgba(36, 161, 222, 0.25); }
+.follow-icon-btn.telegram:hover { background: rgba(36, 161, 222, 0.25); }
+.follow-icon-btn.x { background: rgba(255, 255, 255, 0.08); color: var(--text-primary); border-color: rgba(255, 255, 255, 0.15); }
+.follow-icon-btn.x:hover { background: rgba(255, 255, 255, 0.15); }
+.follow-icon-btn.medium { background: rgba(62,240,182, 0.12); color: var(--success); border-color: rgba(62,240,182, 0.2); }
+.follow-icon-btn.medium:hover { background: rgba(62,240,182, 0.2); }
+.follow-icon-btn.reddit { background: rgba(255, 86, 0, 0.12); color: #FF5600; border-color: rgba(255, 86, 0, 0.2); }
+.follow-icon-btn.reddit:hover { background: rgba(255, 86, 0, 0.2); }
+.follow-icon-btn.youtube { background: rgba(255, 0, 0, 0.12); color: #FF0000; border-color: rgba(255, 0, 0, 0.2); }
+.follow-icon-btn.youtube:hover { background: rgba(255, 0, 0, 0.2); }
+
+/* ============================================
+   SIDEBAR SECTIONS
+   ============================================ */
+.sidebar-section {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+}
+
+.sidebar-section-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+
+/* ============================================
+   COMING SOON
+   ============================================ */
+.coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-24) var(--space-8);
+  position: relative;
+  overflow: hidden;
+}
+.coming-soon::before {
+  content: '';
+  position: absolute;
+  top: -50px; left: 50%;
+  transform: translateX(-50%);
+  width: 700px; height: 400px;
+  background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 65%);
+  pointer-events: none;
+}
+.coming-soon-icon {
+  width: 80px;
+  height: 80px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  margin-bottom: var(--space-8);
+  position: relative;
+}
+.coming-soon-icon svg {
+  width: 36px;
+  height: 36px;
+  color: var(--accent);
+}
+.coming-soon-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--space-4);
+  position: relative;
+}
+.coming-soon-title {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text-primary);
+  margin-bottom: var(--space-5);
+  position: relative;
+}
+.coming-soon-desc {
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  max-width: 540px;
+  margin-bottom: var(--space-10);
+  position: relative;
+}
+.coming-soon-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+  padding: 12px 28px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(96, 165, 250, 0.25);
+  background: var(--accent-soft);
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), gap var(--dur) var(--ease);
+  position: relative;
+}
+.coming-soon-back:hover {
+  background: rgba(96, 165, 250, 0.14);
+  border-color: rgba(96, 165, 250, 0.35);
+  gap: 12px;
+}
+.coming-soon-back svg { width: 18px; height: 18px; }
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: var(--space-12) 0 var(--space-8);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: var(--space-8);
+  margin-bottom: var(--space-10);
+}
+.footer-brand .nav-logo { margin-bottom: var(--space-4); }
+.footer-brand .nav-logo-img { height: 20px; }
+.footer-brand p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 280px;
+  margin-bottom: var(--space-5);
+}
+.footer-follow {
+  display: flex;
+  gap: var(--space-3);
+}
+.footer-col h4 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+.footer-col ul { list-style: none; }
+.footer-col li { margin-bottom: var(--space-2); }
+.footer-col a {
+  font-size: 14px;
+  color: var(--text-secondary);
+  transition: color var(--dur) var(--ease);
+}
+.footer-col a:hover { color: var(--accent); }
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-subtle);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.footer-bottom-links { display: flex; gap: var(--space-5); }
+.footer-bottom-links a:hover { color: var(--text-secondary); }
+
+/* ============================================
+   NAV DROPDOWN (Resources)
+   ============================================ */
+.nav-dropdown {
+  position: relative;
+}
+.nav-dropdown-trigger {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.nav-dropdown-trigger:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface);
+}
+.nav-dropdown-arrow {
+  width: 14px; height: 14px;
+  transition: transform var(--dur) var(--ease);
+}
+.nav-dropdown.open .nav-dropdown-arrow { transform: rotate(180deg); }
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  padding: var(--space-2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity var(--dur) var(--ease), visibility var(--dur) var(--ease), transform var(--dur) var(--ease);
+  z-index: 110;
+}
+.nav-dropdown.open .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.nav-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  transition: color var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.nav-dropdown-item:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 968px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .blog-page-header { grid-template-columns: 1fr; }
+  .blog-header-follow { width: 100%; }
+  .follow-list { justify-content: flex-start; flex-wrap: wrap; }
+}
+
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .nav-mobile-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .blog-header-follow { width: 100%; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: var(--space-3); text-align: center; }
+  .coming-soon { padding: var(--space-16) var(--space-4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================ NAVIGATION ============================================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="https://alphanet.global/" class="nav-logo" style="cursor:pointer;">
+      <img src="../logo.png" alt="AlphaNet" class="nav-logo-img">
+    </a>
+    <div class="nav-links">
+      <a href="https://trade.alphanet.global" class="nav-link" target="_blank" rel="noopener">Launch Trading</a>
+      <div class="nav-dropdown" id="nav-dropdown">
+        <button class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
+          Resources
+          <svg class="nav-dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="nav-dropdown-menu">
+          <a href="https://alphanet.global/docs/whitepaper/" class="nav-dropdown-item" target="_blank" rel="noopener">Whitepaper</a>
+          <a href="https://alphanet.global/docs/guide/" class="nav-dropdown-item" target="_blank" rel="noopener">User Guide</a>
+          <a href="https://alphanet.global/docs/points/" class="nav-dropdown-item" target="_blank" rel="noopener">Points</a>
+        </div>
+      </div>
+    </div>
+    <button class="nav-mobile-toggle" aria-label="Menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ============================================ COMING SOON PAGE ============================================ -->
+<section class="blog-page">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="blog-page-header">
+      <div class="blog-page-header-left">
+        <h1 class="blog-page-title">FAQ</h1>
+        <p class="blog-page-desc">
+          Everything you need to know about AlphaNet — what it is, how it works, and how to get the most out of it.
+        </p>
+      </div>
+      <!-- Follow Us (parallel with title) -->
+      <div class="blog-header-follow">
+        <div class="sidebar-section follow-section">
+          <h3 class="sidebar-section-title">Follow Us</h3>
+          <div class="follow-list">
+            <a href="https://t.me/AlphaNet_AI" class="follow-icon-btn telegram" target="_blank" rel="noopener" aria-label="Telegram">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.009-1.252-.242-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            </a>
+            <a href="https://x.com/AlphaNet_AI" class="follow-icon-btn x" target="_blank" rel="noopener" aria-label="X (Twitter)">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="https://medium.com/@AlphaNet_AI" class="follow-icon-btn medium" target="_blank" rel="noopener" aria-label="Medium">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42z"/></svg>
+            </a>
+            <a href="https://www.reddit.com/user/AlphaNet_AI/" class="follow-icon-btn reddit" target="_blank" rel="noopener" aria-label="Reddit">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.07 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+            </a>
+            <a href="https://www.youtube.com/@alphanet.global" class="follow-icon-btn youtube" target="_blank" rel="noopener" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coming Soon Content -->
+    <div class="coming-soon">
+      <div class="coming-soon-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <span class="coming-soon-eyebrow">Stay Tuned</span>
+      <h2 class="coming-soon-title">Coming Soon</h2>
+      <p class="coming-soon-desc">
+        We're putting the finishing touches on this section. Our team is working hard to bring you comprehensive answers to all your AlphaNet questions. Check back shortly — the content will be available here soon.
+      </p>
+      <a href="../" class="coming-soon-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to FAQ
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ FOOTER ============================================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="https://alphanet.global/" class="nav-logo" style="cursor:pointer;">
+          <img src="../logo.png" alt="AlphaNet" class="nav-logo-img">
+        </a>
+        <p>Institutional-grade quantitative AI trading platform - redefining alpha and trading edge for retail.</p>
+        <div class="footer-follow">
+          <a href="https://t.me/AlphaNet_AI" class="follow-icon-btn telegram" target="_blank" rel="noopener" aria-label="Telegram">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.009-1.252-.242-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          </a>
+          <a href="https://x.com/AlphaNet_AI" class="follow-icon-btn x" target="_blank" rel="noopener" aria-label="X (Twitter)">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="https://medium.com/@AlphaNet_AI" class="follow-icon-btn medium" target="_blank" rel="noopener" aria-label="Medium">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42z"/></svg>
+          </a>
+          <a href="https://www.reddit.com/user/AlphaNet_AI/" class="follow-icon-btn reddit" target="_blank" rel="noopener" aria-label="Reddit">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.07 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@alphanet.global" class="follow-icon-btn youtube" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="https://trade.alphanet.global/" target="_blank" rel="noopener">Launch Trading</a></li>
+          <li><a href="https://trade.alphanet.global/strategies" target="_blank" rel="noopener">Strategy Marketplace</a></li>
+          <li><a href="https://trade.alphanet.global/leaderboard" target="_blank" rel="noopener">Leaderboard</a></li>
+          <li><a href="https://trade.alphanet.global/portfolio" target="_blank" rel="noopener">Portfolio</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://alphanet.global/docs/whitepaper/" target="_blank" rel="noopener">Whitepaper</a></li>
+          <li><a href="https://alphanet.global/docs/guide/" target="_blank" rel="noopener">User Guide</a></li>
+          <li><a href="https://alphanet.global/docs/points/" target="_blank" rel="noopener">Points</a></li>
+          <li><a href="https://alphanet.global/blog/" target="_blank" rel="noopener">Blog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Research</h4>
+        <ul>
+          <li><a href="https://alphanet.global" target="_blank" rel="noopener">Dynamic Factor Mining</a></li>
+          <li><a href="https://alphanet.global" target="_blank" rel="noopener">Algo Execution Systems</a></li>
+          <li><a href="https://alphanet.global" target="_blank" rel="noopener">Alpha Mining vs Deep Learning</a></li>
+          <li><a href="https://alphanet.global" target="_blank" rel="noopener">Agentic Strategy Selection</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 AlphaNet. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="https://alphanet.global/" target="_blank" rel="noopener">Privacy</a>
+        <a href="https://alphanet.global/" target="_blank" rel="noopener">Terms</a>
+        <a href="https://alphanet.global" target="_blank" rel="noopener">alphanet.global</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ============================================
+// NAV SCROLL EFFECT
+// ============================================
+const nav = document.querySelector('.nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 20) {
+    nav.style.borderBottomColor = 'var(--border-default)';
+  } else {
+    nav.style.borderBottomColor = 'var(--border-subtle)';
+  }
+});
+
+// ============================================
+// MOBILE MENU (simple toggle)
+// ============================================
+const mobileToggle = document.querySelector('.nav-mobile-toggle');
+const navLinks = document.querySelector('.nav-links');
+if (mobileToggle) {
+  mobileToggle.addEventListener('click', () => {
+    navLinks.style.display = navLinks.style.display === 'flex' ? '' : 'flex';
+    navLinks.style.flexDirection = 'column';
+    navLinks.style.position = 'absolute';
+    navLinks.style.top = '64px';
+    navLinks.style.left = '0';
+    navLinks.style.right = '0';
+    navLinks.style.background = 'var(--bg-primary)';
+    navLinks.style.padding = '16px';
+    navLinks.style.borderBottom = '1px solid var(--border-subtle)';
+  });
+}
+
+// ============================================
+// NAV DROPDOWN (Resources)
+// ============================================
+const navDropdown = document.getElementById('nav-dropdown');
+const navDropdownTrigger = navDropdown?.querySelector('.nav-dropdown-trigger');
+if (navDropdownTrigger) {
+  navDropdownTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = navDropdown.classList.toggle('open');
+    navDropdownTrigger.setAttribute('aria-expanded', open);
+  });
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (!navDropdown.contains(e.target)) {
+      navDropdown.classList.remove('open');
+      navDropdownTrigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+  // Close on Esc
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navDropdown.classList.contains('open')) {
+      navDropdown.classList.remove('open');
+      navDropdownTrigger.setAttribute('aria-expanded', 'false');
+      navDropdownTrigger.focus();
+    }
+  });
+}
+</script>
+
+</body>
+</html>

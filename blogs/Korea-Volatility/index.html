@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AlphaNet · Market Brief — Stop Trading Against Machines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#060608;
+    --surface:#0b0b10;
+    --surface2:#0e0e14;
+    --line:rgba(255,255,255,.08);
+    --line2:rgba(255,255,255,.14);
+    --text:#ececf1;
+    --muted:#9b9ba7;
+    --dim:#6d6d78;
+    --green:#3ef0b6;
+    --green-dim:rgba(62,240,182,.12);
+    --red:#ff5470;
+    --red-dim:rgba(255,84,112,.12);
+    --amber:#f0b34a;
+    --steel:#7d8496;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:17px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:rgba(62,240,182,.25)}
+  .mono{font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+  .wrap-wide{max-width:1160px;margin:0 auto;padding:0 24px}
+
+  /* ---------- header ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    background:rgba(6,6,8,.85);
+    backdrop-filter:blur(12px);
+    position:sticky;top:0;z-index:50;
+  }
+  .header-inner{
+    max-width:1160px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .header-logo{display:flex;align-items:center;gap:14px;text-decoration:none}
+  .header-logo img{height:20px;width:auto;display:block}
+  .header-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--dim);display:flex;align-items:center;gap:10px;
+  }
+  .header-meta .dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+  @media (max-width:640px){.header-meta .hm-text{display:none}}
+  .header-right{display:flex;align-items:center;gap:18px}
+  .header-btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);text-decoration:none;
+    border:1px solid var(--line2);border-radius:2px;
+    padding:7px 14px;transition:color .2s,border-color .2s,background .2s;
+    white-space:nowrap;
+  }
+  .header-btn:hover{color:var(--green);border-color:rgba(62,240,182,.5);background:var(--green-dim)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:88px 0 56px;border-bottom:1px solid var(--line)}
+  .kicker{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--green);display:flex;align-items:center;gap:12px;margin-bottom:28px;
+  }
+  .kicker::before{content:"";width:28px;height:1px;background:var(--green);display:inline-block}
+  h1{
+    font-size:clamp(38px,6.2vw,62px);
+    line-height:1.04;font-weight:800;letter-spacing:-.025em;margin-bottom:28px;
+  }
+  h1 .thin{color:var(--dim);font-weight:600}
+  .lede{font-size:clamp(18px,2.4vw,22px);line-height:1.55;color:var(--muted);max-width:720px;font-weight:500}
+  .lede strong{color:var(--text);font-weight:700}
+  .hero-stats{
+    display:flex;flex-wrap:wrap;gap:1px;background:var(--line);
+    border:1px solid var(--line);margin-top:52px;
+  }
+  .hero-stat{flex:1 1 180px;background:var(--bg);padding:20px 24px}
+  .hero-stat .v{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;letter-spacing:-.02em}
+  .hero-stat .v.red{color:var(--red)} .hero-stat .v.green{color:var(--green)} .hero-stat .v.amber{color:var(--amber)}
+  .hero-stat .k{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:6px;font-family:'JetBrains Mono',monospace}
+
+  /* ---------- article ---------- */
+  article{padding:64px 0 0}
+  .sec{margin-bottom:72px}
+  .sec-tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:12px;
+  }
+  .sec-tag .n{color:var(--green)}
+  h2{font-size:clamp(26px,3.6vw,34px);line-height:1.15;font-weight:800;letter-spacing:-.02em;margin-bottom:24px}
+  h3{font-size:19px;font-weight:700;letter-spacing:-.01em;margin:36px 0 12px}
+  p{margin-bottom:18px;color:#c9c9d2}
+  p strong, li strong{color:var(--text);font-weight:700}
+  p .hl-g{color:var(--green);font-weight:700}
+  p .hl-r{color:var(--red);font-weight:700}
+  p .hl-a{color:var(--amber);font-weight:700}
+  .pull{
+    border-left:2px solid var(--green);
+    padding:6px 0 6px 28px;margin:36px 0;
+    font-size:clamp(21px,3vw,26px);line-height:1.4;font-weight:700;letter-spacing:-.015em;color:var(--text);
+  }
+  .pull span{color:var(--dim)}
+  .rule{height:1px;background:var(--line);margin:56px 0}
+
+  /* ---------- failure cards ---------- */
+  .fails{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+  @media (max-width:760px){.fails{grid-template-columns:1fr}}
+  .fail{
+    background:var(--surface);border:1px solid var(--line);
+    padding:28px;position:relative;transition:border-color .25s;
+  }
+  .fail:hover{border-color:var(--line2)}
+  .fail .num{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;
+    color:var(--red);margin-bottom:16px;display:flex;align-items:center;gap:10px;
+  }
+  .fail .num::after{content:"";flex:1;height:1px;background:var(--line)}
+  .fail h4{font-size:18px;font-weight:750;line-height:1.35;margin-bottom:12px;letter-spacing:-.01em}
+  .fail p{font-size:14.5px;line-height:1.7;color:var(--muted);margin-bottom:12px}
+  .fail p:last-child{margin-bottom:0}
+  .fail .kickerline{
+    margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
+    font-size:13.5px;color:var(--text);font-weight:600;
+  }
+  .fail .kickerline em{font-style:normal;color:var(--red)}
+
+  /* ---------- engine cards ---------- */
+  .layers{display:flex;flex-direction:column;gap:14px;margin-top:32px}
+  .layer{
+    display:grid;grid-template-columns:64px 1fr;gap:0;
+    background:var(--surface);border:1px solid var(--line);overflow:hidden;
+  }
+  .layer .rail{
+    border-right:1px solid var(--line);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:8px;padding:20px 0;background:var(--surface2);
+  }
+  .layer .rail .ln{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--dim);writing-mode:vertical-rl;text-transform:uppercase}
+  .layer .rail .n{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--green)}
+  .layer .body{padding:24px 28px}
+  .layer h4{font-size:17px;font-weight:750;margin-bottom:8px;letter-spacing:-.01em}
+  .layer .plain{font-size:13px;font-family:'JetBrains Mono',monospace;color:var(--green);letter-spacing:.02em;margin-bottom:12px}
+  .layer p{font-size:14.5px;line-height:1.7;color:var(--muted);margin-bottom:10px}
+  .layer p:last-child{margin-bottom:0}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .chip{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;
+    border:1px solid var(--line2);color:var(--muted);padding:5px 10px;border-radius:2px;
+  }
+  .chip b{color:var(--text);font-weight:700}
+  @media (max-width:640px){.layer{grid-template-columns:44px 1fr}.layer .rail .ln{display:none}}
+
+  .formula{
+    background:#0a0f0d;border:1px solid rgba(62,240,182,.25);
+    font-family:'JetBrains Mono',monospace;font-size:clamp(13px,2.4vw,16px);
+    color:var(--green);padding:20px 24px;margin:28px 0;letter-spacing:.02em;
+    overflow-x:auto;white-space:nowrap;
+  }
+  .formula small{display:block;color:var(--dim);font-size:11px;margin-top:8px;letter-spacing:.08em;white-space:normal}
+
+  /* ---------- asymmetry table ---------- */
+  .dtable{width:100%;border-collapse:collapse;margin:28px 0;font-family:'JetBrains Mono',monospace;font-size:14px}
+  .dtable th{
+    text-align:left;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--dim);font-weight:500;padding:10px 14px;border-bottom:1px solid var(--line2);
+  }
+  .dtable td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--muted)}
+  .dtable td:first-child{color:var(--red);font-weight:700}
+  .dtable td:last-child{color:var(--green);font-weight:700}
+  .dtable tr:hover td{background:rgba(255,255,255,.02)}
+
+  /* ---------- charts ---------- */
+  .chart-sec{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:72px 0}
+  .chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px}
+  @media (max-width:920px){.chart-grid{grid-template-columns:1fr}}
+  .panel{
+    background:#08080c;border:1px solid var(--line);padding:24px;
+  }
+  .panel .p-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px}
+  .panel .p-title{font-size:15px;font-weight:750;letter-spacing:-.01em;line-height:1.35}
+  .panel .p-title .sub{display:block;font-size:11px;font-weight:500;color:var(--dim);margin-top:5px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase}
+  .badge{
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    padding:5px 9px;border-radius:2px;white-space:nowrap;
+  }
+  .badge.g{background:var(--green-dim);color:var(--green);border:1px solid rgba(62,240,182,.3)}
+  .badge.r{background:var(--red-dim);color:var(--red);border:1px solid rgba(255,84,112,.3)}
+  .legend{display:flex;flex-wrap:wrap;gap:16px;margin:14px 0 4px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+  .legend .li{display:flex;align-items:center;gap:7px}
+  .legend .sw{width:16px;height:2px;display:inline-block}
+  .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:18px}
+  .stat{background:#08080c;padding:14px 16px}
+  .stat .v{font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;letter-spacing:-.02em}
+  .stat .k{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:4px;font-family:'JetBrains Mono',monospace}
+  .stat .sub{font-size:10.5px;color:var(--dim);margin-top:2px;font-family:'JetBrains Mono',monospace}
+  .verdict{
+    margin-top:16px;padding:14px 18px;border-left:2px solid;font-size:14px;line-height:1.6;font-weight:600;
+  }
+  .verdict.g{border-color:var(--green);background:rgba(62,240,182,.05);color:var(--text)}
+  .verdict.r{border-color:var(--red);background:rgba(255,84,112,.05);color:var(--text)}
+  .verdict small{display:block;font-weight:400;color:var(--muted);margin-top:4px;font-size:12.5px}
+  .chart-note{
+    margin-top:24px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.7;
+    color:var(--dim);letter-spacing:.03em;
+  }
+  svg text{font-family:'JetBrains Mono',monospace}
+
+  /* ---------- feature strip ---------- */
+  .feats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+  @media (max-width:760px){.feats{grid-template-columns:1fr}}
+  .feat{border:1px solid var(--line);background:var(--surface);padding:26px}
+  .feat .ic{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;color:var(--amber);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .feat .ic::after{content:"";flex:1;height:1px;background:var(--line)}
+  .feat h4{font-size:17px;font-weight:750;margin-bottom:10px;letter-spacing:-.01em}
+  .feat p{font-size:14.5px;color:var(--muted);line-height:1.7;margin-bottom:0}
+
+  /* ---------- CTA / footer ---------- */
+  .cta{
+    border:1px solid rgba(62,240,182,.3);
+    background:linear-gradient(160deg,rgba(62,240,182,.07),rgba(62,240,182,.015) 55%,transparent);
+    padding:52px 44px;margin:64px 0;text-align:left;position:relative;overflow:hidden;
+  }
+  .cta h2{margin-bottom:14px}
+  .cta p{color:var(--muted);max-width:560px}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:12px;margin-top:28px;
+    font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:#04120c;background:var(--green);padding:16px 28px;text-decoration:none;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(62,240,182,.35)}
+  footer{border-top:1px solid var(--line);padding:44px 0 56px;margin-top:24px}
+  footer .f-top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+  footer img{height:16px;opacity:.8}
+  footer .disc{font-size:12px;line-height:1.7;color:var(--dim);max-width:760px}
+  footer .fm{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+  footer .follow{border-left:2px solid var(--green);padding:4px 0 4px 24px;margin:0 0 32px;display:flex;justify-content:space-between;align-items:center;gap:14px 24px;flex-wrap:wrap}
+  footer .follow .ft{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--muted)}
+  footer .follow .ft em{font-style:normal;color:var(--green);font-weight:700}
+  footer .follow .links{display:flex;gap:8px;flex-wrap:wrap}
+  footer .follow .links a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--line2);border-radius:2px;padding:7px 14px;transition:all .2s}
+  footer .follow .links a:hover{color:var(--green);border-color:var(--green)}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a class="header-logo" href="#"><img src="logo.png" alt="AlphaNet"></a>
+    <div class="header-right">
+      <div class="header-meta">
+        <span class="dot"></span>
+        <span class="hm-text">AlphaNet&nbsp;&nbsp;·&nbsp;&nbsp;Market Brief&nbsp;&nbsp;·&nbsp;&nbsp;July 2026</span>
+      </div>
+      <a class="header-btn" href="https://alphanet.global/blog">Blog</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="kicker">Market Brief · Korea Volatility Special</div>
+    <h1>Stop Trading Against Machines.<br><span class="thin">Start Trading With One.</span></h1>
+    <p class="lede">SK Hynix just taught retail a <strong>₩4 trillion</strong> lesson. AlphaNet is introducing the machine that makes sure you never pay it again.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="v red">−15%</div><div class="k">SK Hynix, single session</div></div>
+      <div class="hero-stat"><div class="v red">₩4.15T</div><div class="k">Retail sold at the lows</div></div>
+      <div class="hero-stat"><div class="v green">₩4.2T</div><div class="k">Institutions bought, same day</div></div>
+      <div class="hero-stat"><div class="v amber">7</div><div class="k">Circuit breakers this year</div></div>
+    </div>
+  </section>
+
+  <article>
+    <!-- ============ THE SETUP ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">01</span> The Setup</div>
+      <h2>Same prices, same day, same news. Opposite sides.</h2>
+      <p>On Monday, July 13, SK Hynix fell 15% in a single session — its worst day in nearly two decades. The KOSPI dropped nearly 9%. The exchange stopped trading entirely. It was the <strong>seventh circuit breaker Korea has triggered this year</strong>; in the previous twenty-five years combined, there were six.</p>
+      <p>Now look at what happened the next day, because this is the part that should make you angry.</p>
+      <p>Individual investors dumped <strong class="hl-r">₩4.15 trillion</strong> of Korean stock — one of the largest single-day retail sell-offs ever recorded in Seoul. Foreign and institutional investors bought <strong class="hl-g">₩4.2 trillion</strong> — concentrated in exactly the semiconductor names retail was dumping.</p>
+      <p>Read that again. Retail sold four trillion won at the lows. Institutions bought four trillion won from them — same prices, same day, same news on every screen.</p>
+      <div class="pull">Nobody had better information. <span>One side had better machinery.</span></div>
+    </section>
+
+    <!-- ============ YOU WERE RIGHT ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">02</span> The Trap</div>
+      <h2>You were right about SK Hynix. It didn't matter.</h2>
+      <p>Here's what makes this week genuinely painful: retail called the AI memory trade before most of Wall Street did. You saw HBM. You saw the shortage. You saw what SK Hynix was becoming — and the stock rose more than sixfold in a year.</p>
+      <p>Then two weeks of violence took it back. Not because the thesis broke. Because <strong>the tools retail is handed were never built to survive a market that moves like this.</strong></p>
+      <p>Four failures. All mechanical. None of them about intelligence.</p>
+
+      <div class="fails">
+        <div class="fail">
+          <div class="num">FAILURE 01</div>
+          <h4>No human holds through a 15% day.</h4>
+          <p>When your position is down 30% in two sessions and every number on your screen is red, the part of your brain making decisions is not the part that built your thesis. You sell to make it stop. Everyone does.</p>
+          <p>And then the trap closes: after capitulating, you don't have the capital — or the nerve — to get back in. On Tuesday, SK Hynix touched ₩1,678,000 in the morning panic and closed at ₩1,913,000 — a 14% recovery off the low in one session. The people who sold that morning didn't get the recovery. They just got the loss, made permanent.</p>
+          <div class="kickerline">Selling the bottom isn't a character flaw. <em>It's what happens when a human is asked to do a machine's job.</em></div>
+        </div>
+        <div class="fail">
+          <div class="num">FAILURE 02</div>
+          <h4>Leveraged ETFs are a machine for buying high and selling low. Every day. By contract.</h4>
+          <p>Funds listed in Seoul this May have lost nearly half their value — while the underlying stock is up massively on the year. One 2x SK Hynix product lost roughly a third of its value in a single day.</p>
+          <p>A 2x ETF promises twice the stock's move <em>each day</em> — not over your holding period. To keep that promise it rebalances every close: after an up day it buys more, after a down day it sells. Chasing strength, dumping weakness — automated, mandatory, and charging you a fee for the privilege. The decay scales with the <em>square of volatility</em>.</p>
+          <div class="kickerline">The fund didn't malfunction. <em>The fund is the loss.</em></div>
+        </div>
+        <div class="fail">
+          <div class="num">FAILURE 03</div>
+          <h4>Your stock now trades while you sleep.</h4>
+          <p>SK Hynix just raised $26.5 billion in the largest foreign debut in US history. Its ADRs trade on Nasdaq — at times a 25% premium to the same shares in Seoul. The AI headlines that move this stock break in American hours.</p>
+          <p>Which means the Korean investor wakes up to a decision already made. The gap happened at 3am. The move is over. You're no longer trading the market — you're trading the aftermath of a market that ran all night without you.</p>
+          <div class="kickerline">Price discovery went global and 24/5. <em>Retail is still on Seoul hours.</em></div>
+        </div>
+        <div class="fail">
+          <div class="num">FAILURE 04</div>
+          <h4>You're not competing with people. You're competing with systems.</h4>
+          <p>The institution that bought your panic sale on Tuesday didn't have courage. It had a risk framework that computed exactly how much to buy in a 15% drawdown, execution algorithms that staged the entries, flow data updating in real time, and a compute cluster that never sleeps and never flinches.</p>
+          <p>You had a phone, a red screen, and 3am.</p>
+          <div class="kickerline">That's the actual gap. Not information. Not conviction. <em>Machinery.</em></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ALPHANET ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">03</span> The Answer</div>
+      <h2>AlphaNet: institutional machinery, pointed the other way</h2>
+      <p>AlphaNet is an institutional-grade quantitative AI trading platform, redefining alpha and trading edge for retail — the machinery that has spent thirty years on the other side of your trades, rebuilt to work for you. This August–September, we launch AI trading strategies for tokenized equities, with the world's most volatile AI stocks among our first markets.</p>
+
+      <h3>Your account. Your capital. Your kill switch.</h3>
+      <p>The foundation is different by design. On AlphaNet, you never hand your capital to anyone. <strong>Strategies deploy directly into your own accounts and trade there</strong> — under your name, in the same account you already use, visible on every statement you already trust. Every position, every fill, every decision the engine makes is yours to inspect in real time: <span class="hl-g">complete control, complete transparency</span>.</p>
+      <p>A strategy on AlphaNet is software you run, not a fund you join. <strong>Start it in a click. Stop it in a click. Any time.</strong> No lock-ups, no redemption windows, no waiting for permission to reach your own money. Switch it off and it simply stops trading — your capital never left your account; it was only ever executing your instructions. No house running your own money against you. Nothing to trust — you can watch every decision as it happens.</p>
+
+      <h3>The intelligence is different, too.</h3>
+      <p>"AI trading" today mostly means a chatbot with your money — prompt-driven agents that parse your sentences and press buttons. That is the wrong architecture for capital: language models hallucinate, which is tolerable in a conversation and catastrophic in a leveraged position. We would not hand one our money, and we won't hand it yours.</p>
+      <p>AlphaNet's strategies are built by an institutional quantitative team — the same discipline that sat on the winning side of Tuesday — using machine learning where it demonstrably works: reading market regimes, modeling volatility, recognizing flow, sizing risk. <strong>The models perceive. Engineered execution acts.</strong> That division of labor is the difference between a trading system and a toy.</p>
+    </section>
+    <!-- ============ ENGINE ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">04</span> Under the Hood</div>
+      <h2>Inside the strategy engine</h2>
+      <p>The engine behind AlphaNet's equity strategies is new — built from the ground up and trained on <strong>tick-level US equity data</strong>: every trade, every quote, every order-book update, tick by tick, across years of market history. Most "AI trading" products are a chatbot with a brokerage connection. This is a dedicated quantitative engine that learned how US equities actually behave at the finest resolution that exists.</p>
+      <p>The architecture has four layers. Each has one job, does it with machine discipline, and leaves an audit trail you can read. Here's the shape of it, in plain English.</p>
+
+      <div class="layers">
+        <div class="layer">
+          <div class="rail"><span class="n">L1</span><span class="ln">Perception</span></div>
+          <div class="body">
+            <h4>An ensemble, not a single model</h4>
+            <div class="plain">// many specialized models — and only the survivors trade</div>
+            <p>Each strategy is built from many independent deep-learning models, each specialized in a different slice of market behavior — one model can be wrong, a committee of uncorrelated models is much harder to fool. And before any model earns the right to trade, it has to survive <strong>100,000+ simulations</strong> of different market histories. What reaches your account is the winner of a search no human team could run by hand.</p>
+            <div class="chips"><span class="chip"><b>100,000+</b> sims / strategy</span><span class="chip"><b>Multi-model</b> ensemble</span><span class="chip">Trained on <b>tick-level</b> data</span></div>
+          </div>
+        </div>
+
+        <div class="layer">
+          <div class="rail"><span class="n">L2</span><span class="ln">Regime</span></div>
+          <div class="body">
+            <h4>It knows what kind of market it's in</h4>
+            <div class="plain">// uptrend, downtrend, chop — and changes behavior accordingly</div>
+            <p>The engine continuously classifies the market into <strong>27+ distinct regimes</strong> — trend strength, volatility expansion and crush, volume patterns, risk-on/risk-off — across time horizons from one hour to one week. When conditions flip, it adjusts within minutes, not hours. And every decision is <strong>explainable</strong>: you can see which regime fired and exactly why the engine acted. The black box is glass.</p>
+            <div class="chips"><span class="chip"><b>27+</b> market regimes</span><span class="chip">Horizons: <b>1H → 1W</b></span><span class="chip"><b>Explainable</b> decisions</span></div>
+          </div>
+        </div>
+
+        <div class="layer">
+          <div class="rail"><span class="n">L3</span><span class="ln">Risk</span></div>
+          <div class="body">
+            <h4>Sizing by formula, a floor by contract</h4>
+            <div class="plain">// bigger when conviction is high, smaller when volatility is high — and a hard stop</div>
+            <p>Humans size positions by feel. The engine sizes them by formula — stronger signal, more capital; higher volatility, smaller size — and no single signal ever dominates: each strategy runs <strong>a multitude of low-correlation alphas</strong>, so one signal going wrong barely moves the whole. Around that sits a <strong>hard stop-loss circuit breaker</strong> that overrides everything and exits when volatility shocks.</p>
+            <div class="chips"><span class="chip"><b>Diversified</b> low-correlation alphas</span><span class="chip">Inner filter: <b>dynamic sizing</b></span><span class="chip">Outer perimeter: <b>hard stop</b></span></div>
+          </div>
+        </div>
+
+        <div class="layer">
+          <div class="rail"><span class="n">L4</span><span class="ln">Execution</span></div>
+          <div class="body">
+            <h4>Entries in slices, not all at once</h4>
+            <div class="plain">// buys the way an institution's desk buys</div>
+            <p>Being right about direction is worthless if your entry is sloppy. The engine stages every entry and exit in time-weighted slices, checking live liquidity before each one — so you accumulate across dips instead of dumping in at a single price. In engine testing: <strong>2.8 basis points</strong> of average slippage and a <strong>99.4%</strong> fill rate.</p>
+            <div class="chips"><span class="chip">Avg slippage: <b>2.8 bps</b></span><span class="chip">Fill rate: <b>99.4%</b></span></div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============ RISK THEORY ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">05</span> The Theory</div>
+      <h2>Why this changes the face of risk</h2>
+      <p>Traditional finance treats <strong>drawdown</strong> — the peak-to-trough decline of your investment — as an outcome: something the market decides and you discover by living through it. When AI equity strategies run on AlphaNet, drawdown becomes <strong>an input</strong> — a parameter you choose, in daylight, in advance, enforced mechanically by the engine's drawdown governor. A naive long bet has a fat, unbounded left tail; a governed strategy <span class="hl-g">truncates that left tail by construction</span>. Your maximum loss stops being a surprise the market hands you and becomes a decision you made. Three mechanics do the work.</p>
+
+      <p><strong>1 · Losses cost you quadratically.</strong> Recovery math is non-linear — the deeper the hole, the steeper the climb out, and the tax rises with the <em>square</em> of the depth. Avoiding one −30% hole beats catching one extra +30% run.</p>
+      <table class="dtable">
+        <tr><th>If you lose</th><th>To break even you need</th></tr>
+        <tr><td>−10%</td><td>+11.1%</td></tr>
+        <tr><td>−20%</td><td>+25.0%</td></tr>
+        <tr><td>−30%</td><td>+42.9%</td></tr>
+        <tr><td>−50%</td><td>+100.0%</td></tr>
+        <tr><td>−70%</td><td>+233.3%</td></tr>
+      </table>
+
+      <p><strong>2 · Volatility is a hidden fee on compounding.</strong> Compound growth is roughly your average return <em>minus half the variance</em>:</p>
+      <div class="formula">g ≈ μ − σ²/2</div>
+      <p>The engine shrinks the σ you actually experience — standing down in chop, pressing in trend — and sizes positions inversely to volatility, so a wild stock becomes a roughly constant risk stream. Same thesis, smoother curve, faster compounding.</p>
+
+      <p><strong>3 · Stop-and-re-enter beats hold-and-hope.</strong> "You'll sell the bottom and miss the recovery" is only true without a re-entry rule. The engine pairs every exit with a <strong>systematic re-entry plan</strong> — staged, sized, unemotional — so leaving a downtrend means skipping the middle of the crash and buying the recovery <em>on confirmation</em>, the way institutions actually do it.</p>
+
+      <div class="pull">The old risk contract: unlimited downside for unlimited upside. <span>The new one: your thesis, your ceiling on losses — and the machine handles everything in between.</span></div>
+
+      <h3>What that unlocks: thesis-driven strategies in Copilot</h3>
+      <p>Today, betting on a big directional move means accepting a big drawdown as the ticket price. With a hard floor under the position, the trade inverts: <strong>you can express real conviction on a major market move while your worst case is fixed in advance.</strong> You supply the view — <em>SK Hynix up, over three months</em>. The engine does the rest at institutional grade: entries staged across dips, size scaled to live volatility, hands steady through the shakeouts, and a re-entry plan after any stop — so one bad session never locks you out of the recovery again.</p>
+      <p><strong>Your conviction, executed the way an institution would execute it. Your judgment, minus your 3am.</strong></p>
+    </section>
+  </article>
+</div>
+
+<!-- ============ CHARTS ============ -->
+<section class="chart-sec">
+  <div class="wrap-wide">
+    <div class="sec-tag"><span class="n">06</span> The Experiment</div>
+    <h2>Same market. Same thesis. Two very different rides.</h2>
+    <p style="max-width:760px">Take a 90-session price series for a high-volatility US tech stock — a violent AI-leader rally, a −15% crash day, aftershock chop, and recovery — and run two approaches over it. Left: a thesis-driven Copilot strategy with volatility-scaled sizing and a hard drawdown governor. Right: the regular long bet — buy-and-hold, fully exposed to every tick of it.</p>
+
+    <div class="chart-grid">
+      <!-- LEFT: strategy -->
+      <div class="panel">
+        <div class="p-head">
+          <div class="p-title">Thesis-driven strategy<span class="sub">AlphaNet Copilot · illustrative equity curve</span></div>
+          <span class="badge g">With the machine</span>
+        </div>
+        <div class="legend">
+          <span class="li"><span class="sw" style="background:#3ef0b6"></span>Strategy equity</span>
+          <span class="li"><span class="sw" style="background:#7d8496"></span>Underlying tech stock (indexed)</span>
+        </div>
+        <div id="chartA"></div>
+        <div class="stats-row">
+          <div class="stat"><div class="v" style="color:var(--green)">+127.3%</div><div class="k">Total return</div><div class="sub">vs +104.7% B&H</div></div>
+          <div class="stat"><div class="v" style="color:var(--green)">−8.0%</div><div class="k">Max drawdown</div><div class="sub">vs −32.4% B&H</div></div>
+          <div class="stat"><div class="v" style="color:var(--green)">−6.3%</div><div class="k">Worst session</div><div class="sub">vs −14.6% B&H</div></div>
+        </div>
+        <div class="verdict g">Thesis captured — drawdown skipped.
+          <small>The engine rode the rally at volatility-scaled size, went flat before the −15% session, sat out the aftershocks, and re-entered on trend confirmation. It finished <em>ahead</em> of buy-and-hold with roughly one quarter of the drawdown.</small>
+        </div>
+      </div>
+
+      <!-- RIGHT: naive bets -->
+      <div class="panel">
+        <div class="p-head">
+          <div class="p-title">The regular long bet<span class="sub">Buy &amp; hold · same tech stock</span></div>
+          <span class="badge r">Without it</span>
+        </div>
+        <div class="legend">
+          <span class="li"><span class="sw" style="background:#ff5470"></span>Buy &amp; hold (the regular long bet)</span>
+        </div>
+        <div id="chartB"></div>
+        <div class="stats-row">
+          <div class="stat"><div class="v" style="color:var(--red)">+104.7%</div><div class="k">Total return</div><div class="sub">vs +127.3% strategy</div></div>
+          <div class="stat"><div class="v" style="color:var(--red)">−32.4%</div><div class="k">Max drawdown</div><div class="sub">vs −8.0% strategy</div></div>
+          <div class="stat"><div class="v" style="color:var(--red)">−14.6%</div><div class="k">Worst session</div><div class="sub">vs −6.3% strategy</div></div>
+        </div>
+        <div class="verdict r">Same thesis — but you had to survive −32% to collect it.
+          <small>On the morning of session 59, with your position down a third and every screen red, would you have held? Almost nobody does. That's not a character flaw — it's a human doing a machine's job.</small>
+        </div>
+      </div>
+    </div>
+
+    <p class="chart-note">ILLUSTRATIVE SIMULATION · 90 TRADING SESSIONS. The underlying is a generated US tech stock with volatility modeled on US AI-sector equities; the strategy curve applies AlphaNet-style mechanics to it: volatility-scaled position sizing, a hard stop when volatility shocks or equity breaches a −7% line from peak, and regime-confirmed staged re-entry. Not a backtest of live AlphaNet strategies and not a projection of future results. Both charts share the same scale.</p>
+  </div>
+</section>
+
+<!-- ============ CLOSING ============ -->
+<div class="wrap">
+  <article>
+    <section class="sec" style="margin-top:72px">
+      <div class="sec-tag"><span class="n">07</span> What's Next</div>
+      <h2>The next 15% day is already coming</h2>
+      <p>Nothing about last week was a one-off. Seven circuit breakers in seven months. A national champion now trading around the clock across two continents. Retail leverage at historic highs. This kind of volatility isn't a storm passing through the market — <strong>it is the market now.</strong></p>
+      <p>And leverage itself was never the enemy — blind leverage was. Constant amplification held through chop is the mathematical trap that just cut those ETFs in half. Amplification that is regime-aware, volatility-scaled, and bounded by your own hard drawdown limit is something else entirely: <span class="hl-g">upside with a floor you chose</span>. The same force that's been working against retail all year, turned around and put to work.</p>
+      <p>Which leaves only the question Tuesday asked: when the next panic hits, which side of the machinery will you be on?</p>
+      <p>For thirty years, retail never had a choice. The systems, the data, the discipline — all of it sat on the other side of the trade, buying your fear and selling your euphoria. This August, that changes.</p>
+      <p style="font-size:19px;font-weight:700;color:var(--text)">Stop trading against machines. Start trading with one.</p>
+
+      <div class="cta">
+        <div class="kicker" style="margin-bottom:18px">AlphaNet · Equities Launch</div>
+        <h2>Institutional-grade AI trading for tokenized equities.</h2>
+        <p>Launching August–September 2026, with the world's most volatile AI stocks among our first markets. Deploy in your own account. Watch every decision. Stop whenever you want.</p>
+        <p style="margin-top:16px;font-size:13px;color:var(--dim)">Early members get priority access to the first equity strategies.</p>
+      </div>
+    </section>
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <img src="logo.png" alt="AlphaNet">
+    </div>
+    <div class="follow">
+      <div class="ft">Follow us to get <em>early access</em> to our new product releases.</div>
+      <div class="links">
+        <a href="https://alphanet.global/" target="_blank" rel="noopener">Website</a>
+        <a href="https://x.com/AlphaNet_AI" target="_blank" rel="noopener">X</a>
+        <a href="https://t.me/AlphaNet_AI" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </div>
+    <p class="disc">Trading involves substantial risk of loss. Risk-management features, including drawdown controls, reduce but cannot eliminate risk. Simulated and hypothetical performance shown in this brief is illustrative only, has not been achieved in live trading, and is not a guarantee or projection of future results. Nothing herein is investment advice. Product availability varies by jurisdiction.</p>
+  </div>
+</footer>
+
+<script>
+/* ============ chart data (seeded illustrative simulation, 91 points) ============ */
+const STOCK = [100.0,100.5,101.1,99.9,103.7,108.1,110.3,111.6,113.6,115.3,117.7,119.7,123.5,126.4,125.2,126.3,124.3,124.5,127.9,129.4,129.9,128.3,127.3,127.4,133.1,129.8,131.4,133.6,137.1,139.1,143.3,147.4,153.5,157.1,160.3,160.5,163.3,168.8,174.9,182.2,181.6,177.0,178.1,182.2,183.6,175.6,178.3,169.2,166.5,164.4,166.9,171.3,183.0,188.5,182.0,185.2,172.1,172.5,147.3,135.3,142.2,135.8,128.3,133.7,131.5,129.4,127.5,132.4,138.0,140.2,142.3,141.8,142.7,138.9,137.9,144.6,149.1,158.9,167.8,175.3,185.4,182.7,186.1,189.2,190.5,199.1,201.1,202.6,197.1,201.6,204.7];
+const LEV = [100.0,101.0,102.2,99.6,107.2,116.2,121.0,123.7,128.1,131.8,137.2,141.8,150.7,157.8,154.7,157.4,152.3,152.8,160.9,164.7,165.8,161.6,158.9,159.1,173.3,164.6,168.6,174.3,183.3,188.4,199.7,211.1,228.6,239.2,248.9,249.3,257.9,274.9,294.9,319.2,317.0,301.0,304.4,318.2,322.9,294.6,303.6,272.3,263.7,256.9,264.5,278.2,316.1,335.2,311.7,322.6,276.8,277.9,196.6,164.3,181.2,164.8,146.5,158.7,153.4,148.4,144.0,155.1,168.0,173.2,178.4,177.1,179.1,169.5,167.1,183.3,194.6,220.1,244.5,266.4,296.7,288.2,298.5,308.5,312.4,340.4,347.2,352.2,332.8,348.1,358.4];
+const STRAT = [100.0,100.5,101.0,99.9,103.4,107.3,109.3,110.4,112.2,113.7,115.8,117.6,120.9,123.5,122.5,123.4,121.7,121.9,124.8,126.2,126.6,125.2,124.3,124.4,129.4,126.5,127.9,129.9,132.9,134.6,138.3,141.9,147.2,150.3,153.1,153.2,154.7,157.5,160.7,164.3,164.1,161.8,162.3,164.4,165.1,161.1,162.5,157.9,156.5,154.8,156.9,160.6,170.4,175.1,169.6,172.3,161.4,161.4,161.4,161.4,161.4,161.4,161.4,163.0,162.4,161.7,161.1,162.7,164.4,165.0,165.7,165.5,165.8,164.7,164.4,166.4,170.8,180.9,190.0,197.7,207.8,205.2,208.5,211.7,213.0,221.6,223.7,225.2,219.6,224.2,227.3];
+
+/* ============ minimal SVG chart renderer ============ */
+function renderChart(elId, cfg){
+  const W=560,H=330,PL=48,PR=14,PT=30,PB=30;
+  const iw=W-PL-PR, ih=H-PT-PB;
+  const X=i=>PL+(i/(cfg.n-1))*iw;
+  const Y=v=>PT+(cfg.yMax-v)/(cfg.yMax-cfg.yMin)*ih;
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" style="display:block" role="img">`;
+  /* gridlines + y labels */
+  cfg.yTicks.forEach(t=>{
+    s+=`<line x1="${PL}" y1="${Y(t)}" x2="${W-PR}" y2="${Y(t)}" stroke="rgba(255,255,255,.06)" stroke-width="1"/>`;
+    s+=`<text x="${PL-8}" y="${Y(t)+3}" text-anchor="end" font-size="9.5" fill="#6d6d78">${t}</text>`;
+  });
+  /* x labels */
+  [0,15,30,45,60,75,90].forEach(i=>{
+    s+=`<text x="${X(i)}" y="${H-10}" text-anchor="middle" font-size="9" fill="#55555f">S${i}</text>`;
+  });
+  s+=`<text x="${PL}" y="${H+0}" font-size="0"></text>`;
+  /* crash band */
+  if(cfg.band){
+    const x1=X(cfg.band.from),x2=X(cfg.band.to);
+    s+=`<rect x="${x1}" y="${PT}" width="${x2-x1}" height="${ih}" fill="rgba(255,84,112,.07)"/>`;
+    s+=`<line x1="${x1}" y1="${PT}" x2="${x1}" y2="${H-PB}" stroke="rgba(255,84,112,.35)" stroke-width="1" stroke-dasharray="3 3"/>`;
+    s+=`<line x1="${x2}" y1="${PT}" x2="${x2}" y2="${H-PB}" stroke="rgba(255,84,112,.35)" stroke-width="1" stroke-dasharray="3 3"/>`;
+    s+=`<text x="${(x1+x2)/2}" y="${PT-10}" text-anchor="middle" font-size="9" letter-spacing="1.5" fill="#ff5470">−15% SESSION</text>`;
+  }
+  /* drawdown bracket */
+  if(cfg.dd){
+    const d=cfg.dd, x=X(d.t);
+    s+=`<line x1="${X(d.tFrom)}" y1="${Y(d.from)}" x2="${x}" y2="${Y(d.from)}" stroke="${d.color}" stroke-width="1" stroke-dasharray="3 3" opacity=".55"/>`;
+    s+=`<line x1="${x}" y1="${Y(d.from)}" x2="${x}" y2="${Y(d.to)}" stroke="${d.color}" stroke-width="1.4" stroke-dasharray="3 3" opacity=".8"/>`;
+    s+=`<text x="${x-8}" y="${Y(d.to)+16}" text-anchor="end" font-size="9.5" font-weight="700" fill="${d.color}" style="paint-order:stroke;stroke:#08080c;stroke-width:4px;stroke-linejoin:round">${d.label}</text>`;
+  }
+  /* series */
+  cfg.series.forEach(se=>{
+    const pts=se.data.map((v,i)=>`${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
+    if(se.fill){
+      const base=Y(cfg.yMin);
+      s+=`<defs><linearGradient id="g-${elId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${se.color}" stop-opacity=".22"/><stop offset="100%" stop-color="${se.color}" stop-opacity="0"/></linearGradient></defs>`;
+      s+=`<polygon points="${PL},${base} ${pts} ${W-PR},${base}" fill="url(#g-${elId})"/>`;
+    }
+    s+=`<polyline points="${pts}" fill="none" stroke="${se.color}" stroke-width="${se.w||2}" ${se.dash?`stroke-dasharray="${se.dash}"`:''} stroke-linejoin="round" stroke-linecap="round" ${se.glow?`style="filter:drop-shadow(0 0 5px ${se.color}66)"`:''}/>`;
+  });
+  /* markers */
+  (cfg.markers||[]).forEach(m=>{
+    s+=`<circle cx="${X(m.t)}" cy="${Y(m.v)}" r="4" fill="#060608" stroke="${m.color}" stroke-width="2"/>`;
+  });
+  /* annotations */
+  (cfg.notes||[]).forEach(a=>{
+    s+=`<text x="${X(a.t)}" y="${Y(a.v)}" text-anchor="${a.anchor||'middle'}" font-size="9" letter-spacing="1" font-weight="700" fill="${a.color}">${a.text}</text>`;
+  });
+  /* baseline */
+  s+=`<line x1="${PL}" y1="${Y(cfg.yMin)}" x2="${W-PR}" y2="${Y(cfg.yMin)}" stroke="rgba(255,255,255,.15)" stroke-width="1"/>`;
+  s+=`</svg>`;
+  document.getElementById(elId).innerHTML=s;
+}
+
+renderChart('chartA',{
+  n:91,yMin:80,yMax:260,yTicks:[100,140,180,220,260],
+  band:{from:56,to:62},
+  series:[
+    {data:STOCK,color:'#7d8496',w:1.4,dash:'4 3'},
+    {data:STRAT,color:'#3ef0b6',w:2.4,fill:true,glow:true}
+  ],
+  markers:[
+    {t:56,v:STRAT[56],color:'#3ef0b6'},
+    {t:75,v:STRAT[75],color:'#3ef0b6'}
+  ],
+  notes:[
+    {t:2,v:184,anchor:'start',text:'RIDES THE THESIS · VOL-SCALED SIZE',color:'#8f95a5'},
+    {t:65,v:210,text:'VOL-SHOCK STOP → FLAT',color:'#3ef0b6'},
+    {t:83,v:150,text:'STAGED RE-ENTRY',color:'#3ef0b6'}
+  ]
+});
+
+renderChart('chartB',{
+  n:91,yMin:80,yMax:260,yTicks:[100,140,180,220,260],
+  band:{from:56,to:62},
+  dd:{t:66,tFrom:49,from:188.5,to:127.5,label:'MAX DRAWDOWN −32.4%',color:'#ff5470'},
+  series:[
+    {data:STOCK,color:'#ff5470',w:2.2,glow:true}
+  ],
+  markers:[{t:66,v:127.5,color:'#ff5470'}],
+  notes:[
+    {t:28,v:118,text:'FULLY INVESTED THROUGH THE CRASH',color:'#8f95a5'}
+  ]
+});
+</script>
+</body>
+</html>

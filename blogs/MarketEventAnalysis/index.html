@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AlphaNet | Hackworth Prime — Market Dump Analysis (Jun 1–3, 2026)</title>
+
+<!-- Open Graph / Facebook / Telegram -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="AlphaNet | Hackworth Prime — Market Dump Analysis (Jun 1–3, 2026)">
+<meta property="og:description" content="6 Hackworth Prime strategies (LINK, DOGE, ADA, XRP, ZEC, BNB) — 102 trades over 3 days. Average return +2.92%. Full PnL stats, hourly charts, and trade annotations.">
+<meta property="og:image" content="https://alphanet.global/assets/logo-Bx0-plbv.webp">
+<meta property="og:image:width" content="600">
+<meta property="og:image:height" content="600">
+
+<!-- Twitter / X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AlphaNet | Hackworth Prime — Market Dump Analysis (Jun 1–3, 2026)">
+<meta name="twitter:description" content="6 Hackworth Prime strategies (LINK, DOGE, ADA, XRP, ZEC, BNB) — 102 trades over 3 days. Average return +2.92%. Full PnL stats, hourly charts, and trade annotations.">
+<meta name="twitter:image" content="https://alphanet.global/assets/logo-Bx0-plbv.webp">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+        --bg: #000000;
+        --bg-panel: #0a0a0a;
+        --bg-elevated: #111111;
+        --border: #222222;
+        --border-light: #333333;
+        --text: #e8e8e8;
+        --text-secondary: #999999;
+        --text-tertiary: #666666;
+        --accent-blue: #2979ff;
+        --accent-yellow: #ffb300;
+        --accent-green: #00c853;
+        --accent-red: #ff1744;
+        --accent-orange: #FFA500;
+        --line: rgba(255,255,255,.08);
+        --line2: rgba(255,255,255,.14);
+        --muted: #9b9ba7;
+        --dim: #6d6d78;
+        --green: #3ef0b6;
+        --green-dim: rgba(62,240,182,.12);
+        --font-mono: 'SF Mono', 'Fira Code', 'Consolas', 'Monaco', monospace;
+        --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    body {
+        font-family: var(--font-sans);
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    .top-bar {
+        background: var(--bg-panel);
+        border-bottom: 1px solid var(--border);
+        padding: 12px 0;
+        position: sticky; top: 0; z-index: 100;
+    }
+    .top-bar-inner {
+        display: flex; justify-content: space-between; align-items: center;
+        max-width: 960px; margin: 0 auto; padding: 0 24px;
+    }
+    .top-bar-brand {
+        font-family: var(--font-mono); font-size: 13px;
+        font-weight: 600; letter-spacing: 2px; color: var(--text);
+    }
+    .top-bar-brand span { color: var(--accent-blue); }
+    .top-bar-meta {
+        font-family: var(--font-mono); font-size: 11px;
+        color: var(--text-tertiary); letter-spacing: 1px;
+    }
+
+    .top-bar-right {
+        display: flex; align-items: center; gap: 16px;
+    }
+
+    .top-bar-nav a {
+        font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+        letter-spacing: 0.16em; text-transform: uppercase;
+        color: var(--muted); text-decoration: none;
+        border: 1px solid var(--line2); border-radius: 2px;
+        padding: 7px 14px; transition: color .2s, border-color .2s, background .2s;
+        white-space: nowrap;
+    }
+    .top-bar-nav a:hover { color: var(--green); border-color: rgba(62,240,182,.5); background: var(--green-dim); }
+
+    /* Hero */
+    .hero {
+        padding: 64px 0 48px;
+        border-bottom: 1px solid var(--border);
+    }
+    .hero-label {
+        font-family: var(--font-mono); font-size: 10px;
+        font-weight: 600;
+        color: var(--accent-yellow); letter-spacing: 3px;
+        text-transform: uppercase; margin-bottom: 16px;
+    }
+    .hero h1 {
+        font-size: 36px;
+        font-weight: 700; line-height: 1.2; margin-bottom: 12px;
+        letter-spacing: -0.5px;
+    }
+    .hero h1 span { color: var(--accent-blue); }
+    .hero-subtitle {
+        font-size: 15px; color: var(--text-secondary);
+        max-width: 680px; line-height: 1.65;
+    }
+
+    /* Sections */
+    section { margin-bottom: 48px; padding-top: 28px; }
+    .section-num {
+        font-family: var(--font-mono); font-size: 10px;
+        font-weight: 600; letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--accent-blue); margin-bottom: 8px;
+    }
+    .section-title {
+        font-size: 18px;
+        font-weight: 600; color: var(--text);
+        letter-spacing: -0.3px; margin-bottom: 24px;
+    }
+
+    /* Cards */
+    .card-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 16px;
+    }
+    .card {
+        background: var(--bg-panel);
+        border: 1px solid var(--border);
+        padding: 24px;
+        transition: background 0.15s;
+    }
+    .card:hover { background: var(--bg-elevated); }
+    .card-header {
+        font-family: var(--font-mono); font-size: 12px;
+        font-weight: 600; letter-spacing: 1px;
+        color: var(--text-secondary); margin-bottom: 12px;
+    }
+    .card-value {
+        font-family: var(--font-mono); font-size: 32px;
+        font-weight: 700; margin-bottom: 4px;
+    }
+    .card-value.positive { color: var(--accent-green); }
+    .card-value.negative { color: var(--accent-red); }
+    .card-value.neutral { color: var(--text); }
+    .card-sub {
+        font-size: 13px; color: var(--text-tertiary);
+    }
+
+    /* Table */
+    .data-table {
+        width: 100%; border-collapse: collapse;
+        font-family: var(--font-mono); font-size: 12px;
+    }
+    .data-table thead th {
+        text-align: left; padding: 12px 14px;
+        border-bottom: 1px solid var(--border-light);
+        border-top: 1px solid var(--border);
+        color: var(--text-tertiary); font-weight: 600;
+        letter-spacing: 1px; font-size: 10px;
+        text-transform: uppercase;
+        background: var(--bg-panel);
+    }
+    .data-table tbody td {
+        padding: 12px 14px;
+        border-bottom: 1px solid var(--border);
+        color: var(--text-secondary);
+    }
+    .data-table tbody tr:hover td { background: var(--bg-panel); color: var(--text); }
+    .data-table .highlight { color: var(--accent-green); font-weight: 600; }
+    .data-table .warning { color: var(--accent-red); font-weight: 600; }
+    .data-table .neutral { color: var(--accent-yellow); }
+
+    /* Trade log */
+    .trade-row {
+        display: flex; align-items: center; gap: 12px;
+        padding: 8px 12px; border-bottom: 1px solid var(--border);
+        font-family: var(--font-mono); font-size: 13px;
+    }
+    .trade-row:hover { background: var(--bg-elevated); }
+    .trade-time { color: var(--text-tertiary); min-width: 130px; }
+    .trade-dir {
+        padding: 2px 8px; border-radius: 4px;
+        font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    }
+    .trade-dir.long { background: rgba(0,200,83,0.15); color: var(--accent-green); }
+    .trade-dir.short { background: rgba(41,121,255,0.15); color: var(--accent-blue); }
+    .trade-size {
+        color: var(--text-secondary); margin-left: auto;
+    }
+    .trade-size-bar {
+        height: 4px; border-radius: 2px; min-width: 30px;
+        align-self: center;
+    }
+
+    /* Insights */
+    .insight-block {
+        background: var(--bg-panel);
+        border-left: 2px solid var(--accent-blue);
+        padding: 20px 24px; margin-bottom: 16px;
+    }
+    .insight-block.red { border-left-color: var(--accent-red); }
+    .insight-block.green { border-left-color: var(--accent-green); }
+    .insight-label {
+        font-family: var(--font-mono); font-size: 10px;
+        font-weight: 600; text-transform: uppercase;
+        letter-spacing: 1.5px; margin-bottom: 8px;
+    }
+    .insight-label.good { color: var(--accent-green); }
+    .insight-label.bad { color: var(--accent-red); }
+    .insight-label.obs { color: var(--accent-blue); }
+    .insight-text {
+        font-size: 14px; line-height: 1.7; color: var(--text-secondary);
+    }
+    .insight-text strong { color: var(--text); }
+
+    /* Summary bar */
+    .summary-strip {
+        display: flex; gap: 24px; flex-wrap: wrap;
+        padding: 24px 0;
+    }
+    .summary-item {
+        flex: 1; min-width: 140px;
+    }
+    .summary-item .label {
+        font-family: var(--font-mono); font-size: 10px;
+        color: var(--text-tertiary); letter-spacing: 1px;
+        text-transform: uppercase; margin-bottom: 4px;
+    }
+    .summary-item .value {
+        font-family: var(--font-mono); font-size: 22px;
+        font-weight: 600;
+    }
+
+    /* Footer */
+    footer{border-top:1px solid var(--line);padding:44px 0 56px;margin-top:24px}
+    footer .f-top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+    footer img{height:16px;opacity:.8}
+    footer .follow{border-left:2px solid var(--green);padding:4px 0 4px 24px;margin:0 0 32px;display:flex;justify-content:space-between;align-items:center;gap:14px 24px;flex-wrap:wrap}
+    footer .follow .ft{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--muted)}
+    footer .follow .ft em{font-style:normal;color:var(--green);font-weight:700}
+    footer .follow .links{display:flex;gap:8px;flex-wrap:wrap}
+    footer .follow .links a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--line2);border-radius:2px;padding:7px 14px;transition:all .2s}
+    footer .follow .links a:hover{color:var(--green);border-color:var(--green)}
+    footer .disc{font-size:12px;line-height:1.7;color:var(--dim);max-width:760px}
+
+    /* Respond */
+    @media (max-width: 640px) {
+        .hero h1 { font-size: 24px; }
+        .card-grid { grid-template-columns: 1fr; }
+        .data-table { font-size: 10px; }
+        .data-table th, .data-table td { padding: 8px 6px; }
+    }
+
+    .coin-badge {
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 11px; font-weight: 600;
+        padding: 3px 10px; border-radius: 4px;
+        letter-spacing: 0.5px;
+    }
+    .coin-badge.link { background: rgba(41,121,255,0.15); color: #448aff; }
+    .coin-badge.doge { background: rgba(255,179,0,0.15); color: #ffb300; }
+    .coin-badge.ada { background: rgba(0,200,83,0.15); color: #00c853; }
+    .coin-badge.xrp { background: rgba(255,23,68,0.15); color: #ff5252; }
+    .coin-badge.zec { background: rgba(156,39,176,0.15); color: #ce93d8; }
+    .coin-badge.bnb { background: rgba(255,167,38,0.15); color: #ffab40; }
+
+    .timeline-dot {
+        display: inline-block;
+        width: 8px; height: 8px; border-radius: 50%;
+        margin-right: 8px;
+    }
+    .timeline-dot.long { background: var(--accent-green); }
+    .timeline-dot.short { background: var(--accent-blue); }
+
+    .badge-row {
+        display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px;
+    }
+
+
+    .chart-container { position: relative; }
+    @media (max-width: 768px) { .chart-container { height: 260px !important; } }
+
+/* === Three Days of Selling Pressure === */
+.dump-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+.dump-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 20px;
+}
+.dump-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.dump-coin {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}
+.dump-total {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 600;
+}
+.dump-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.dump-daily {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-tertiary);
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+}
+@media (max-width: 768px) {
+    .dump-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .dump-card { padding: 8px; }
+    .dump-daily { flex-wrap: wrap; gap: 6px; font-size: 10px; }
+}
+</style>
+
+<script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+    <div class="top-bar-inner">
+        <div class="top-bar-brand"><img src="https://alphanet.global/assets/logo-Bx0-plbv.webp" alt="AlphaNet" style="height:22px;vertical-align:middle;"></div>
+        <div class="top-bar-right">
+            <div class="top-bar-meta">JUNE 03, 2026 // SPECIAL REPORT</div>
+            <div class="top-bar-nav"><a href="https://alphanet.global/blog">Blog</a></div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+<!-- Hero -->
+<div class="hero">
+    <div class="hero-label">Market Event Analysis</div>
+    <h1>Hackworth Prime<br><span>Market Dump Response</span></h1>
+    <p class="hero-subtitle">
+        A deep dive into how six Hackworth Prime strategies — selected from a marketplace of <strong>33+ quantitative AI strategies</strong> — navigated the June 1–3 market downturn. While this sample represents only a portion of the full strategy suite, it offers a meaningful window into the engine's adaptive design: trade-by-trade decision making, short/long rotations, position sizing, and cross-asset behavioral patterns.
+    </p>
+    <div class="summary-strip" style="margin-top: 32px;">
+        <div class="summary-item">
+            <div class="label">Period</div>
+            <div class="value" style="color: var(--text);">Jun 1–3</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">Strategies</div>
+            <div class="value" style="color: var(--accent-blue);">6 of 33+</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">Total Trades</div>
+            <div class="value" style="color: var(--text);">102</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">Best Performer</div>
+            <div class="value" style="color: var(--accent-green);">ZEC +8.83%</div>
+        </div>
+        <div class="summary-item">
+            <div class="label">Worst Performer</div>
+            <div class="value" style="color: var(--accent-red);">BNB −4.89%</div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Market Context: Three Days of Selling Pressure -->
+<section style="margin-top: 48px;">
+    <div class="section-num">00 // THE DUMP</div>
+    <h2 class="section-title">Three Days of Selling Pressure</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 13px; line-height: 1.6;">
+        June 1 started with a muted drift lower. June 2 was the bloodbath — most assets crashed as cascading liquidations hit perpetual markets.
+        But <strong style="color: #e67e22;">ZEC defied gravity with an +11.8% counter-trend rally</strong>. June 3 saw a tentative bounce across the board.
+    </p>
+    <div class="dump-grid">
+        
+        <div class="dump-card">
+            <div class="dump-header">
+                <span class="dump-coin">LINK</span>
+                <span class="dump-total" style="color:#ff1744">-6.5%</span>
+            </div>
+            <svg viewBox="0 0 280 120" class="dump-svg" preserveAspectRatio="none">
+                <text x="30.0" y="27.136088465574314" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">9.03</text><text x="151.7910447761194" y="30.259827266123267" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">8.98</text><text x="270.0" y="58.95463717814194" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">8.59</text>
+                <line x1="151.7910447761194" y1="10" x2="151.7910447761194" y2="100" stroke="#ff1744" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                <path d="M 30.0 31.1 L 33.6 29.0 L 37.2 29.7 L 40.7 30.7 L 44.3 26.6 L 47.9 23.4 L 51.5 22.1 L 55.1 22.8 L 58.7 20.4 L 62.2 30.4 L 65.8 21.3 L 69.4 20.5 L 73.0 25.0 L 76.6 29.5 L 80.1 32.5 L 83.7 36.0 L 87.3 33.5 L 90.9 31.6 L 94.5 32.1 L 98.1 33.5 L 101.6 33.1 L 105.2 40.3 L 108.8 42.3 L 112.4 39.9 L 116.0 33.0 L 119.6 28.8 L 123.1 31.1 L 126.7 27.4 L 130.3 29.0 L 133.9 34.4 L 137.5 30.3 L 141.0 29.3 L 144.6 33.2 L 148.2 40.6 L 151.8 34.3 L 155.4 32.2 L 159.0 37.2 L 162.5 42.5 L 166.1 45.2 L 169.7 44.7 L 173.3 45.8 L 176.9 47.6 L 180.4 43.3 L 184.0 46.8 L 187.6 45.4 L 191.2 44.6 L 194.8 57.1 L 198.4 65.0 L 201.9 62.0 L 205.5 59.2 L 209.1 66.4 L 212.7 68.0 L 216.3 67.2 L 219.9 67.5 L 223.4 80.8 L 227.0 78.9 L 230.6 77.8 L 234.2 76.2 L 237.8 78.9 L 241.3 89.6 L 244.9 79.2 L 248.5 69.8 L 252.1 69.1 L 255.7 66.4 L 259.3 67.8 L 262.8 70.2 L 266.4 64.0 L 270.0 63.0" fill="none" stroke="#2ecc71" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="30.0" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 01</text><text x="151.7910447761194" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 02</text><text x="270.0" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 03</text>
+            </svg>
+            <div class="dump-daily">
+                <span>Jun 1: <b style="color:#ff1744">-1.0%</b></span>
+                <span>Jun 2: <b style="color:#ff1744">-7.5%</b></span>
+                <span>Jun 3: <b style="color:#00c853">+2.1%</b></span>
+            </div>
+        </div>
+        <div class="dump-card">
+            <div class="dump-header">
+                <span class="dump-coin">DOGE</span>
+                <span class="dump-total" style="color:#ff1744">-6.2%</span>
+            </div>
+            <svg viewBox="0 0 280 120" class="dump-svg" preserveAspectRatio="none">
+                <text x="30.0" y="29.229317851959337" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">0.099</text><text x="151.7910447761194" y="18.41654571843245" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">0.101</text><text x="270.0" y="65.7314949201741" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">0.094</text>
+                <line x1="151.7910447761194" y1="10" x2="151.7910447761194" y2="100" stroke="#ff1744" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                <path d="M 30.0 33.2 L 33.6 32.6 L 37.2 32.2 L 40.7 31.9 L 44.3 29.5 L 47.9 26.3 L 51.5 25.1 L 55.1 25.4 L 58.7 21.6 L 62.2 29.6 L 65.8 20.9 L 69.4 20.4 L 73.0 23.5 L 76.6 26.2 L 80.1 27.3 L 83.7 34.3 L 87.3 29.8 L 90.9 28.0 L 94.5 27.0 L 98.1 28.9 L 101.6 28.7 L 105.2 34.6 L 108.8 37.7 L 112.4 40.8 L 116.0 31.6 L 119.6 27.5 L 123.1 28.8 L 126.7 23.9 L 130.3 23.8 L 133.9 29.2 L 137.5 22.3 L 141.0 20.5 L 144.6 22.0 L 148.2 27.6 L 151.8 22.4 L 155.4 21.6 L 159.0 26.6 L 162.5 31.9 L 166.1 33.8 L 169.7 34.2 L 173.3 34.0 L 176.9 37.3 L 180.4 33.4 L 184.0 37.5 L 187.6 37.7 L 191.2 39.5 L 194.8 55.1 L 198.4 65.8 L 201.9 62.7 L 205.5 60.3 L 209.1 68.5 L 212.7 71.5 L 216.3 70.5 L 219.9 70.0 L 223.4 84.8 L 227.0 81.0 L 230.6 77.6 L 234.2 78.1 L 237.8 81.1 L 241.3 89.6 L 244.9 80.2 L 248.5 71.9 L 252.1 72.5 L 255.7 70.7 L 259.3 72.3 L 262.8 73.3 L 266.4 69.8 L 270.0 69.7" fill="none" stroke="#3498db" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="30.0" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 01</text><text x="151.7910447761194" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 02</text><text x="270.0" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 03</text>
+            </svg>
+            <div class="dump-daily">
+                <span>Jun 1: <b style="color:#00c853">+0.5%</b></span>
+                <span>Jun 2: <b style="color:#ff1744">-8.1%</b></span>
+                <span>Jun 3: <b style="color:#00c853">+1.7%</b></span>
+            </div>
+        </div>
+        <div class="dump-card">
+            <div class="dump-header">
+                <span class="dump-coin">ADA</span>
+                <span class="dump-total" style="color:#ff1744">-7.7%</span>
+            </div>
+            <svg viewBox="0 0 280 120" class="dump-svg" preserveAspectRatio="none">
+                <text x="30.0" y="26.20458265139118" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">0.23</text><text x="151.7910447761194" y="37.988543371522105" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">0.23</text><text x="270.0" y="63.520458265139155" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">0.22</text>
+                <line x1="151.7910447761194" y1="10" x2="151.7910447761194" y2="100" stroke="#ff1744" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                <path d="M 30.0 30.2 L 33.6 29.2 L 37.2 29.7 L 40.7 30.7 L 44.3 28.0 L 47.9 25.0 L 51.5 23.1 L 55.1 23.6 L 58.7 20.9 L 62.2 29.5 L 65.8 21.6 L 69.4 20.4 L 73.0 26.5 L 76.6 27.7 L 80.1 30.0 L 83.7 34.9 L 87.3 34.1 L 90.9 33.2 L 94.5 33.9 L 98.1 36.6 L 101.6 36.1 L 105.2 40.5 L 108.8 43.5 L 112.4 44.9 L 116.0 36.6 L 119.6 34.9 L 123.1 36.1 L 126.7 33.9 L 130.3 35.1 L 133.9 38.6 L 137.5 35.6 L 141.0 34.9 L 144.6 38.3 L 148.2 44.0 L 151.8 42.0 L 155.4 42.2 L 159.0 47.4 L 162.5 51.1 L 166.1 52.5 L 169.7 52.1 L 173.3 52.5 L 176.9 54.0 L 180.4 51.3 L 184.0 54.5 L 187.6 54.0 L 191.2 54.8 L 194.8 63.3 L 198.4 73.2 L 201.9 66.5 L 205.5 65.1 L 209.1 71.0 L 212.7 72.4 L 216.3 71.0 L 219.9 69.7 L 223.4 80.8 L 227.0 79.3 L 230.6 77.3 L 234.2 76.8 L 237.8 80.8 L 241.3 89.6 L 244.9 81.5 L 248.5 74.1 L 252.1 73.2 L 255.7 69.0 L 259.3 70.5 L 262.8 70.7 L 266.4 67.5 L 270.0 67.5" fill="none" stroke="#f39c12" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="30.0" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 01</text><text x="151.7910447761194" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 02</text><text x="270.0" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 03</text>
+            </svg>
+            <div class="dump-daily">
+                <span>Jun 1: <b style="color:#ff1744">-1.7%</b></span>
+                <span>Jun 2: <b style="color:#ff1744">-7.8%</b></span>
+                <span>Jun 3: <b style="color:#00c853">+1.9%</b></span>
+            </div>
+        </div>
+        <div class="dump-card">
+            <div class="dump-header">
+                <span class="dump-coin">XRP</span>
+                <span class="dump-total" style="color:#ff1744">-6.9%</span>
+            </div>
+            <svg viewBox="0 0 280 120" class="dump-svg" preserveAspectRatio="none">
+                <text x="30.0" y="21.379120879120855" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">1.33</text><text x="151.7910447761194" y="42.79120879120875" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">1.28</text><text x="270.0" y="63.956043956043914" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">1.24</text>
+                <line x1="151.7910447761194" y1="10" x2="151.7910447761194" y2="100" stroke="#ff1744" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                <path d="M 30.0 25.4 L 33.6 23.8 L 37.2 25.6 L 40.7 26.1 L 44.3 23.9 L 47.9 22.1 L 51.5 20.7 L 55.1 22.7 L 58.7 20.4 L 62.2 28.4 L 65.8 23.8 L 69.4 23.8 L 73.0 28.1 L 76.6 30.9 L 80.1 32.2 L 83.7 37.3 L 87.3 37.7 L 90.9 36.9 L 94.5 36.2 L 98.1 37.3 L 101.6 37.9 L 105.2 43.9 L 108.8 46.1 L 112.4 48.1 L 116.0 42.3 L 119.6 39.0 L 123.1 41.0 L 126.7 39.2 L 130.3 39.6 L 133.9 43.1 L 137.5 38.9 L 141.0 40.5 L 144.6 44.5 L 148.2 49.2 L 151.8 46.8 L 155.4 45.0 L 159.0 48.9 L 162.5 55.1 L 166.1 56.1 L 169.7 55.0 L 173.3 56.6 L 176.9 59.1 L 180.4 55.4 L 184.0 58.5 L 187.6 57.0 L 191.2 58.2 L 194.8 71.3 L 198.4 77.7 L 201.9 72.6 L 205.5 70.6 L 209.1 76.7 L 212.7 78.0 L 216.3 77.2 L 219.9 75.6 L 223.4 88.2 L 227.0 82.8 L 230.6 76.7 L 234.2 77.0 L 237.8 78.4 L 241.3 89.6 L 244.9 79.5 L 248.5 72.7 L 252.1 69.3 L 255.7 67.2 L 259.3 67.5 L 262.8 69.6 L 266.4 67.9 L 270.0 68.0" fill="none" stroke="#9b59b6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="30.0" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 01</text><text x="151.7910447761194" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 02</text><text x="270.0" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 03</text>
+            </svg>
+            <div class="dump-daily">
+                <span>Jun 1: <b style="color:#ff1744">-2.7%</b></span>
+                <span>Jun 2: <b style="color:#ff1744">-6.6%</b></span>
+                <span>Jun 3: <b style="color:#00c853">+2.5%</b></span>
+            </div>
+        </div>
+        <div class="dump-card">
+            <div class="dump-header">
+                <span class="dump-coin">ZEC</span>
+                <span class="dump-total" style="color:#00c853">+9.7%</span>
+            </div>
+            <svg viewBox="0 0 280 120" class="dump-svg" preserveAspectRatio="none">
+                <text x="30.0" y="75.9095022624435" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">543</text><text x="151.7910447761194" y="67.98190045248869" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">555</text><text x="270.0" y="34.92760180995478" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">604</text>
+                <line x1="151.7910447761194" y1="10" x2="151.7910447761194" y2="100" stroke="#ff1744" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                <path d="M 30.0 79.9 L 33.6 75.3 L 37.2 79.5 L 40.7 78.9 L 44.3 75.7 L 47.9 70.3 L 51.5 61.2 L 55.1 62.8 L 58.7 47.8 L 62.2 66.0 L 65.8 56.3 L 69.4 58.9 L 73.0 64.7 L 76.6 67.4 L 80.1 71.2 L 83.7 74.9 L 87.3 77.1 L 90.9 76.0 L 94.5 78.9 L 98.1 80.1 L 101.6 77.8 L 105.2 81.0 L 108.8 85.3 L 112.4 89.6 L 116.0 81.3 L 119.6 75.3 L 123.1 72.0 L 126.7 67.4 L 130.3 71.4 L 133.9 77.5 L 137.5 76.9 L 141.0 79.2 L 144.6 77.8 L 148.2 84.1 L 151.8 72.0 L 155.4 60.0 L 159.0 65.2 L 162.5 73.1 L 166.1 76.2 L 169.7 69.7 L 173.3 68.4 L 176.9 71.3 L 180.4 58.6 L 184.0 64.4 L 187.6 57.6 L 191.2 59.6 L 194.8 62.2 L 198.4 56.4 L 201.9 40.2 L 205.5 31.1 L 209.1 44.2 L 212.7 42.3 L 216.3 35.8 L 219.9 32.7 L 223.4 47.3 L 227.0 35.0 L 230.6 20.4 L 234.2 21.0 L 237.8 23.3 L 241.3 38.8 L 244.9 31.3 L 248.5 30.1 L 252.1 33.8 L 255.7 29.3 L 259.3 28.5 L 262.8 34.7 L 266.4 41.0 L 270.0 38.9" fill="none" stroke="#e67e22" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="30.0" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 01</text><text x="151.7910447761194" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 02</text><text x="270.0" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 03</text>
+            </svg>
+            <div class="dump-daily">
+                <span>Jun 1: <b style="color:#ff1744">-4.2%</b></span>
+                <span>Jun 2: <b style="color:#00c853">+11.8%</b></span>
+                <span>Jun 3: <b style="color:#00c853">+2.3%</b></span>
+            </div>
+        </div>
+        <div class="dump-card">
+            <div class="dump-header">
+                <span class="dump-coin">BNB</span>
+                <span class="dump-total" style="color:#ff1744">-9.0%</span>
+            </div>
+            <svg viewBox="0 0 280 120" class="dump-svg" preserveAspectRatio="none">
+                <text x="30.0" y="20.503846153846148" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">709.53</text><text x="151.7910447761194" y="36.020192307692255" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">691.60</text><text x="270.0" y="78.92596153846152" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">642.02</text>
+                <line x1="151.7910447761194" y1="10" x2="151.7910447761194" y2="100" stroke="#ff1744" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+                <path d="M 30.0 24.5 L 33.6 20.4 L 37.2 24.0 L 40.7 25.0 L 44.3 23.6 L 47.9 23.0 L 51.5 22.5 L 55.1 23.3 L 58.7 23.3 L 62.2 36.6 L 65.8 26.0 L 69.4 29.2 L 73.0 33.9 L 76.6 36.0 L 80.1 38.1 L 83.7 44.4 L 87.3 41.4 L 90.9 22.5 L 94.5 30.5 L 98.1 34.9 L 101.6 38.7 L 105.2 43.9 L 108.8 50.9 L 112.4 51.9 L 116.0 45.8 L 119.6 43.3 L 123.1 40.1 L 126.7 35.9 L 130.3 36.2 L 133.9 41.1 L 137.5 38.0 L 141.0 38.4 L 144.6 40.7 L 148.2 45.5 L 151.8 40.0 L 155.4 37.9 L 159.0 43.9 L 162.5 46.5 L 166.1 46.9 L 169.7 48.0 L 173.3 48.1 L 176.9 51.6 L 180.4 49.6 L 184.0 51.3 L 187.6 52.9 L 191.2 54.2 L 194.8 55.4 L 198.4 64.2 L 201.9 63.5 L 205.5 61.5 L 209.1 67.2 L 212.7 66.8 L 216.3 65.7 L 219.9 67.2 L 223.4 77.1 L 227.0 75.1 L 230.6 71.7 L 234.2 75.6 L 237.8 80.2 L 241.3 89.6 L 244.9 87.1 L 248.5 79.2 L 252.1 83.8 L 255.7 80.9 L 259.3 80.3 L 262.8 82.8 L 266.4 82.9 L 270.0 82.9" fill="none" stroke="#f1c40f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <text x="30.0" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 01</text><text x="151.7910447761194" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 02</text><text x="270.0" y="116" fill="var(--text-tertiary)" font-size="8" font-family="var(--font-mono)" text-anchor="middle">Jun 03</text>
+            </svg>
+            <div class="dump-daily">
+                <span>Jun 1: <b style="color:#ff1744">-5.9%</b></span>
+                <span>Jun 2: <b style="color:#ff1744">-6.0%</b></span>
+                <span>Jun 3: <b style="color:#ff1744">-1.0%</b></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Section 01: Performance Overview -->
+<section>
+    <div class="section-num">01 // OVERVIEW</div>
+    <div class="section-title" style="font-size:20px;font-weight:700;">Strategy Performance Scorecard</div>
+    <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px;">
+        Four of six strategies posted positive returns during the June 1–3 dump window. ZEC led with +8.83%, while BNB struggled at −4.89%. The average return across all six was <strong style="color: var(--accent-green);">+2.92%</strong>.
+    </p>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>PAIR</th>
+                <th>JUNE PNL</th>
+                <th>TRADES</th>
+                <th>LONG/SHORT</th>
+                <th>ALL-TIME ROI</th>
+                <th>SHARPE</th>
+                <th>MAX DD</th>
+                <th>WIN RATE</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="coin-badge zec">ZEC</span></td>
+                <td class="highlight">+8.83%</td>
+                <td>20</td>
+                <td>11L / 9S</td>
+                <td>7,544%</td>
+                <td>2.69</td>
+                <td>42.73%</td>
+                <td>45.48%</td>
+            </tr>
+            <tr>
+                <td><span class="coin-badge link">LINK</span></td>
+                <td class="highlight">+4.78%</td>
+                <td>21</td>
+                <td>10L / 11S</td>
+                <td>1,074%</td>
+                <td>3.35</td>
+                <td>13.74%</td>
+                <td>51.08%</td>
+            </tr>
+            <tr>
+                <td><span class="coin-badge doge">DOGE</span></td>
+                <td class="highlight">+3.19%</td>
+                <td>11</td>
+                <td>5L / 6S</td>
+                <td>2,505%</td>
+                <td>2.90</td>
+                <td>12.68%</td>
+                <td>52.24%</td>
+            </tr>
+            <tr>
+                <td><span class="coin-badge xrp">XRP</span></td>
+                <td class="highlight">+2.88%</td>
+                <td>20</td>
+                <td>11L / 9S</td>
+                <td>1,012%</td>
+                <td>3.44</td>
+                <td>10.54%</td>
+                <td>51.48%</td>
+            </tr>
+            <tr>
+                <td><span class="coin-badge ada">ADA</span></td>
+                <td class="highlight">+2.75%</td>
+                <td>9</td>
+                <td>6L / 3S</td>
+                <td>1,231%</td>
+                <td>2.78</td>
+                <td>23.93%</td>
+                <td>51.08%</td>
+            </tr>
+            <tr>
+                <td><span class="coin-badge bnb">BNB</span></td>
+                <td class="warning">−4.89%</td>
+                <td>21</td>
+                <td>10L / 11S</td>
+                <td>492%</td>
+                <td>2.73</td>
+                <td>23.10%</td>
+                <td>51.73%</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- Section 02: ZEC Deep Dive (Best) -->
+<section>
+    <div class="section-num">02 // TOP PERFORMER</div>
+    <div class="section-title" style="font-size:20px;font-weight:700;">ZEC — Volatility Capture at Its Finest <span style="color: var(--accent-green);">+8.83%</span></div>
+    <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px;">
+        ZEC continued its dominance with the highest June return. The strategy's asymmetric payoff ratio — average winning trade <strong>3.83%</strong> vs. average loss <strong>−2.21%</strong> — produced a <strong>1.73x</strong> win/loss ratio. With 27.15% average net exposure, ZEC runs hotter than peers but captures proportionally more alpha.
+    </p>
+
+    <div class="card-grid" style="margin-bottom: 24px; grid-template-columns: repeat(4, 1fr);">
+        <div class="card" style="padding: 16px;">
+            <div class="card-header" style="font-size:10px;margin-bottom:6px;">JUNE RETURN</div>
+            <div class="card-value positive" style="font-size:24px;">+8.83%</div>
+            <div class="card-sub" style="font-size:11px;">Highest among all 6 pairs</div>
+        </div>
+        <div class="card" style="padding: 16px;">
+            <div class="card-header" style="font-size:10px;margin-bottom:6px;">WIN/LOSS RATIO</div>
+            <div class="card-value" style="color: var(--text); font-size:24px;">1.73x</div>
+            <div class="card-sub" style="font-size:11px;">+3.83% win / −2.21% loss</div>
+        </div>
+        <div class="card" style="padding: 16px;">
+            <div class="card-header" style="font-size:10px;margin-bottom:6px;">NET EXPOSURE</div>
+            <div class="card-value" style="color: var(--accent-yellow); font-size:24px;">27.15%</div>
+            <div class="card-sub" style="font-size:11px;">Highest in cohort → more alpha capture</div>
+        </div>
+        <div class="card" style="padding: 16px;">
+            <div class="card-header" style="font-size:10px;margin-bottom:6px;">MAX DRAWDOWN</div>
+            <div class="card-value" style="color: var(--accent-red); font-size:24px;">42.73%</div>
+            <div class="card-sub" style="font-size:11px;">Highest risk, highest reward</div>
+        </div>
+    </div>
+
+    <p style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase;">ZEC/USDT PERP · 1H CHART — 20 Trades (11 LONG / 9 SHORT)</p>
+    <div style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 600;">ZEC/USDT PERP</span>
+                <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 600; padding: 2px 10px; border-radius: 4px; color: var(--accent-green); background: rgba(0,200,83,0.1);">+8.83%</span>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); display: flex; gap: 14px;">
+                <span>Price Δ: <b style="color:var(--accent-green)">+9.3%</b></span>
+            </div>
+        </div>
+        <div class="chart-container" id="chart_ZEC" style="width:100%;height:380px;"></div>
+        <div style="display: flex; gap: 16px; padding: 6px 16px; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary);">
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent-green)"></span> LONG</span>
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent-blue)"></span> SHORT</span>
+            <span style="margin-left:auto">🖱 Drag to zoom · Scroll to pan</span>
+        </div>
+    </div>
+</section>
+
+<!-- Section 03: BNB Deep Dive (Worst) -->
+<section>
+    <div class="section-num">03 // UNDERPERFORMER</div>
+    <div class="section-title" style="font-size:20px;font-weight:700;">BNB — Slower Capture, Challenged Timing <span style="color: var(--accent-red);">−4.89%</span></div>
+    <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px;">
+        BNB was the only strategy to post a June loss. With the highest average net exposure (31.99%) and relatively tight average trade sizes (+2.48% / −1.93%), the strategy's high capital allocation amplifies both gains and losses. BNB's "slow to capture" characteristic was evident — it gradually built shorts but lacked the aggressive directional swings seen in ZEC.
+    </p>
+
+    <div class="card-grid" style="margin-bottom: 24px; grid-template-columns: repeat(4, 1fr);">
+        <div class="card" style="padding: 16px;">
+            <div class="card-header" style="font-size:10px;margin-bottom:6px;">JUNE RETURN</div>
+            <div class="card-value negative" style="font-size:24px;">−4.89%</div>
+            <div class="card-sub" style="font-size:11px;">Only negative performer</div>
+        </div>
+        <div class="card" style="padding: 16px;">
+            <div class="card-header" style="font-size:10px;margin-bottom:6px;">NET EXPOSURE</div>
+            <div class="card-value" style="color: var(--accent-red); font-size:24px;">31.99%</div>
+            <div class="card-sub" style="font-size:11px;">Highest in cohort → amplified losses</div>
+        </div>
+        <div class="card" style="padding: 16px;">
+            <div class="card-header" style="font-size:10px;margin-bottom:6px;">TRADE FREQUENCY</div>
+            <div class="card-value neutral" style="font-size:24px;">21</div>
+            <div class="card-sub" style="font-size:11px;">Highest, with small fragmented entries</div>
+        </div>
+        <div class="card" style="padding: 16px;">
+            <div class="card-header" style="font-size:10px;margin-bottom:6px;">WIN RATE</div>
+            <div class="card-value" style="color: var(--text); font-size:24px;">51.73%</div>
+            <div class="card-sub" style="font-size:11px;">Good win rate, poor sizing/reversal timing</div>
+        </div>
+    </div>
+
+    <p style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase;">BNB/USDT PERP · 1H CHART — 21 Trades (10 LONG / 11 SHORT)</p>
+    <div style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 600;">BNB/USDT PERP</span>
+                <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 600; padding: 2px 10px; border-radius: 4px; color: var(--accent-red); background: rgba(255,23,68,0.1);">-4.89%</span>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); display: flex; gap: 14px;">
+                <span>Price Δ: <b style="color:var(--accent-red)">-11.0%</b></span>
+            </div>
+        </div>
+        <div class="chart-container" id="chart_BNB" style="width:100%;height:380px;"></div>
+        <div style="display: flex; gap: 16px; padding: 6px 16px; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary);">
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent-green)"></span> LONG</span>
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent-blue)"></span> SHORT</span>
+            <span style="margin-left:auto">🖱 Drag to zoom · Scroll to pan</span>
+        </div>
+    </div>
+</section>
+
+<!-- Section 04: LINK & XRP -->
+<section>
+    <div class="section-num">04 // CONSISTENT PERFORMERS</div>
+    <div class="section-title" style="font-size:20px;font-weight:700;">LINK <span style="color: var(--accent-green);">+4.78%</span> & XRP <span style="color: var(--accent-green);">+2.88%</span> — High Sharpe, Low Stress</div>
+    <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px;">
+        LINK and XRP share nearly identical architecture (17.54% net exposure, ~51% win rate), yet LINK delivered 1.9 percentage points more. LINK's Sharpe of <strong>3.35</strong> and XRP's <strong>3.44</strong> are the two highest in the cohort — demonstrating that capital-efficient alpha generation doesn't require high risk.
+    </p>
+
+    <div class="card-grid" style="margin-bottom: 32px;">
+        <div class="card">
+            <div class="card-header">LINK — JUNE PNL</div>
+            <div class="card-value positive">+4.78%</div>
+            <div class="card-sub">21 trades | 10L / 11S | DD 13.74%</div>
+        </div>
+        <div class="card">
+            <div class="card-header">XRP — JUNE PNL</div>
+            <div class="card-value positive">+2.88%</div>
+            <div class="card-sub">20 trades | 11L / 9S | DD 10.54%</div>
+        </div>
+    </div>
+
+    <p style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase;">LINK/USDT PERP · 1H CHART — 21 Trades (10 LONG / 11 SHORT)</p>
+    <div style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 600;">LINK/USDT PERP</span>
+                <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 600; padding: 2px 10px; border-radius: 4px; color: var(--accent-green); background: rgba(0,200,83,0.1);">+4.78%</span>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); display: flex; gap: 14px;">
+                <span>Price Δ: <b style="color:var(--accent-red)">-5.5%</b></span>
+            </div>
+        </div>
+        <div class="chart-container" id="chart_LINK" style="width:100%;height:380px;"></div>
+        <div style="display: flex; gap: 16px; padding: 6px 16px; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary);">
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent-green)"></span> LONG</span>
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent-blue)"></span> SHORT</span>
+            <span style="margin-left:auto">🖱 Drag to zoom · Scroll to pan</span>
+        </div>
+    </div>
+
+    <p style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase;">XRP/USDT PERP · 1H CHART — 20 Trades (11 LONG / 9 SHORT)</p>
+    <div style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 600;">XRP/USDT PERP</span>
+                <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 600; padding: 2px 10px; border-radius: 4px; color: var(--accent-green); background: rgba(0,200,83,0.1);">+2.88%</span>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); display: flex; gap: 14px;">
+                <span>Price Δ: <b style="color:var(--accent-red)">-6.7%</b></span>
+            </div>
+        </div>
+        <div class="chart-container" id="chart_XRP" style="width:100%;height:380px;"></div>
+        <div style="display: flex; gap: 16px; padding: 6px 16px; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary);">
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent-green)"></span> LONG</span>
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent-blue)"></span> SHORT</span>
+            <span style="margin-left:auto">🖱 Drag to zoom · Scroll to pan</span>
+        </div>
+    </div>
+</section>
+
+<!-- Section 05: DOGE & ADA -->
+<section>
+    <div class="section-num">05 // SECONDARY PERFORMERS</div>
+    <div class="section-title" style="font-size:20px;font-weight:700;">DOGE <span style="color: var(--accent-green);">+3.19%</span> & ADA <span style="color: var(--accent-green);">+2.75%</span> — Lower Volume, Solid Returns</div>
+    <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px;">
+        DOGE and ADA traded less frequently but maintained positive returns. ADA was notably long-biased early (5 of first 6 trades were LONG) before shifting to a balanced short/long mix. DOGE maintained a steady alternating rhythm.
+    </p>
+
+    <div class="card-grid" style="margin-bottom: 24px;">
+        <div class="card">
+            <div class="card-header">DOGE</div>
+            <div class="card-value positive">+3.19%</div>
+            <div class="card-sub">11 trades | 5L / 6S | DD 12.68%</div>
+        </div>
+        <div class="card">
+            <div class="card-header">ADA</div>
+            <div class="card-value positive">+2.75%</div>
+            <div class="card-sub">9 trades | 6L / 3S | DD 23.93%</div>
+        </div>
+    </div>
+
+    <p style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase;">DOGE/USDT PERP · 1H CHART — 11 Trades (5 LONG / 6 SHORT)</p>
+    <div style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 600;">DOGE/USDT PERP</span>
+                <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 600; padding: 2px 10px; border-radius: 4px; color: var(--accent-green); background: rgba(0,200,83,0.1);">+3.19%</span>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); display: flex; gap: 14px;">
+                <span>Price Δ: <b style="color:var(--accent-red)">-5.5%</b></span>
+            </div>
+        </div>
+        <div class="chart-container" id="chart_DOGE" style="width:100%;height:380px;"></div>
+        <div style="display: flex; gap: 16px; padding: 6px 16px; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary);">
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent-green)"></span> LONG</span>
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent-blue)"></span> SHORT</span>
+            <span style="margin-left:auto">🖱 Drag to zoom · Scroll to pan</span>
+        </div>
+    </div>
+
+    <p style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase;">ADA/USDT PERP · 1H CHART — 9 Trades (6 LONG / 3 SHORT)</p>
+    <div style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 600;">ADA/USDT PERP</span>
+                <span style="font-family: var(--font-mono); font-size: 14px; font-weight: 600; padding: 2px 10px; border-radius: 4px; color: var(--accent-green); background: rgba(0,200,83,0.1);">+2.75%</span>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); display: flex; gap: 14px;">
+                <span>Price Δ: <b style="color:var(--accent-red)">-6.8%</b></span>
+            </div>
+        </div>
+        <div class="chart-container" id="chart_ADA" style="width:100%;height:380px;"></div>
+        <div style="display: flex; gap: 16px; padding: 6px 16px; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary);">
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent-green)"></span> LONG</span>
+            <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:var(--accent-blue)"></span> SHORT</span>
+            <span style="margin-left:auto">🖱 Drag to zoom · Scroll to pan</span>
+        </div>
+    </div>
+</section>
+
+<!-- Section 06: Analysis -->
+<section>
+    <div class="section-num">06 // ANALYSIS</div>
+    <div class="section-title" style="font-size:20px;font-weight:700;">How Hackworth Prime Handled the Market Dump</div>
+
+    <div class="insight-block">
+        <div class="insight-label good">STRENGTH</div>
+        <div class="insight-text">
+            <strong>Independent Alpha, Diversified Coverage.</strong> Each Hackworth Prime strategy operates independently with its own distinct alpha model and trading behavior — they are not an ensemble designed to coordinate. Nevertheless, the <strong>simultaneous short entries</strong> across LINK, XRP, DOGE, BNB, and ZEC on <strong>June 2 at 22:27 GMT+8</strong> were notable: five independently-trading strategies all interpreted the same broad market sell-off as a short opportunity. This convergence demonstrates the strength of running <strong>diversified, uncorrelated alphas</strong> across multiple assets — when independent models reach similar conclusions, the signal is worth paying attention to.
+        </div>
+    </div>
+
+    <div class="insight-block">
+        <div class="insight-label good">STRENGTH</div>
+        <div class="insight-text">
+            <strong>Asymmetric Payoff Architecture.</strong> ZEC (1.73x win/loss ratio) and ADA (1.04x) demonstrated the strategy's <strong>positive expectancy</strong> design. Even with sub-50% win rates (ZEC: 45.48%, ADA: 51.08%), the strategies are profitable because <strong>winning trades are consistently larger than losing ones</strong>. During the dump, this asymmetry was maintained: shorts captured downward momentum while longs were cut quickly on reversals.
+        </div>
+    </div>
+
+    <div class="insight-block">
+        <div class="insight-label good">STRENGTH</div>
+        <div class="insight-text">
+            <strong>Adaptive Position Sizing.</strong> The strategy dynamically scales position sizes between 20% and 40%. Small 20% entries often appeared during indecisive periods (BNB on June 2 midday, LINK on June 1), while 40% entries appeared during high-conviction signals. XRP stacked multiple entries simultaneously (30% + 20% at 01:07 on June 1) when conviction was high — a sophisticated "scaling in" approach.
+        </div>
+    </div>
+
+    <div class="insight-block">
+        <div class="insight-label bad">WEAKNESS</div>
+        <div class="insight-text">
+            <strong>High Net Exposure Amplifies Losses.</strong> BNB's 31.99% net exposure — nearly <strong>3x DOGE's 11.34%</strong> — meant every adverse move hit proportionally harder. When BNB's alpha model generated conflicting signals (the June 2 chop pattern), the high exposure converted uncertainty into real losses. The strategy's "slower to capture" characteristic meant it stayed exposed longer during adverse moves.
+        </div>
+    </div>
+
+    <div class="insight-block">
+        <div class="insight-label bad">WEAKNESS</div>
+        <div class="insight-text">
+            <strong>Chop Vulnerability in Range-Bound Markets.</strong> BNB's 6-trade, 98-minute indecision cluster on June 2 revealed a vulnerability: when the alpha model cannot form a directional view, rapid micro-flipping at small sizes burns transaction costs and generates "death by a thousand cuts." XRP showed similar behavior on June 3 (4 flips in 5 seconds), but seemed to extract profit from it — suggesting BNB's issue is more about <strong>market-specific alpha quality</strong> than structural design.
+        </div>
+    </div>
+
+    <div class="insight-block">
+        <div class="insight-label obs">OBSERVATION</div>
+        <div class="insight-text">
+            <strong>ZEC's "Reverse Capture" Excellence.</strong> The user noted "ZEC逆向行情也抓住" (ZEC captured the reversal too). The trade log confirms this: on June 2, ZEC went long at 23:30 and short at 23:39 — <strong>capturing both directions within 9 minutes</strong>. This bidirectional alpha capture on a high-volatility asset is the Hackworth engine at its best. The 27.15% net exposure on ZEC is not reckless — it's <strong>deliberately calibrated</strong> to the asset's higher volatility regime.
+        </div>
+    </div>
+
+    <div class="insight-block">
+        <div class="insight-label obs">OBSERVATION</div>
+        <div class="insight-text">
+            <strong>LINK/XRP: The "Boring" Winners.</strong> LINK and XRP's 17.54% net exposure and 3.35/3.44 Sharpe ratios represent <strong>the most capital-efficient profiles in the cohort</strong>. They don't generate the highest absolute returns, but deliver the <strong>smoothest equity curves</strong>. During the dump, their balanced long/short mix (roughly 50/50) ensured they profited from both directions without excessive directional risk.
+        </div>
+    </div>
+</section>
+
+<!-- Section 07: Comparative Timeline -->
+<section>
+    <div class="section-num">07 // TIMELINE</div>
+    <div class="section-title">Key Event Timeline — June 2 Dump Day</div>
+    <p style="color: var(--text-secondary); margin-bottom: 24px; font-size: 14px;">
+        June 2 was the most active day with 46 trades across all strategies. The synchronized short event at <strong>22:27 GMT+8</strong> was the defining moment. Below is the blow-by-blow reconstruction.
+    </p>
+
+    <div style="background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
+        <div style="margin-bottom: 20px; padding-left: 16px; border-left: 2px solid var(--accent-blue);">
+            <p style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-blue); letter-spacing: 1px; margin-bottom: 4px;">06:45–10:32 | MORNING SHORTS</p>
+            <p style="font-size: 13px; color: var(--text-secondary);">ZEC short at 06:45 (30%) → LINK short at 08:14 (40%) → XRP short at 08:03 (40%) → DOGE short at 07:57 (40%). <strong>Broad morning short alignment</strong> across 4 pairs.</p>
+        </div>
+        <div style="margin-bottom: 20px; padding-left: 16px; border-left: 2px solid var(--accent-red);">
+            <p style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-red); letter-spacing: 1px; margin-bottom: 4px;">12:00–13:38 | BNB INDECISION CLUSTER</p>
+            <p style="font-size: 13px; color: var(--text-secondary);">BNB executes 6 trades at 20% size, flipping long↔short repeatedly. <strong>Low conviction, fragmenting signals.</strong> Contrast with clean 40% entries elsewhere.</p>
+        </div>
+        <div style="margin-bottom: 20px; padding-left: 16px; border-left: 2px solid var(--accent-yellow);">
+            <p style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-yellow); letter-spacing: 1px; margin-bottom: 4px;">21:30–22:38 | SYNCHRONIZED SHORT WAVE</p>
+            <p style="font-size: 13px; color: var(--text-secondary);">ZEC short at 21:30 (30%) → LINK short at 22:22 (40%) → <strong>LINK/XRP/DOGE/BNB short at 22:27 (40%)</strong> → ADA short at 22:37 (40%) → LINK short at 22:38 (40%). <strong>All 6 pairs short within 8 minutes.</strong> This is the dump capture in action.</p>
+        </div>
+        <div style="margin-bottom: 20px; padding-left: 16px; border-left: 2px solid var(--accent-green);">
+            <p style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-green); letter-spacing: 1px; margin-bottom: 4px;">23:15–00:45 | ZEC REVERSAL CAPTURE</p>
+            <p style="font-size: 13px; color: var(--text-secondary);">ZEC flips long at 23:15 (40%) → short at 23:18 (40%) → long at 23:30 (40%) → short at 23:39 (40%) → long at 23:45 (40%). <strong>5 flips in 30 minutes, capturing the post-dump bounce.</strong></p>
+        </div>
+        <div style="padding-left: 16px; border-left: 2px solid var(--border-light);">
+            <p style="font-family: var(--font-mono); font-size: 11px; color: var(--text-tertiary); letter-spacing: 1px; margin-bottom: 4px;">02:45–02:50 (JUN 3) | XRP MICRO-FLIP</p>
+            <p style="font-size: 13px; color: var(--text-secondary);">XRP: short→long→short→long in <strong>5 seconds</strong>. The fastest recorded rotation. Sub-second alpha firing at maximum speed.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Section 08: Recommendations -->
+<section>
+    <div class="section-num">08 // VERDICT</div>
+    <div class="section-title">Strategic Assessment & Recommendations</div>
+
+    <div class="insight-block">
+        <div class="insight-label good">WHAT WORKED</div>
+        <div class="insight-text">
+            <strong>1. Cross-asset short coordination</strong> — The synchronized trigger at 22:27 on June 2 was the engine's crown jewel moment.<br>
+            <strong>2. ZEC volatility capture</strong> — +8.83% in 3 days with bidirectional alpha extraction.<br>
+            <strong>3. LINK/XRP capital efficiency</strong> — 3.35+ Sharpe with minimal drawdown risk.<br>
+            <strong>4. Adaptive sizing</strong> — 20% for uncertainty, 40% for conviction. Correctly calibrated.
+        </div>
+    </div>
+
+    <div class="insight-block">
+        <div class="insight-label bad">NEEDS ATTENTION</div>
+        <div class="insight-text">
+            <strong>1. BNB exposure management</strong> — 31.99% net exposure is too high for an asset generating mixed signals. Consider reducing to 18–22%.<br>
+            <strong>2. Chop filter</strong> — Rapid micro-flipping (BNB: 6 trades in 98 min, XRP: 4 trades in 5 sec) may benefit from a cooldown mechanism or minimum hold period.<br>
+            <strong>3. BNB signal quality</strong> — The alpha model on BNB appears less reliable than on other pairs. Review model weights.
+        </div>
+    </div>
+
+    <div class="insight-block">
+        <div class="insight-label obs">BOTTOM LINE</div>
+        <div class="insight-text">
+            <strong style="font-size: 16px; color: var(--accent-green);">The Hackworth Prime engine successfully navigated the June 1–3 market dump.</strong><br><br>
+            5 out of 6 strategies posted positive returns. The simple average June return across this sample was <strong style="color: var(--accent-green);">+2.92%</strong> — solid for a 3-day window in adverse market conditions. Each strategy's independent alpha model scaled position sizes dynamically and captured bidirectional moves; ZEC's volatility capture was particularly effective. BNB's underperformance is notable but isolated in this sample — the engine's core design remains sound across the broader 33+ strategy marketplace.
+        </div>
+    </div>
+</section>
+
+<!-- Section 09: Data Table -->
+<section>
+    <div class="section-num">09 // APPENDIX</div>
+    <div class="section-title">Complete Strategy Metrics</div>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>METRIC</th>
+                <th>LINK</th>
+                <th>DOGE</th>
+                <th>ADA</th>
+                <th>XRP</th>
+                <th>ZEC</th>
+                <th>BNB</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>June PnL</strong></td><td class="highlight">+4.78%</td><td class="highlight">+3.19%</td><td class="highlight">+2.75%</td><td class="highlight">+2.88%</td><td class="highlight">+8.83%</td><td class="warning">−4.89%</td></tr>
+            <tr><td><strong>June Trades</strong></td><td>21</td><td>11</td><td>9</td><td>20</td><td>20</td><td>21</td></tr>
+            <tr><td><strong>Long/Short Ratio</strong></td><td>48/52%</td><td>45/55%</td><td>67/33%</td><td>55/45%</td><td>55/45%</td><td>48/52%</td></tr>
+            <tr><td><strong>May PnL</strong></td><td>+1.61%</td><td>−7.75%</td><td>−0.20%</td><td>−2.12%</td><td>+20.33%</td><td>+8.38%</td></tr>
+            <tr><td><strong>All-Time ROI</strong></td><td>1,074%</td><td>2,505%</td><td>1,231%</td><td>1,012%</td><td>7,544%</td><td>492%</td></tr>
+            <tr><td><strong>Sharpe Ratio</strong></td><td>3.35</td><td>2.90</td><td>2.78</td><td>3.44</td><td>2.69</td><td>2.73</td></tr>
+            <tr><td><strong>Max Drawdown</strong></td><td>13.74%</td><td>12.68%</td><td>23.93%</td><td>10.54%</td><td>42.73%</td><td>23.10%</td></tr>
+            <tr><td><strong>Win Rate</strong></td><td>51.08%</td><td>52.24%</td><td>51.08%</td><td>51.48%</td><td>45.48%</td><td>51.73%</td></tr>
+            <tr><td><strong>Avg Win</strong></td><td>+2.96%</td><td>+2.83%</td><td>+3.96%</td><td>+2.90%</td><td>+3.83%</td><td>+2.48%</td></tr>
+            <tr><td><strong>Avg Loss</strong></td><td>−2.79%</td><td>−2.59%</td><td>−3.79%</td><td>−2.41%</td><td>−2.21%</td><td>−1.93%</td></tr>
+            <tr><td><strong>Net Exposure</strong></td><td>17.54%</td><td>11.34%</td><td>17.54%</td><td>17.54%</td><td>27.15%</td><td>31.99%</td></tr>
+            <tr><td><strong>Total Trades</strong></td><td>4,278</td><td>2,840</td><td>1,891</td><td>2,368</td><td>2,210</td><td>1,672</td></tr>
+            <tr><td><strong>Win/Loss Ratio</strong></td><td>1.06x</td><td>1.09x</td><td>1.04x</td><td>1.20x</td><td>1.73x</td><td>1.29x</td></tr>
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="f-top">
+      <img src="https://alphanet.global/assets/logo-Bx0-plbv.webp" alt="AlphaNet">
+    </div>
+    <div class="follow">
+      <div class="ft">Follow us to get <em>early access</em> to our new product releases.</div>
+      <div class="links">
+        <a href="https://alphanet.global/" target="_blank" rel="noopener">Website</a>
+        <a href="https://x.com/AlphaNet_AI" target="_blank" rel="noopener">X</a>
+        <a href="https://t.me/AlphaNet_AI" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </div>
+    <p class="disc">Not investment advice. Trading involves substantial risk of loss. Past performance does not guarantee future results. All trading signals and strategy data shown are generated by artificial intelligence models and may contain errors, omissions, or latency. AlphaNet does not guarantee the accuracy, completeness, or timeliness of any information provided. Users should conduct their own due diligence and consult with a qualified financial advisor before making any investment decisions. Cryptocurrency products referenced are not FDIC or SIPC insured. Certain strategies and performance metrics may be backtested or simulated using historical data and assumptions; actual trading results may differ materially. AlphaNet may hold positions in assets discussed. Use of this report constitutes acceptance of our Terms of Service.</p>
+  </div>
+</footer>
+
+
+
+
+<script>
+const CHART_DATA = {"prices":{"LINK":[{"time":1780243200,"open":9.091,"high":9.108,"low":9.013,"close":9.028,"volume":540256.76},{"time":1780246800,"open":9.028,"high":9.065,"low":9.01,"close":9.058,"volume":244632.63},{"time":1780250400,"open":9.059,"high":9.059,"low":9.029,"close":9.048,"volume":151251.22},{"time":1780254000,"open":9.049,"high":9.057,"low":8.984,"close":9.034,"volume":617725.18},{"time":1780257600,"open":9.035,"high":9.101,"low":9.035,"close":9.091,"volume":177639.8},{"time":1780261200,"open":9.091,"high":9.136,"low":9.077,"close":9.135,"volume":239106.63},{"time":1780264800,"open":9.136,"high":9.164,"low":9.101,"close":9.152,"volume":269696.76},{"time":1780268400,"open":9.153,"high":9.218,"low":9.087,"close":9.143,"volume":507376.74},{"time":1780272000,"open":9.142,"high":9.198,"low":9.134,"close":9.176,"volume":374698.57},{"time":1780275600,"open":9.177,"high":9.181,"low":9.037,"close":9.038,"volume":454081.46},{"time":1780279200,"open":9.038,"high":9.18,"low":9.022,"close":9.164,"volume":469176.35},{"time":1780282800,"open":9.164,"high":9.212,"low":9.156,"close":9.174,"volume":444043.23},{"time":1780286400,"open":9.174,"high":9.194,"low":9.062,"close":9.113,"volume":649702.59},{"time":1780290000,"open":9.113,"high":9.121,"low":9.036,"close":9.051,"volume":452684.1},{"time":1780293600,"open":9.052,"high":9.06,"low":8.965,"close":9.009,"volume":671089.89},{"time":1780297200,"open":9.009,"high":9.039,"low":8.951,"close":8.961,"volume":354892.04},{"time":1780300800,"open":8.962,"high":8.999,"low":8.927,"close":8.996,"volume":470921.9},{"time":1780304400,"open":8.997,"high":9.045,"low":8.995,"close":9.022,"volume":380229.88},{"time":1780308000,"open":9.023,"high":9.032,"low":8.978,"close":9.015,"volume":243710.97},{"time":1780311600,"open":9.015,"high":9.046,"low":8.964,"close":8.996,"volume":280135.98},{"time":1780315200,"open":8.997,"high":9.033,"low":8.911,"close":9.001,"volume":636983.08},{"time":1780318800,"open":9.001,"high":9.006,"low":8.841,"close":8.902,"volume":1372090.09},{"time":1780322400,"open":8.903,"high":8.922,"low":8.855,"close":8.874,"volume":742395.71},{"time":1780326000,"open":8.874,"high":8.965,"low":8.844,"close":8.907,"volume":625839.0},{"time":1780329600,"open":8.908,"high":9.008,"low":8.858,"close":9.003,"volume":703664.18},{"time":1780333200,"open":9.003,"high":9.108,"low":8.987,"close":9.06,"volume":837336.93},{"time":1780336800,"open":9.059,"high":9.081,"low":9.026,"close":9.028,"volume":283930.17},{"time":1780340400,"open":9.028,"high":9.092,"low":9.015,"close":9.079,"volume":234309.28},{"time":1780344000,"open":9.079,"high":9.084,"low":9.04,"close":9.057,"volume":230260.83},{"time":1780347600,"open":9.058,"high":9.062,"low":8.974,"close":8.983,"volume":302924.92},{"time":1780351200,"open":8.983,"high":9.046,"low":8.938,"close":9.039,"volume":357830.32},{"time":1780354800,"open":9.04,"high":9.077,"low":9.02,"close":9.053,"volume":278243.02},{"time":1780358400,"open":9.053,"high":9.069,"low":8.996,"close":8.999,"volume":321248.91},{"time":1780362000,"open":9.0,"high":9.012,"low":8.892,"close":8.898,"volume":562578.87},{"time":1780365600,"open":8.898,"high":8.987,"low":8.801,"close":8.985,"volume":1276234.25},{"time":1780369200,"open":8.985,"high":9.03,"low":8.965,"close":9.014,"volume":483680.8},{"time":1780372800,"open":9.015,"high":9.027,"low":8.942,"close":8.944,"volume":559677.6},{"time":1780376400,"open":8.943,"high":8.971,"low":8.864,"close":8.871,"volume":501146.88},{"time":1780380000,"open":8.871,"high":8.883,"low":8.806,"close":8.834,"volume":1087757.74},{"time":1780383600,"open":8.835,"high":8.88,"low":8.781,"close":8.841,"volume":484796.22},{"time":1780387200,"open":8.842,"high":8.861,"low":8.807,"close":8.826,"volume":279280.09},{"time":1780390800,"open":8.826,"high":8.828,"low":8.769,"close":8.801,"volume":626114.67},{"time":1780394400,"open":8.802,"high":8.867,"low":8.781,"close":8.86,"volume":562354.94},{"time":1780398000,"open":8.859,"high":8.859,"low":8.792,"close":8.812,"volume":501430.1},{"time":1780401600,"open":8.813,"high":8.844,"low":8.783,"close":8.832,"volume":474144.25},{"time":1780405200,"open":8.832,"high":8.871,"low":8.817,"close":8.842,"volume":383071.33},{"time":1780408800,"open":8.843,"high":8.85,"low":8.57,"close":8.67,"volume":2994149.72},{"time":1780412400,"open":8.67,"high":8.68,"low":8.475,"close":8.562,"volume":2101464.03},{"time":1780416000,"open":8.562,"high":8.738,"low":8.536,"close":8.603,"volume":1362127.58},{"time":1780419600,"open":8.603,"high":8.692,"low":8.598,"close":8.641,"volume":553785.04},{"time":1780423200,"open":8.642,"high":8.672,"low":8.501,"close":8.543,"volume":575097.01},{"time":1780426800,"open":8.543,"high":8.568,"low":8.37,"close":8.521,"volume":1434472.35},{"time":1780430400,"open":8.521,"high":8.568,"low":8.449,"close":8.532,"volume":791700.48},{"time":1780434000,"open":8.533,"high":8.585,"low":8.508,"close":8.528,"volume":336921.63},{"time":1780437600,"open":8.528,"high":8.532,"low":8.306,"close":8.344,"volume":1414193.77},{"time":1780441200,"open":8.345,"high":8.392,"low":8.238,"close":8.37,"volume":1675951.49},{"time":1780444800,"open":8.37,"high":8.433,"low":8.342,"close":8.386,"volume":798965.52},{"time":1780448400,"open":8.386,"high":8.418,"low":8.336,"close":8.407,"volume":436541.38},{"time":1780452000,"open":8.407,"high":8.409,"low":8.346,"close":8.37,"volume":290892.73},{"time":1780455600,"open":8.37,"high":8.387,"low":8.165,"close":8.223,"volume":1563602.25},{"time":1780459200,"open":8.223,"high":8.37,"low":8.22,"close":8.366,"volume":827062.52},{"time":1780462800,"open":8.367,"high":8.506,"low":8.366,"close":8.496,"volume":1342553.73},{"time":1780466400,"open":8.495,"high":8.566,"low":8.486,"close":8.505,"volume":829460.05},{"time":1780470000,"open":8.505,"high":8.566,"low":8.477,"close":8.542,"volume":471745.49},{"time":1780473600,"open":8.542,"high":8.558,"low":8.503,"close":8.523,"volume":411961.92},{"time":1780477200,"open":8.524,"high":8.551,"low":8.463,"close":8.49,"volume":621528.68},{"time":1780480800,"open":8.49,"high":8.583,"low":8.49,"close":8.576,"volume":574924.06},{"time":1780484400,"open":8.576,"high":8.616,"low":8.574,"close":8.59,"volume":260598.52}],"DOGE":[{"time":1780243200,"open":0.0998,"high":0.09994,"low":0.09895,"close":0.0993,"volume":279125294.0},{"time":1780246800,"open":0.0993,"high":0.09952,"low":0.09906,"close":0.09939,"volume":110134575.0},{"time":1780250400,"open":0.0994,"high":0.09952,"low":0.0992,"close":0.09944,"volume":58721064.0},{"time":1780254000,"open":0.09944,"high":0.09957,"low":0.09908,"close":0.09949,"volume":61484096.0},{"time":1780257600,"open":0.0995,"high":0.09989,"low":0.0995,"close":0.09982,"volume":76869515.0},{"time":1780261200,"open":0.09982,"high":0.1004,"low":0.09959,"close":0.10025,"volume":90461098.0},{"time":1780264800,"open":0.10026,"high":0.10064,"low":0.09998,"close":0.10042,"volume":111845168.0},{"time":1780268400,"open":0.10042,"high":0.101,"low":0.09986,"close":0.10038,"volume":176423764.0},{"time":1780272000,"open":0.10039,"high":0.10111,"low":0.10025,"close":0.1009,"volume":162380583.0},{"time":1780275600,"open":0.1009,"high":0.10095,"low":0.09979,"close":0.0998,"volume":133179571.0},{"time":1780279200,"open":0.09979,"high":0.10117,"low":0.09963,"close":0.101,"volume":203780334.0},{"time":1780282800,"open":0.10099,"high":0.10154,"low":0.10095,"close":0.10107,"volume":174969834.0},{"time":1780286400,"open":0.10107,"high":0.10127,"low":0.10005,"close":0.10064,"volume":196760753.0},{"time":1780290000,"open":0.10064,"high":0.10072,"low":0.09993,"close":0.10027,"volume":189778761.0},{"time":1780293600,"open":0.10026,"high":0.10032,"low":0.09965,"close":0.10012,"volume":191917320.0},{"time":1780297200,"open":0.10012,"high":0.1002,"low":0.09904,"close":0.09915,"volume":234193459.0},{"time":1780300800,"open":0.09916,"high":0.09983,"low":0.09902,"close":0.09977,"volume":175237046.0},{"time":1780304400,"open":0.09978,"high":0.10025,"low":0.09977,"close":0.10002,"volume":137747011.0},{"time":1780308000,"open":0.10003,"high":0.10029,"low":0.09971,"close":0.10016,"volume":102862934.0},{"time":1780311600,"open":0.10016,"high":0.10027,"low":0.09962,"close":0.0999,"volume":128512180.0},{"time":1780315200,"open":0.0999,"high":0.10009,"low":0.09919,"close":0.09993,"volume":234378366.0},{"time":1780318800,"open":0.09993,"high":0.10006,"low":0.09831,"close":0.09911,"volume":577885097.0},{"time":1780322400,"open":0.09912,"high":0.0994,"low":0.09848,"close":0.09868,"volume":336786551.0},{"time":1780326000,"open":0.09868,"high":0.09892,"low":0.0979,"close":0.09826,"volume":388605760.0},{"time":1780329600,"open":0.09826,"high":0.09956,"low":0.09775,"close":0.09952,"volume":271511454.0},{"time":1780333200,"open":0.09953,"high":0.10042,"low":0.09942,"close":0.10009,"volume":350745446.0},{"time":1780336800,"open":0.10008,"high":0.10038,"low":0.09973,"close":0.09991,"volume":128347027.0},{"time":1780340400,"open":0.09991,"high":0.10063,"low":0.09973,"close":0.10059,"volume":123035080.0},{"time":1780344000,"open":0.10059,"high":0.10079,"low":0.10028,"close":0.1006,"volume":113879444.0},{"time":1780347600,"open":0.1006,"high":0.1006,"low":0.09972,"close":0.09986,"volume":108757437.0},{"time":1780351200,"open":0.09985,"high":0.1009,"low":0.09947,"close":0.10081,"volume":196900326.0},{"time":1780354800,"open":0.1008,"high":0.10109,"low":0.10043,"close":0.10105,"volume":166049450.0},{"time":1780358400,"open":0.10106,"high":0.1012,"low":0.10056,"close":0.10085,"volume":139460145.0},{"time":1780362000,"open":0.10085,"high":0.101,"low":0.09993,"close":0.10008,"volume":215713945.0},{"time":1780365600,"open":0.10007,"high":0.1008,"low":0.09938,"close":0.10079,"volume":289139086.0},{"time":1780369200,"open":0.10079,"high":0.10099,"low":0.10053,"close":0.1009,"volume":135886099.0},{"time":1780372800,"open":0.1009,"high":0.10101,"low":0.10017,"close":0.10022,"volume":188301088.0},{"time":1780376400,"open":0.10021,"high":0.1003,"low":0.0994,"close":0.09948,"volume":256958581.0},{"time":1780380000,"open":0.09948,"high":0.09966,"low":0.09881,"close":0.09922,"volume":255050752.0},{"time":1780383600,"open":0.09922,"high":0.09952,"low":0.09857,"close":0.09916,"volume":210620864.0},{"time":1780387200,"open":0.09916,"high":0.09944,"low":0.09897,"close":0.0992,"volume":97077150.0},{"time":1780390800,"open":0.0992,"high":0.09923,"low":0.09844,"close":0.09874,"volume":161373405.0},{"time":1780394400,"open":0.09874,"high":0.09935,"low":0.09857,"close":0.09927,"volume":173539215.0},{"time":1780398000,"open":0.09926,"high":0.09928,"low":0.09865,"close":0.09871,"volume":148209119.0},{"time":1780401600,"open":0.09871,"high":0.09893,"low":0.09838,"close":0.09869,"volume":196224394.0},{"time":1780405200,"open":0.0987,"high":0.09897,"low":0.09831,"close":0.09844,"volume":162429716.0},{"time":1780408800,"open":0.09845,"high":0.09851,"low":0.09529,"close":0.09628,"volume":1225108723.0},{"time":1780412400,"open":0.09628,"high":0.0964,"low":0.0935,"close":0.09481,"volume":969405254.0},{"time":1780416000,"open":0.0948,"high":0.09631,"low":0.09454,"close":0.09524,"volume":506979994.0},{"time":1780419600,"open":0.09524,"high":0.09604,"low":0.0952,"close":0.09557,"volume":164175601.0},{"time":1780423200,"open":0.09558,"high":0.09586,"low":0.09398,"close":0.09444,"volume":332719485.0},{"time":1780426800,"open":0.09444,"high":0.09464,"low":0.09242,"close":0.09403,"volume":550195032.0},{"time":1780430400,"open":0.09403,"high":0.09446,"low":0.09328,"close":0.09416,"volume":184020554.0},{"time":1780434000,"open":0.09416,"high":0.0949,"low":0.09388,"close":0.09423,"volume":157766789.0},{"time":1780437600,"open":0.09422,"high":0.09423,"low":0.09177,"close":0.09219,"volume":546878568.0},{"time":1780441200,"open":0.0922,"high":0.09285,"low":0.09112,"close":0.09272,"volume":530430465.0},{"time":1780444800,"open":0.09272,"high":0.09351,"low":0.09251,"close":0.09318,"volume":201470942.0},{"time":1780448400,"open":0.09318,"high":0.09334,"low":0.09231,"close":0.09312,"volume":220767404.0},{"time":1780452000,"open":0.09312,"high":0.09315,"low":0.09245,"close":0.09271,"volume":110479200.0},{"time":1780455600,"open":0.0927,"high":0.09284,"low":0.09078,"close":0.09153,"volume":431433416.0},{"time":1780459200,"open":0.09154,"high":0.09285,"low":0.09153,"close":0.09283,"volume":223101929.0},{"time":1780462800,"open":0.09284,"high":0.09419,"low":0.09284,"close":0.09397,"volume":423848740.0},{"time":1780466400,"open":0.09397,"high":0.0945,"low":0.09375,"close":0.09389,"volume":260138366.0},{"time":1780470000,"open":0.09389,"high":0.0945,"low":0.09367,"close":0.09414,"volume":184209297.0},{"time":1780473600,"open":0.09414,"high":0.09418,"low":0.09366,"close":0.09392,"volume":114082725.0},{"time":1780477200,"open":0.09393,"high":0.09422,"low":0.09339,"close":0.09378,"volume":158270698.0},{"time":1780480800,"open":0.09379,"high":0.09445,"low":0.09372,"close":0.09426,"volume":124885644.0},{"time":1780484400,"open":0.09426,"high":0.0945,"low":0.09423,"close":0.09427,"volume":11250799.0}],"ADA":[{"time":1780243200,"open":0.2336,"high":0.234,"low":0.2321,"close":0.2328,"volume":34616284.0},{"time":1780246800,"open":0.2328,"high":0.2334,"low":0.2317,"close":0.2332,"volume":37151664.0},{"time":1780250400,"open":0.2332,"high":0.2333,"low":0.2323,"close":0.233,"volume":12872655.0},{"time":1780254000,"open":0.233,"high":0.2334,"low":0.2318,"close":0.2326,"volume":14976084.0},{"time":1780257600,"open":0.2327,"high":0.2339,"low":0.2326,"close":0.2337,"volume":10978359.0},{"time":1780261200,"open":0.2338,"high":0.2353,"low":0.2334,"close":0.2349,"volume":17778458.0},{"time":1780264800,"open":0.2348,"high":0.2359,"low":0.2341,"close":0.2357,"volume":20267449.0},{"time":1780268400,"open":0.2357,"high":0.2369,"low":0.2342,"close":0.2355,"volume":30935867.0},{"time":1780272000,"open":0.2355,"high":0.2374,"low":0.2354,"close":0.2366,"volume":30580385.0},{"time":1780275600,"open":0.2367,"high":0.2368,"low":0.2331,"close":0.2331,"volume":32160522.0},{"time":1780279200,"open":0.2331,"high":0.2368,"low":0.2325,"close":0.2363,"volume":38756709.0},{"time":1780282800,"open":0.2363,"high":0.2374,"low":0.2361,"close":0.2368,"volume":30550343.0},{"time":1780286400,"open":0.2368,"high":0.2375,"low":0.2331,"close":0.2343,"volume":36531990.0},{"time":1780290000,"open":0.2343,"high":0.2348,"low":0.2332,"close":0.2338,"volume":25705978.0},{"time":1780293600,"open":0.2338,"high":0.2342,"low":0.2318,"close":0.2329,"volume":34661260.0},{"time":1780297200,"open":0.2328,"high":0.2331,"low":0.2305,"close":0.2309,"volume":37705626.0},{"time":1780300800,"open":0.2309,"high":0.2317,"low":0.2301,"close":0.2312,"volume":52420233.0},{"time":1780304400,"open":0.2312,"high":0.2323,"low":0.2311,"close":0.2316,"volume":28120572.0},{"time":1780308000,"open":0.2317,"high":0.2318,"low":0.2305,"close":0.2313,"volume":20636041.0},{"time":1780311600,"open":0.2312,"high":0.232,"low":0.2293,"close":0.2302,"volume":31565813.0},{"time":1780315200,"open":0.2302,"high":0.2314,"low":0.2288,"close":0.2304,"volume":43479072.0},{"time":1780318800,"open":0.2304,"high":0.2306,"low":0.2265,"close":0.2286,"volume":106379630.0},{"time":1780322400,"open":0.2286,"high":0.2292,"low":0.2263,"close":0.2274,"volume":64577788.0},{"time":1780326000,"open":0.2273,"high":0.2279,"low":0.2252,"close":0.2268,"volume":61150750.0},{"time":1780329600,"open":0.2269,"high":0.2305,"low":0.226,"close":0.2302,"volume":44866729.0},{"time":1780333200,"open":0.2302,"high":0.2319,"low":0.2298,"close":0.2309,"volume":52581979.0},{"time":1780336800,"open":0.2308,"high":0.2318,"low":0.23,"close":0.2304,"volume":22735046.0},{"time":1780340400,"open":0.2303,"high":0.2318,"low":0.2298,"close":0.2313,"volume":18420198.0},{"time":1780344000,"open":0.2313,"high":0.2315,"low":0.2302,"close":0.2308,"volume":17264194.0},{"time":1780347600,"open":0.2308,"high":0.2309,"low":0.2289,"close":0.2294,"volume":22164377.0},{"time":1780351200,"open":0.2294,"high":0.2309,"low":0.2281,"close":0.2306,"volume":33106793.0},{"time":1780354800,"open":0.2307,"high":0.2317,"low":0.23,"close":0.2309,"volume":22453910.0},{"time":1780358400,"open":0.231,"high":0.2312,"low":0.2293,"close":0.2295,"volume":17509657.0},{"time":1780362000,"open":0.2296,"high":0.2298,"low":0.2269,"close":0.2272,"volume":39801846.0},{"time":1780365600,"open":0.2271,"high":0.228,"low":0.2244,"close":0.228,"volume":80465309.0},{"time":1780369200,"open":0.228,"high":0.2286,"low":0.2271,"close":0.2279,"volume":22674490.0},{"time":1780372800,"open":0.2279,"high":0.2285,"low":0.2255,"close":0.2258,"volume":39362968.0},{"time":1780376400,"open":0.2257,"high":0.2264,"low":0.2235,"close":0.2243,"volume":47154373.0},{"time":1780380000,"open":0.2243,"high":0.2246,"low":0.2228,"close":0.2237,"volume":54852884.0},{"time":1780383600,"open":0.2237,"high":0.2249,"low":0.2225,"close":0.2239,"volume":35163423.0},{"time":1780387200,"open":0.2238,"high":0.2245,"low":0.2234,"close":0.2237,"volume":24050817.0},{"time":1780390800,"open":0.2238,"high":0.2239,"low":0.2222,"close":0.2231,"volume":34799141.0},{"time":1780394400,"open":0.2232,"high":0.2245,"low":0.2225,"close":0.2242,"volume":16141600.0},{"time":1780398000,"open":0.2242,"high":0.2242,"low":0.2228,"close":0.2229,"volume":18929958.0},{"time":1780401600,"open":0.2229,"high":0.2233,"low":0.2216,"close":0.2231,"volume":35370974.0},{"time":1780405200,"open":0.2231,"high":0.2237,"low":0.2224,"close":0.2228,"volume":36494084.0},{"time":1780408800,"open":0.2228,"high":0.2229,"low":0.2162,"close":0.2193,"volume":235264037.0},{"time":1780412400,"open":0.2192,"high":0.2195,"low":0.2134,"close":0.2153,"volume":156600085.0},{"time":1780416000,"open":0.2152,"high":0.219,"low":0.2146,"close":0.218,"volume":64828492.0},{"time":1780419600,"open":0.2181,"high":0.219,"low":0.2171,"close":0.2186,"volume":44586918.0},{"time":1780423200,"open":0.2187,"high":0.2192,"low":0.2153,"close":0.2162,"volume":46614357.0},{"time":1780426800,"open":0.2162,"high":0.2169,"low":0.2119,"close":0.2156,"volume":91949214.0},{"time":1780430400,"open":0.2156,"high":0.2171,"low":0.2139,"close":0.2162,"volume":45837206.0},{"time":1780434000,"open":0.2162,"high":0.2182,"low":0.2154,"close":0.2167,"volume":25570775.0},{"time":1780437600,"open":0.2166,"high":0.2166,"low":0.2108,"close":0.2122,"volume":75039289.0},{"time":1780441200,"open":0.2122,"high":0.2133,"low":0.2093,"close":0.2128,"volume":96476581.0},{"time":1780444800,"open":0.2128,"high":0.2143,"low":0.2123,"close":0.2136,"volume":37505681.0},{"time":1780448400,"open":0.2136,"high":0.2145,"low":0.2121,"close":0.2138,"volume":30619867.0},{"time":1780452000,"open":0.2138,"high":0.2138,"low":0.2113,"close":0.2122,"volume":23902029.0},{"time":1780455600,"open":0.2122,"high":0.2127,"low":0.2072,"close":0.2086,"volume":89940673.0},{"time":1780459200,"open":0.2086,"high":0.2122,"low":0.2085,"close":0.2119,"volume":39878300.0},{"time":1780462800,"open":0.2119,"high":0.2153,"low":0.2119,"close":0.2149,"volume":57495328.0},{"time":1780466400,"open":0.2149,"high":0.2168,"low":0.2145,"close":0.2153,"volume":34216737.0},{"time":1780470000,"open":0.2153,"high":0.2181,"low":0.2149,"close":0.217,"volume":35473741.0},{"time":1780473600,"open":0.217,"high":0.2175,"low":0.2158,"close":0.2164,"volume":26080946.0},{"time":1780477200,"open":0.2165,"high":0.2173,"low":0.2153,"close":0.2163,"volume":42282221.0},{"time":1780480800,"open":0.2163,"high":0.2183,"low":0.2162,"close":0.2176,"volume":29114378.0},{"time":1780484400,"open":0.2176,"high":0.2181,"low":0.2175,"close":0.2176,"volume":2331999.0}],"XRP":[{"time":1780243200,"open":1.3299,"high":1.3321,"low":1.318,"close":1.3272,"volume":45733211.3},{"time":1780246800,"open":1.3272,"high":1.3315,"low":1.3271,"close":1.3304,"volume":8443393.6},{"time":1780250400,"open":1.3304,"high":1.3305,"low":1.3252,"close":1.3268,"volume":7551898.6},{"time":1780254000,"open":1.3268,"high":1.3275,"low":1.3201,"close":1.3257,"volume":9547493.7},{"time":1780257600,"open":1.3257,"high":1.3308,"low":1.3257,"close":1.3301,"volume":7177019.1},{"time":1780261200,"open":1.3301,"high":1.3344,"low":1.3286,"close":1.3338,"volume":7909983.6},{"time":1780264800,"open":1.3338,"high":1.3396,"low":1.3307,"close":1.3367,"volume":13965740.2},{"time":1780268400,"open":1.3366,"high":1.342,"low":1.3272,"close":1.3327,"volume":19653992.9},{"time":1780272000,"open":1.3326,"high":1.3406,"low":1.3304,"close":1.3373,"volume":20612673.1},{"time":1780275600,"open":1.3374,"high":1.3386,"low":1.321,"close":1.3211,"volume":19829325.2},{"time":1780279200,"open":1.321,"high":1.3347,"low":1.3183,"close":1.3303,"volume":22609595.3},{"time":1780282800,"open":1.3303,"high":1.3355,"low":1.3292,"close":1.3304,"volume":12358714.9},{"time":1780286400,"open":1.3305,"high":1.3329,"low":1.3162,"close":1.3217,"volume":22779634.2},{"time":1780290000,"open":1.3217,"high":1.3224,"low":1.3146,"close":1.316,"volume":13203164.1},{"time":1780293600,"open":1.3159,"high":1.3166,"low":1.3085,"close":1.3135,"volume":22202045.0},{"time":1780297200,"open":1.3134,"high":1.3142,"low":1.3024,"close":1.303,"volume":22994904.0},{"time":1780300800,"open":1.3029,"high":1.3071,"low":1.298,"close":1.3023,"volume":24814152.9},{"time":1780304400,"open":1.3023,"high":1.309,"low":1.3023,"close":1.3039,"volume":19560413.0},{"time":1780308000,"open":1.304,"high":1.3069,"low":1.3009,"close":1.3053,"volume":11957909.8},{"time":1780311600,"open":1.3053,"high":1.3073,"low":1.3002,"close":1.303,"volume":13287667.2},{"time":1780315200,"open":1.303,"high":1.3059,"low":1.2953,"close":1.3019,"volume":27063161.3},{"time":1780318800,"open":1.302,"high":1.3024,"low":1.2846,"close":1.2897,"volume":63851467.6},{"time":1780322400,"open":1.2897,"high":1.292,"low":1.2811,"close":1.2852,"volume":46973374.2},{"time":1780326000,"open":1.2851,"high":1.2895,"low":1.2781,"close":1.2813,"volume":41311855.1},{"time":1780329600,"open":1.2813,"high":1.2934,"low":1.2788,"close":1.2929,"volume":34060207.1},{"time":1780333200,"open":1.2929,"high":1.3044,"low":1.2924,"close":1.2997,"volume":28233808.4},{"time":1780336800,"open":1.2996,"high":1.3026,"low":1.2943,"close":1.2956,"volume":16945511.1},{"time":1780340400,"open":1.2956,"high":1.3009,"low":1.2935,"close":1.2992,"volume":12586739.8},{"time":1780344000,"open":1.2992,"high":1.3,"low":1.2951,"close":1.2984,"volume":10277591.9},{"time":1780347600,"open":1.2983,"high":1.2984,"low":1.2906,"close":1.2913,"volume":12983815.6},{"time":1780351200,"open":1.2913,"high":1.3007,"low":1.2862,"close":1.2998,"volume":22338707.5},{"time":1780354800,"open":1.2998,"high":1.3005,"low":1.2923,"close":1.2967,"volume":11777491.6},{"time":1780358400,"open":1.2966,"high":1.2968,"low":1.2877,"close":1.2885,"volume":14434597.1},{"time":1780362000,"open":1.2885,"high":1.2902,"low":1.2784,"close":1.2791,"volume":22205852.4},{"time":1780365600,"open":1.279,"high":1.2844,"low":1.2672,"close":1.2839,"volume":38652962.0},{"time":1780369200,"open":1.2838,"high":1.2883,"low":1.2813,"close":1.2875,"volume":12884878.4},{"time":1780372800,"open":1.2874,"high":1.2893,"low":1.2794,"close":1.2796,"volume":17821444.0},{"time":1780376400,"open":1.2795,"high":1.2804,"low":1.2646,"close":1.267,"volume":34559606.9},{"time":1780380000,"open":1.267,"high":1.2717,"low":1.2619,"close":1.265,"volume":30713831.2},{"time":1780383600,"open":1.265,"high":1.2715,"low":1.2574,"close":1.2673,"volume":33344313.4},{"time":1780387200,"open":1.2673,"high":1.2687,"low":1.2615,"close":1.2641,"volume":16065217.6},{"time":1780390800,"open":1.264,"high":1.2646,"low":1.2566,"close":1.2591,"volume":24171575.9},{"time":1780394400,"open":1.2591,"high":1.2675,"low":1.2568,"close":1.2664,"volume":14856917.2},{"time":1780398000,"open":1.2664,"high":1.2664,"low":1.2586,"close":1.2602,"volume":11420267.8},{"time":1780401600,"open":1.2603,"high":1.2655,"low":1.2582,"close":1.2633,"volume":14114637.5},{"time":1780405200,"open":1.2633,"high":1.2686,"low":1.2593,"close":1.2609,"volume":22068294.4},{"time":1780408800,"open":1.2609,"high":1.2613,"low":1.2265,"close":1.2344,"volume":126332730.3},{"time":1780412400,"open":1.2344,"high":1.2366,"low":1.2162,"close":1.2213,"volume":89994475.3},{"time":1780416000,"open":1.2212,"high":1.2425,"low":1.2191,"close":1.2317,"volume":45704269.1},{"time":1780419600,"open":1.2318,"high":1.243,"low":1.2307,"close":1.2357,"volume":22434240.7},{"time":1780423200,"open":1.2357,"high":1.2397,"low":1.2174,"close":1.2234,"volume":27978304.2},{"time":1780426800,"open":1.2234,"high":1.23,"low":1.2055,"close":1.2208,"volume":61968560.9},{"time":1780430400,"open":1.2209,"high":1.227,"low":1.2121,"close":1.2224,"volume":27356847.1},{"time":1780434000,"open":1.2223,"high":1.2315,"low":1.2192,"close":1.2256,"volume":17567328.6},{"time":1780437600,"open":1.2255,"high":1.2255,"low":1.1926,"close":1.2002,"volume":61826622.4},{"time":1780441200,"open":1.2002,"high":1.212,"low":1.1964,"close":1.211,"volume":36092363.4},{"time":1780444800,"open":1.2111,"high":1.2249,"low":1.2111,"close":1.2235,"volume":26330300.2},{"time":1780448400,"open":1.2235,"high":1.2312,"low":1.2175,"close":1.2229,"volume":21260693.8},{"time":1780452000,"open":1.2229,"high":1.2235,"low":1.2164,"close":1.2199,"volume":11277640.7},{"time":1780455600,"open":1.2198,"high":1.2224,"low":1.1886,"close":1.1973,"volume":47278983.2},{"time":1780459200,"open":1.1973,"high":1.2183,"low":1.1969,"close":1.2178,"volume":32108933.9},{"time":1780462800,"open":1.2178,"high":1.2342,"low":1.2178,"close":1.2316,"volume":35846758.0},{"time":1780466400,"open":1.2316,"high":1.2458,"low":1.2309,"close":1.2383,"volume":34968581.4},{"time":1780470000,"open":1.2382,"high":1.2485,"low":1.2369,"close":1.2426,"volume":17128039.4},{"time":1780473600,"open":1.2425,"high":1.2453,"low":1.2381,"close":1.242,"volume":12754564.1},{"time":1780477200,"open":1.2419,"high":1.2447,"low":1.2347,"close":1.2378,"volume":23792870.7},{"time":1780480800,"open":1.2379,"high":1.2442,"low":1.2374,"close":1.2413,"volume":12811456.9},{"time":1780484400,"open":1.2412,"high":1.2437,"low":1.2408,"close":1.2411,"volume":1665991.9}],"ZEC":[{"time":1780243200,"open":552.2,"high":555.8,"low":536.63,"close":543.3,"volume":152702.586},{"time":1780246800,"open":543.31,"high":551.91,"low":539.0,"close":550.1,"volume":76367.25},{"time":1780250400,"open":550.1,"high":550.49,"low":542.3,"close":543.92,"volume":34925.289},{"time":1780254000,"open":543.91,"high":546.75,"low":538.88,"close":544.79,"volume":31191.994},{"time":1780257600,"open":544.79,"high":549.8,"low":542.95,"close":549.57,"volume":29573.206},{"time":1780261200,"open":549.57,"high":564.88,"low":545.06,"close":557.45,"volume":104188.735},{"time":1780264800,"open":557.45,"high":574.56,"low":551.47,"close":570.84,"volume":128345.945},{"time":1780268400,"open":570.84,"high":574.94,"low":556.87,"close":568.5,"volume":118682.39},{"time":1780272000,"open":568.5,"high":597.36,"low":568.5,"close":590.63,"volume":207928.338},{"time":1780275600,"open":590.64,"high":592.98,"low":561.7,"close":563.85,"volume":161122.837},{"time":1780279200,"open":563.86,"high":587.42,"low":563.31,"close":578.14,"volume":146380.446},{"time":1780282800,"open":578.14,"high":583.88,"low":570.25,"close":574.27,"volume":71956.225},{"time":1780286400,"open":574.27,"high":578.34,"low":563.0,"close":565.64,"volume":77499.022},{"time":1780290000,"open":565.6,"high":566.39,"low":558.0,"close":561.79,"volume":67802.867},{"time":1780293600,"open":561.78,"high":562.64,"low":549.72,"close":556.13,"volume":137192.927},{"time":1780297200,"open":556.14,"high":558.93,"low":546.81,"close":550.63,"volume":80425.017},{"time":1780300800,"open":550.64,"high":556.68,"low":545.55,"close":547.42,"volume":95625.015},{"time":1780304400,"open":547.42,"high":552.5,"low":545.67,"close":549.05,"volume":54972.541},{"time":1780308000,"open":549.05,"high":549.4,"low":543.03,"close":544.86,"volume":70453.98},{"time":1780311600,"open":544.88,"high":547.38,"low":540.48,"close":543.07,"volume":53425.712},{"time":1780315200,"open":543.06,"high":549.2,"low":536.02,"close":546.38,"volume":122632.444},{"time":1780318800,"open":546.38,"high":546.7,"low":533.48,"close":541.68,"volume":145018.16},{"time":1780322400,"open":541.72,"high":544.68,"low":533.1,"close":535.42,"volume":99895.237},{"time":1780326000,"open":535.43,"high":537.34,"low":526.17,"close":529.0,"volume":141394.632},{"time":1780329600,"open":529.0,"high":543.46,"low":527.87,"close":541.28,"volume":117997.234},{"time":1780333200,"open":541.28,"high":554.41,"low":538.83,"close":550.16,"volume":116154.497},{"time":1780336800,"open":550.15,"high":559.0,"low":544.46,"close":554.96,"volume":91052.699},{"time":1780340400,"open":554.97,"high":563.74,"low":552.54,"close":561.77,"volume":68019.643},{"time":1780344000,"open":561.78,"high":567.5,"low":555.45,"close":555.77,"volume":63576.57},{"time":1780347600,"open":555.77,"high":556.39,"low":545.0,"close":546.87,"volume":81946.34},{"time":1780351200,"open":546.88,"high":550.36,"low":536.48,"close":547.7,"volume":79127.68},{"time":1780354800,"open":547.7,"high":549.55,"low":541.24,"close":544.33,"volume":45107.133},{"time":1780358400,"open":544.34,"high":550.92,"low":541.63,"close":546.34,"volume":51116.301},{"time":1780362000,"open":546.34,"high":547.72,"low":536.32,"close":537.11,"volume":50256.609},{"time":1780365600,"open":537.1,"high":559.48,"low":531.0,"close":554.98,"volume":179551.76},{"time":1780369200,"open":554.98,"high":577.87,"low":552.13,"close":572.68,"volume":147207.378},{"time":1780372800,"open":572.69,"high":577.26,"low":563.34,"close":564.96,"volume":153067.753},{"time":1780376400,"open":564.97,"high":566.55,"low":551.14,"close":553.33,"volume":121231.621},{"time":1780380000,"open":553.34,"high":555.0,"low":545.16,"close":548.81,"volume":117298.7},{"time":1780383600,"open":548.81,"high":561.05,"low":542.25,"close":558.38,"volume":123102.356},{"time":1780387200,"open":558.37,"high":562.98,"low":554.1,"close":560.22,"volume":79298.161},{"time":1780390800,"open":560.23,"high":562.05,"low":547.8,"close":556.05,"volume":114934.214},{"time":1780394400,"open":556.04,"high":576.42,"low":554.74,"close":574.73,"volume":125050.165},{"time":1780398000,"open":574.72,"high":583.45,"low":565.0,"close":566.12,"volume":158761.869},{"time":1780401600,"open":566.11,"high":576.96,"low":561.2,"close":576.1,"volume":103436.25},{"time":1780405200,"open":576.09,"high":585.6,"low":569.28,"close":573.15,"volume":188337.226},{"time":1780408800,"open":573.15,"high":578.14,"low":557.5,"close":569.4,"volume":213405.902},{"time":1780412400,"open":569.39,"high":579.63,"low":558.27,"close":578.0,"volume":203522.12},{"time":1780416000,"open":578.0,"high":609.0,"low":575.01,"close":601.78,"volume":498228.095},{"time":1780419600,"open":601.84,"high":626.79,"low":601.54,"close":615.26,"volume":313515.906},{"time":1780423200,"open":615.25,"high":618.16,"low":594.11,"close":595.98,"volume":170468.127},{"time":1780426800,"open":595.99,"high":601.24,"low":584.12,"close":598.71,"volume":168032.375},{"time":1780430400,"open":598.71,"high":609.81,"low":583.0,"close":608.36,"volume":163911.977},{"time":1780434000,"open":608.33,"high":622.71,"low":600.74,"close":612.9,"volume":110090.975},{"time":1780437600,"open":612.91,"high":612.91,"low":586.0,"close":591.39,"volume":123912.039},{"time":1780441200,"open":591.39,"high":611.22,"low":581.75,"close":609.45,"volume":169827.724},{"time":1780444800,"open":609.44,"high":644.67,"low":605.41,"close":631.0,"volume":312837.952},{"time":1780448400,"open":631.0,"high":636.0,"low":616.63,"close":630.14,"volume":160944.285},{"time":1780452000,"open":630.15,"high":630.2,"low":620.53,"close":626.75,"volume":75952.921},{"time":1780455600,"open":626.75,"high":630.51,"low":603.0,"close":603.94,"volume":160440.429},{"time":1780459200,"open":603.94,"high":616.41,"low":601.68,"close":614.88,"volume":126881.403},{"time":1780462800,"open":614.89,"high":627.45,"low":603.11,"close":616.71,"volume":145647.371},{"time":1780466400,"open":616.71,"high":622.84,"low":608.4,"close":611.26,"volume":100725.668},{"time":1780470000,"open":611.21,"high":624.96,"low":610.31,"close":617.82,"volume":69127.216},{"time":1780473600,"open":617.82,"high":625.5,"low":615.35,"close":618.99,"volume":54784.694},{"time":1780477200,"open":618.97,"high":620.48,"low":594.11,"close":609.87,"volume":219668.425},{"time":1780480800,"open":609.87,"high":618.53,"low":595.13,"close":600.66,"volume":144698.533},{"time":1780484400,"open":600.65,"high":606.76,"low":599.48,"close":603.68,"volume":10436.427}],"BNB":[{"time":1780243200,"open":721.26,"high":722.52,"low":702.1,"close":709.53,"volume":248110.23},{"time":1780246800,"open":709.52,"high":718.0,"low":709.28,"close":714.29,"volume":95509.35},{"time":1780250400,"open":714.29,"high":714.29,"low":709.0,"close":710.1,"volume":48312.95},{"time":1780254000,"open":710.1,"high":711.49,"low":707.52,"close":709.01,"volume":22735.42},{"time":1780257600,"open":709.02,"high":711.79,"low":708.96,"close":710.53,"volume":25001.3},{"time":1780261200,"open":710.53,"high":712.41,"low":707.17,"close":711.26,"volume":30060.87},{"time":1780264800,"open":711.26,"high":715.21,"low":707.88,"close":711.86,"volume":43442.32},{"time":1780268400,"open":711.87,"high":713.54,"low":706.65,"close":710.91,"volume":47632.38},{"time":1780272000,"open":710.91,"high":717.41,"low":709.24,"close":710.97,"volume":78520.34},{"time":1780275600,"open":710.97,"high":711.3,"low":693.2,"close":695.57,"volume":168316.92},{"time":1780279200,"open":695.57,"high":709.32,"low":694.23,"close":707.82,"volume":98801.94},{"time":1780282800,"open":707.81,"high":710.71,"low":702.23,"close":704.11,"volume":54864.38},{"time":1780286400,"open":704.11,"high":706.05,"low":696.47,"close":698.62,"volume":87802.79},{"time":1780290000,"open":698.62,"high":698.97,"low":694.8,"close":696.28,"volume":46506.82},{"time":1780293600,"open":696.29,"high":696.8,"low":691.14,"close":693.84,"volume":84494.1},{"time":1780297200,"open":693.83,"high":694.83,"low":685.21,"close":686.58,"volume":109555.78},{"time":1780300800,"open":686.58,"high":690.28,"low":685.72,"close":690.03,"volume":68804.58},{"time":1780304400,"open":690.02,"high":731.4,"low":688.57,"close":711.9,"volume":551280.88},{"time":1780308000,"open":711.9,"high":715.21,"low":695.38,"close":702.59,"volume":293262.43},{"time":1780311600,"open":702.59,"high":708.74,"low":695.1,"close":697.5,"volume":152285.61},{"time":1780315200,"open":697.5,"high":698.94,"low":686.22,"close":693.08,"volume":149032.29},{"time":1780318800,"open":693.08,"high":693.57,"low":679.66,"close":687.09,"volume":153391.84},{"time":1780322400,"open":687.11,"high":687.27,"low":674.61,"close":678.97,"volume":140874.88},{"time":1780326000,"open":678.97,"high":685.99,"low":677.68,"close":677.91,"volume":82063.36},{"time":1780329600,"open":677.92,"high":686.3,"low":674.15,"close":684.94,"volume":99921.88},{"time":1780333200,"open":684.93,"high":689.0,"low":684.0,"close":687.83,"volume":52990.56},{"time":1780336800,"open":687.83,"high":695.87,"low":686.63,"close":691.48,"volume":60196.0},{"time":1780340400,"open":691.48,"high":696.53,"low":690.81,"close":696.38,"volume":32503.74},{"time":1780344000,"open":696.38,"high":702.0,"low":695.07,"close":696.0,"volume":68392.27},{"time":1780347600,"open":696.0,"high":696.16,"low":689.01,"close":690.34,"volume":46170.32},{"time":1780351200,"open":690.33,"high":694.9,"low":688.67,"close":693.89,"volume":33727.28},{"time":1780354800,"open":693.88,"high":696.36,"low":692.59,"close":693.45,"volume":19641.08},{"time":1780358400,"open":693.46,"high":694.37,"low":690.34,"close":690.85,"volume":29979.85},{"time":1780362000,"open":690.84,"high":692.81,"low":684.74,"close":685.25,"volume":44964.25},{"time":1780365600,"open":685.25,"high":694.08,"low":681.55,"close":691.6,"volume":104831.27},{"time":1780369200,"open":691.61,"high":696.0,"low":690.48,"close":694.1,"volume":31258.95},{"time":1780372800,"open":694.1,"high":694.69,"low":686.33,"close":687.16,"volume":49674.18},{"time":1780376400,"open":687.16,"high":689.6,"low":683.35,"close":684.11,"volume":35467.01},{"time":1780380000,"open":684.11,"high":685.77,"low":680.72,"close":683.69,"volume":46750.84},{"time":1780383600,"open":683.7,"high":686.86,"low":680.84,"close":682.34,"volume":35273.86},{"time":1780387200,"open":682.33,"high":685.49,"low":681.27,"close":682.29,"volume":25433.59},{"time":1780390800,"open":682.29,"high":682.93,"low":676.78,"close":678.19,"volume":59073.26},{"time":1780394400,"open":678.19,"high":681.35,"low":675.87,"close":680.58,"volume":47882.48},{"time":1780398000,"open":680.58,"high":680.65,"low":677.15,"close":678.56,"volume":24180.23},{"time":1780401600,"open":678.55,"high":680.64,"low":675.21,"close":676.77,"volume":34484.4},{"time":1780405200,"open":676.77,"high":677.58,"low":672.0,"close":675.27,"volume":70604.36},{"time":1780408800,"open":675.28,"high":678.19,"low":667.04,"close":673.88,"volume":136488.56},{"time":1780412400,"open":673.88,"high":673.96,"low":658.53,"close":663.67,"volume":201214.73},{"time":1780416000,"open":663.68,"high":672.0,"low":660.9,"close":664.41,"volume":94463.93},{"time":1780419600,"open":664.42,"high":667.89,"low":663.83,"close":666.79,"volume":42131.5},{"time":1780423200,"open":666.8,"high":668.15,"low":659.25,"close":660.21,"volume":45015.06},{"time":1780426800,"open":660.22,"high":662.62,"low":652.16,"close":660.62,"volume":77256.84},{"time":1780430400,"open":660.61,"high":663.28,"low":656.5,"close":661.96,"volume":35483.21},{"time":1780434000,"open":661.95,"high":663.73,"low":659.18,"close":660.18,"volume":23447.99},{"time":1780437600,"open":660.18,"high":660.18,"low":642.49,"close":648.7,"volume":117834.98},{"time":1780441200,"open":648.71,"high":652.19,"low":645.59,"close":651.07,"volume":63776.79},{"time":1780444800,"open":651.08,"high":657.9,"low":650.75,"close":654.97,"volume":38820.12},{"time":1780448400,"open":654.96,"high":655.48,"low":647.04,"close":650.48,"volume":36459.12},{"time":1780452000,"open":650.47,"high":650.96,"low":644.44,"close":645.21,"volume":30338.84},{"time":1780455600,"open":645.2,"high":647.18,"low":631.01,"close":634.29,"volume":135548.44},{"time":1780459200,"open":634.29,"high":640.5,"low":633.21,"close":637.17,"volume":74960.53},{"time":1780462800,"open":637.18,"high":646.83,"low":636.48,"close":646.36,"volume":73172.29},{"time":1780466400,"open":646.35,"high":647.15,"low":640.7,"close":641.06,"volume":43239.17},{"time":1780470000,"open":641.07,"high":645.61,"low":640.45,"close":644.33,"volume":37911.63},{"time":1780473600,"open":644.33,"high":646.26,"low":641.19,"close":645.01,"volume":22449.19},{"time":1780477200,"open":645.02,"high":646.4,"low":639.06,"close":642.17,"volume":31878.63},{"time":1780480800,"open":642.18,"high":646.5,"low":641.21,"close":642.07,"volume":26496.25},{"time":1780484400,"open":642.08,"high":643.1,"low":641.81,"close":642.02,"volume":1779.46}]},"trades":{"LINK":[{"time":1780247774,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 30%","size":3},{"time":1780248615,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780248615,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 20%","size":3},{"time":1780270214,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780286774,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 30%","size":3},{"time":1780304474,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780314914,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780321454,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 20%","size":3},{"time":1780359254,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780362974,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780410133,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780410432,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 20%","size":3},{"time":1780411094,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780426574,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780428254,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780430954,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 20%","size":3},{"time":1780442773,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 20%","size":3},{"time":1780458013,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780458015,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780472054,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780477694,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3}],"DOGE":[{"time":1780270214,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780295534,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 20%","size":3},{"time":1780304234,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780316294,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780335434,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780348214,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780358234,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780374314,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780410432,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780429214,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780478474,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3}],"ADA":[{"time":1780247235,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 30%","size":3},{"time":1780248134,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 30%","size":3},{"time":1780366154,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780411034,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780413914,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780417694,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780419314,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780454114,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780454774,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3}],"XRP":[{"time":1780247235,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 30%","size":3},{"time":1780247235,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 20%","size":3},{"time":1780260494,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780294334,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 30%","size":3},{"time":1780305554,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780315574,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780354214,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 20%","size":3},{"time":1780358594,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780360094,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780410432,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780410494,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780425914,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780425974,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780426034,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780426214,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780433894,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 30%","size":3},{"time":1780433894,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 20%","size":3},{"time":1780443374,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 30%","size":3},{"time":1780471754,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 30%","size":3},{"time":1780478894,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3}],"ZEC":[{"time":1780306214,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780321514,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780321514,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 30%","size":3},{"time":1780326613,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780338613,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 30%","size":3},{"time":1780353914,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 30%","size":3},{"time":1780367533,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 30%","size":3},{"time":1780370114,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780407014,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 30%","size":3},{"time":1780407074,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 30%","size":3},{"time":1780411694,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780413314,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780413494,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780414214,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780414754,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780415114,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780416674,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780418714,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780436654,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780441214,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3}],"BNB":[{"time":1780248615,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780308014,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780315873,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780319714,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780346714,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780353914,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 30%","size":3},{"time":1780372814,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 20%","size":3},{"time":1780373774,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 20%","size":3},{"time":1780374614,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 20%","size":3},{"time":1780375094,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 20%","size":3},{"time":1780376414,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 20%","size":3},{"time":1780378694,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 30%","size":3},{"time":1780389674,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 20%","size":3},{"time":1780392433,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780410432,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780411514,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780438693,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780446614,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780458252,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 40%","size":3},{"time":1780458314,"position":"belowBar","color":"#00c853","shape":"arrowUp","text":"LONG 40%","size":3},{"time":1780462874,"position":"aboveBar","color":"#2979ff","shape":"arrowDown","text":"SHORT 30%","size":3}]},"stats":{"LINK":{"symbol":"PERP_LINK_USDC","strategyModelEngine":"Hackworth","briefDescription":"Hackworth is a SOTA (state of the art) multi-alpha strategy engine powered by proprietary deep learning technology. View more details here:\n\nhttps://hs.alphanet.global/","techType":"Quantitative AI (Deep Learning)","strategyType":"Multi-Alpha","strategyName":"Hackworth Prime - LINK","marketProfile":"Neutral","startTime":1704038400,"endTime":1780444800,"totalReturn":10.74,"minInvestment":1000,"maxDrawDown":0.1374,"totalTrades":4278,"winRate":0.5108,"averageNetExposure":0.1754,"averageWinningTrade":0.0296,"averageLosingTrade":-0.0279,"sharpeRatio":3.35,"maxCapacity":"2000000","actualCapacity":"1210000"},"DOGE":{"symbol":"PERP_DOGE_USDC","strategyModelEngine":"Hackworth","briefDescription":"Hackworth is a SOTA (state of the art) multi-alpha strategy engine powered by proprietary deep learning technology. View more details here:\n\nhttps://hs.alphanet.global/","techType":"Quantitative AI (Deep Learning)","strategyType":"Multi-Alpha","strategyName":"Hackworth Prime - DOGE","marketProfile":"Neutral","startTime":1704038400,"endTime":1780444800,"totalReturn":25.047,"minInvestment":1000,"maxDrawDown":0.1268,"totalTrades":2840,"winRate":0.5224,"averageNetExposure":0.1134,"averageWinningTrade":0.0283,"averageLosingTrade":-0.0259,"sharpeRatio":2.9,"maxCapacity":"2500000","actualCapacity":"1260000"},"ADA":{"symbol":"PERP_ADA_USDC","strategyModelEngine":"Hackworth","briefDescription":"Hackworth is a SOTA (state of the art) multi-alpha strategy engine powered by proprietary deep learning technology. View more details here:\n\nhttps://hs.alphanet.global/","techType":"Quantitative AI (Deep Learning)","strategyType":"Multi-Alpha","strategyName":"Hackworth Prime - ADA","marketProfile":"Neutral","startTime":1704038400,"endTime":1780444800,"totalReturn":12.31,"minInvestment":1000,"maxDrawDown":0.2393,"totalTrades":1891,"winRate":0.5108,"averageNetExposure":0.1754,"averageWinningTrade":0.0396,"averageLosingTrade":-0.0379,"sharpeRatio":2.78,"maxCapacity":"3500000","actualCapacity":"700000"},"XRP":{"symbol":"PERP_XRP_USDC","strategyModelEngine":"Hackworth","briefDescription":"Hackworth is a SOTA (state of the art) multi-alpha strategy engine powered by proprietary deep learning technology. View more details here:\n\nhttps://hs.alphanet.global/","techType":"Quantitative AI (Deep Learning)","strategyType":"Multi-Alpha","strategyName":"Hackworth Prime - XRP","marketProfile":"Neutral","startTime":1704038400,"endTime":1780444800,"totalReturn":10.118,"minInvestment":1000,"maxDrawDown":0.1054,"totalTrades":2368,"winRate":0.5148,"averageNetExposure":0.1754,"averageWinningTrade":0.029,"averageLosingTrade":-0.0241,"sharpeRatio":3.44,"maxCapacity":"3500000","actualCapacity":"678000"},"ZEC":{"symbol":"PERP_ZEC_USDC","strategyModelEngine":"Hackworth","briefDescription":"Hackworth is a SOTA (state of the art) multi-alpha strategy engine powered by proprietary deep learning technology. View more details here:\n\nhttps://hs.alphanet.global/","techType":"Quantitative AI (Deep Learning)","strategyType":"Multi-Alpha","strategyName":"Hackworth Prime - ZEC","marketProfile":"Neutral","startTime":1704067200,"endTime":1780444800,"totalReturn":75.438,"minInvestment":1000,"maxDrawDown":0.4273,"totalTrades":2210,"winRate":0.4548,"averageNetExposure":0.2715,"averageWinningTrade":0.0383,"averageLosingTrade":-0.0221,"sharpeRatio":2.69,"maxCapacity":"2000000","actualCapacity":"1207000"},"BNB":{"symbol":"PERP_BNB_USDC","strategyModelEngine":"Hackworth","briefDescription":"Hackworth is a SOTA (state of the art) multi-alpha strategy engine powered by proprietary deep learning technology. View more details here:\n\nhttps://hs.alphanet.global/","techType":"Quantitative AI (Deep Learning)","strategyType":"Multi-Alpha","strategyName":"Hackworth Prime - BNB","marketProfile":"Neutral","startTime":1704067200,"endTime":1780444800,"totalReturn":4.916,"minInvestment":1000,"maxDrawDown":0.231,"totalTrades":1672,"winRate":0.5173,"averageNetExposure":0.3199,"averageWinningTrade":0.0248,"averageLosingTrade":-0.0193,"sharpeRatio":2.73,"maxCapacity":"2500000","actualCapacity":"800000"}}};
+(function() {
+    const coins = ["ZEC", "BNB", "LINK", "XRP", "DOGE", "ADA"];
+    const coinColors = {
+        ZEC: {up:'#ce93d8',down:'#ab47bc'},
+        LINK: {up:'#448aff',down:'#2979ff'},
+        XRP: {up:'#ff5252',down:'#e53935'},
+        DOGE: {up:'#ffb300',down:'#ffa000'},
+        ADA: {up:'#00c853',down:'#00e676'},
+        BNB: {up:'#ffab40',down:'#ff9100'}
+    };
+    function initCharts() {
+        coins.forEach(coin => {
+            try {
+                const c = document.getElementById('chart_' + coin);
+                if (!c || !CHART_DATA.prices[coin]) return;
+                const prices = CHART_DATA.prices[coin];
+                const trades = CHART_DATA.trades[coin];
+                const col = coinColors[coin];
+                const chart = LightweightCharts.createChart(c, {
+                    layout: { background: { color: '#111111' }, textColor: '#999' },
+                    grid: { vertLines: { color: '#1a1a1a' }, horzLines: { color: '#1a1a1a' } },
+                    crosshair: { mode: 1 },
+                    rightPriceScale: { borderColor: '#222', scaleMargins: { top: 0.12, bottom: 0.12 } },
+                    timeScale: { borderColor: '#222', timeVisible: true, barSpacing: 14 },
+                    handleScroll: { vertTouchDrag: false }
+                });
+                const cs = chart.addCandlestickSeries({ upColor: col.up, downColor: col.down, borderUpColor: col.up, borderDownColor: col.down, wickUpColor: col.up, wickDownColor: col.down });
+                cs.setData(prices.map(p => ({time: p.time, open: p.open, high: p.high, low: p.low, close: p.close})));
+                const vs = chart.addHistogramSeries({ color: col.up + '40', priceFormat: { type: 'volume' }, priceScaleId: '' });
+                vs.priceScale().applyOptions({ scaleMargins: { top: 0.85, bottom: 0 } });
+                vs.setData(prices.map(p => ({time: p.time, value: p.volume, color: p.close >= p.open ? col.up + '30' : col.down + '30'})));
+                const raw = trades.map(t => ({time: t.time, position: t.position, color: t.color, shape: t.shape, text: t.text, size: t.size}));
+                const mk = [];
+                raw.forEach(m => { const ex = mk.find(g => Math.abs(g.time - m.time) <= 60 && g.position === m.position); if (ex) { ex.text += ' + ' + m.text; ex.size = Math.max(ex.size, m.size); } else mk.push({...m}); });
+                cs.setMarkers(mk);
+                chart.timeScale().fitContent();
+                new ResizeObserver(e => { for (const x of e) chart.applyOptions({ width: x.contentRect.width, height: x.contentRect.height }); }).observe(c);
+            } catch(err) { console.error('Chart ' + coin + ' init failed:', err); }
+        });
+    }
+    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', function() { requestAnimationFrame(initCharts); }); }
+    else { requestAnimationFrame(initCharts); }
+})();
+</script>
+
+</body>
+</html>

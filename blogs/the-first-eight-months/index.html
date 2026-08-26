@@ -196,7 +196,7 @@
 <body>
 <header>
   <div class="header-inner">
-    <a class="header-logo" href="#"><img src="../logo.png" alt="AlphaNet"></a>
+    <a class="header-logo" href="#"><img src="logo.png" alt="AlphaNet"></a>
     <div class="header-right">
       <div class="header-meta">
         <span class="dot"></span>
@@ -243,7 +243,7 @@
       <p>The headline: an equal-weighted basket of every strategy on the platform returned <strong class="hl-g">+32.6%</strong>, over a period in which the same assets, held passively, lost <strong class="hl-r">12.0%</strong>. Thirty-two of the forty-five pairs finished positive.</p>
       <p>Weighted by where users actually put their capital, the platform did exceptionally well: <strong class="hl-g">+177.0%</strong>. That gap between the equal-weighted and the capital-weighted number is not an accident — it's the users. Give people transparent performance and a real choice of strategies, and capital flows toward the engines that are earning. The platform's return is partly the machine's work and partly the crowd's judgement, and we find that genuinely satisfying.</p>
       <p>The shape of the returns matters more than the size. The best strategies did the two things every trader wants and almost none manage: they captured the rallies, and they stepped aside from the losses while the same assets were falling. Long exposure when the trend was paying, flat when it wasn't. And some strategies did better than that — they won in every condition the period offered, earning through the moves up and the moves down alike.</p>
-      <p>Then there was June. The market broke. The average asset in our universe lost <strong class="hl-r">23.6%</strong> in a single month and nothing in the universe finished higher. Our strategy suite finished June up <strong class="hl-g">4.9%</strong>. Compounding in a bull market is a solved problem — leverage and patience will get you there. Finishing a 23% crash month in the black is what the architecture was designed for.</p>
+      <p>Then there was June. The market broke. The average asset in our universe lost <strong class="hl-r">23.6%</strong> in a single month and nothing in the universe finished higher. Our strategy suite finished June <strong class="hl-g">up 4.9%</strong>. Compounding in a bull market is a solved problem — leverage and patience will get you there. Finishing a 23% crash month in the black is what the architecture was designed for.</p>
       <p>And then the mirror image, August. In the past week the market ripped — Bitcoin ran roughly 27% off its mid-August low, breaking $80,000, with ETH up around 30% over the same stretch. The strategies were positioned for it: the suite returned <strong class="hl-g">+34.6%</strong> capital-weighted over the seven days. The system banked the storm in June and the melt-up in August, eight weeks apart.</p>
     </section>
 
@@ -251,8 +251,7 @@
     <section class="sec">
       <div class="sec-tag"><span class="n">03</span></div>
       <h2>Why it held</h2>
-      <p>The white paper made a specific bet: that alpha in perpetuals comes not from one brilliant model but from <strong>ensembles of many independent sub-strategies</strong>, each firing on its own signal, sized according to the strength of the signal. No single model carried the book. Dozens of sub-strategies entered and exited on their own logic. Disciplined exposure is why the drawdowns stayed survivable. The engines typically hold well under half of capital in the market. They scale in when a trend establishes itself and stand aside when it doesn't — and standing aside turns out to be a position. Several strategies sat flat for weeks this summer.</p>
-      <div class="pull">Flat cost nothing. <span>The market cost holders double digits over the same weeks.</span></div>
+      <p>The white paper made a specific bet: that alpha in perpetuals comes not from one brilliant model but from <strong>ensembles of many independent sub-strategies</strong>, each firing on its own signal, sized according to the strength of the signal. No single model carried the book. Dozens of sub-strategies entered and exited on their own logic. Disciplined exposure is why the drawdowns stayed survivable. The engines typically hold well under half of capital in the market. They scale in when a trend establishes itself and stand aside when it doesn't — and standing aside turns out to be a position. Several strategies sat flat for weeks this summer. Flat cost nothing. The market cost holders double digits over the same weeks.</p>
       <p>Underneath all of it sits the <strong>regime detection model</strong> — the layer that answers the question that is the most difficult to get right: what kind of market is this? It classifies the tape into states — high-volatility trend, low-volatility grind, chop, liquidation cascade — and it often catches the shift before price confirms it. Every entry the strategies propose is gated and sized against that read. It's why the dip didn't get bought in June while the knife was still falling, and why exposure was already leaning in when August turned.</p>
     </section>
 
@@ -269,36 +268,34 @@
           <p><strong style="color:var(--text)">Fills.</strong> Tighter spreads and deeper liquidity shrink the gap between what a strategy decides and what an account receives.</p>
           <p><strong style="color:var(--text)">Robustness.</strong> A purpose-built trading L1 handles order flow best in exactly the moments that matter, when a queue backing up is the difference between an exit and a liquidation.</p>
         </div>
-        <div class="fail">
+        <div class="fail span">
           <div class="num green">02</div>
           <h4>Strategies that keep getting sharper</h4>
           <p>The engines arriving on Hyperliquid are not the engines that went live in January. Retraining, better regime gating, improved sizing, and exit signals — the strategy layer is under continuous revision, and the September versions carry eight months of live feedback no backtest could have provided.</p>
         </div>
-        <div class="fail">
+        <div class="fail span">
           <div class="num green">03</div>
           <h4>A research engine that compounds</h4>
           <p>This is the part users will see least and feel most. Strategy research has always been artisanal: a researcher has an idea, builds the features, tests it, kills it, starts again. Much of that loop is craft — but a surprising amount is mechanical, and the mechanical part can be automated.</p>
           <p>We are building a harness around our proprietary research pipeline: an inner loop that generates, tests and prunes candidate strategies against held-out data, and an outer loop that improves the search itself, learning which directions have been productive and steering compute there. The researchers stop hand-cranking the parts that don't need judgement and spend themselves on the parts that do.</p>
-          <p>The point is rate. More alpha, discovered faster, with the same bench. Every specific edge decays; the ability to find the next one is the only edge that doesn't. A research organisation that gets better at getting better is the most valuable thing we could possibly build, and it's under construction now.</p>
-          <div class="kickerline">Every specific edge decays; <em class="g">the ability to find the next one is the only edge that doesn't.</em></div>
+          <p>The point is rate. <strong>More alpha, discovered faster, with the same bench.</strong> Every specific edge decays; the ability to find the next one is the only edge that doesn't. A research organisation that gets better at getting better is the most valuable thing we could possibly build, and it's under construction now.</p>
         </div>
-        <div class="fail">
+        <div class="fail span">
           <div class="num green">04</div>
           <h4>The assets you actually want</h4>
           <p>Hyperliquid's builder-deployed markets have quietly become the most interesting shelf in trading: gold and oil that trade through the weekend. Tokenized equities — SpaceX, SK Hynix mid-memory-cycle. The markets people actually argue about at dinner, all settling as perpetuals, all on one margin base, 24/7.</p>
           <p>The shift is already in the volume. By mid-2026, tokenized equities and commodities had grown to roughly half of Hyperliquid's flow. These are also the tapes our engines were built for. A memory cycle is a trend that runs for quarters. Gold has regimes as legible as any token's. Macro shocks are exactly what regime detection was trained to catch early. That's where we want to be. Pointing the machine at the assets our users already want to trade is the roadmap item with the biggest ceiling, and it's next.</p>
         </div>
-        <div class="fail">
+        <div class="fail span">
           <div class="num green">05</div>
           <h4>Leverage, governed</h4>
           <p>Leverage is coming to the strategies. The engines typically hold well under half of the capital in the market, and the headroom is what makes leverage sensible here: users will be able to scale a strategy's exposure up, putting capital to work that the strategy was leaving idle. What doesn't move is the drawdown limit. Every strategy carries a loss threshold set before deployment, and the system cuts exposure before it's reached.</p>
           <p>You choose the amplification; the drawdown limit holds beneath it. Gains scale with the multiple you pick. Losses get cut at a budget you set, and the system enforces it at 3am whether or not you are awake. Most retail leverage works the other way around: it amplifies in both directions and hands the loss side to a liquidation engine.</p>
-          <div class="kickerline">You choose the amplification; <em class="g">the drawdown limit holds beneath it.</em></div>
         </div>
         <div class="fail span">
           <div class="num green">06</div>
           <h4>Copilot: the toolbox, unbundled</h4>
-          <p>Autopilot assumes you'd rather not have an opinion. Plenty of good traders have one — and the view usually isn't their problem; the execution around it is. Copilot is being built for them, and let's be precise about what it is not: it is not an LLM picking trades. What it does instead is take the AI quantitative trading toolbox apart and hand you the pieces. Every trade is a chain of decisions — entry timing, leverage sizing against current volatility, when to take risk off, when the setup is finished — and Copilot assigns a purpose-built model to each link while you keep the one that matters: the view. Regime detection reads what kind of market your position is sitting in; a dynamic exit model re-scores the setup continuously and closes when the models say it's done. The design goal is asymmetric: maximise the gain when your view is right, protect the downside when it's wrong. Autopilot ships first; Copilot follows once its components have survived the same live testing as everything else here.</p>
+          <p>Autopilot assumes you'd rather not have an opinion. Plenty of good traders have one — and the view usually isn't their problem; the execution around it is. Copilot is being built for them, and let's be precise about what it is not: it is not an LLM picking trades. What it does instead is take the AI quantitative trading toolbox apart and hand you the pieces. Every trade is a chain of decisions — entry timing, leverage sizing against current volatility, when to take risk off, when the setup is finished — and Copilot assigns a purpose-built model to each link while you keep the one that matters: the view. Regime detection reads what kind of market your position is sitting in; a dynamic exit model re-scores the setup continuously and closes when the models say it's done. The design goal is asymmetric: <strong>maximise the gain when your view is right, protect the downside when it's wrong.</strong> Autopilot ships first; Copilot follows once its components have survived the same live testing as everything else here.</p>
         </div>
       </div>
     </section>
@@ -308,9 +305,7 @@
       <div class="sec-tag"><span class="n">05</span></div>
       <h2>Where this is going</h2>
       <p>Step back from the individual features and a product suite comes into focus. Autopilot for capital that wants to work unattended, in families tuned from arbitrage-calm to ten-bagger-wild. Copilot for traders who want to keep the wheel and borrow the instruments. Leverage for sizing conviction, with a machine-enforced drawdown budget standing behind it. A research harness turning out new engines faster than any human bench could. And the whole thing pointed at an expanding universe — crypto today; commodities and equities next — running from your own wallet, writing its record where anyone can read it.</p>
-      <p>Here is what we believe about the future of trading: the machines already won. Most of the flow on every serious venue is algorithmic now, and every year the share grows.</p>
-      <div class="pull">The question of the next decade isn't whether you'll trade with machines — you already do. <span>The question is whose machine, and who it works for.</span></div>
-      <p>We're building the same class of machine the institutions built for themselves — on your side of the trade, switched on from a wallet.</p>
+      <p>Here is what we believe about the future of trading: the machines already won. Most of the flow on every serious venue is algorithmic now, and every year the share grows. The question of the next decade isn't whether you'll trade with machines — you already do. The question is whose machine, and who it works for. We're building the same class of machine the institutions built for themselves — on your side of the trade, switched on from a wallet.</p>
       <p>The team is heads down building. Hyperliquid integration landing, upgraded engines in final testing, the harness coming online, new markets in scope, Copilot moving from architecture to code. These next months will be the most consequential in AlphaNet's life, and the most fun.</p>
 
       <!-- ============ SUBSCRIBE ============ -->
@@ -330,7 +325,7 @@
 <footer>
   <div class="wrap">
     <div class="f-top">
-      <img src="../logo.png" alt="AlphaNet">
+      <img src="logo.png" alt="AlphaNet">
     </div>
     <div class="follow">
       <div class="ft">Follow us to get <em>early access</em> to our new product releases.</div>

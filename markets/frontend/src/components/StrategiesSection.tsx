@@ -70,69 +70,86 @@ function capacityStatus(pct: number): { label: string; color: string; background
   return { label: "OPEN", color: "#50ffe2", background: "rgba(80, 255, 226, 0.1)" };
 }
 
-// Small solid flame glyph (Lucide "flame" path) — same icon the
-// reference capacity badge uses next to the status word, tinted via
-// currentColor so it always matches the pill's text color.
-function FlameIcon({ size = 10 }: { size?: number }) {
+// Same solid droplet/flame glyph AlphaNet's own capacity badge uses —
+// path copied verbatim out of the real DOM (inspected on
+// trade.alphanet.global/leaderboard's CAPACITY column), tinted via
+// currentColor so it always matches the pill's text color. Only shown
+// for POPULAR and up — OPEN's real badge has no icon, just text.
+function CapacityIcon({ size = 10 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+      <path d="M12 2c0 0-1 3.5-3 5.5S5 12 5 15.5c0 3.866 3.134 7 7 7s7-3.134 7-7c0-3.5-2-7.5-3-9.5s-3-4.5-4-6zM12 18c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2z" />
     </svg>
   );
 }
 
+// Capacity cell, rebuilt to match trade.alphanet.global/leaderboard's
+// CAPACITY column exactly (per the user's request to mirror that page
+// rather than the strategy-details modal) — every value below (colors,
+// sizes, the tick positions, the gradient's own stops) was read straight
+// out of that page's live DOM/computed styles, not eyeballed from a
+// screenshot:
+//   - badge stacks ABOVE the bar (flex-col), not beside it
+//   - the bar's gradient is its own fixed 4-stop ramp, independent of the
+//     5 badge tier colors: cyan 0% -> orange 50% -> deep orange 90% ->
+//     red 100%. It's rendered at a background-size of (100/fillPct)*100%
+//     so the same fixed gradient always spans the full track width even
+//     though only the filled slice is visible — a half-full bar shows the
+//     cool half of the ramp rather than a color picked in isolation.
+//   - nine faint tick marks sit on the track at 10%/20%/.../90%, on both
+//     the top and bottom edges
 function CapacityCell({ pct }: { pct: number }) {
-  const filledPct = Math.round(pct * 100);
+  const fillPct = Math.min(100, Math.max(0, pct * 100));
   const status = capacityStatus(pct);
+  const showIcon = status.label !== "OPEN";
+  const ticks = [10, 20, 30, 40, 50, 60, 70, 80, 90];
+
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "flex-end" }}>
-      {/* The gradient itself is painted across the bar's full width and
-          stays fixed (open -> popular -> very popular -> almost full ->
-          full, using the exact 5 tier colors above) — only the unfilled
-          remainder is masked over with the track color, so a half-full
-          bar shows the low/cool half of the gradient rather than a color
-          picked in isolation. This is what makes a 54%-full bar end in
-          teal-green rather than jumping straight to gold/red, matching
-          the reference widget. */}
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4, width: "100%", minWidth: 80 }}>
+      <div
+        style={{
+          padding: "4px 8px",
+          borderRadius: 9999,
+          background: status.background,
+        }}
+      >
+        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 4 }}>
+          {showIcon && <CapacityIcon />}
+          <span style={{ fontSize: 10, fontWeight: 700, lineHeight: "10px", color: status.color, whiteSpace: "nowrap" }}>
+            {status.label}
+          </span>
+        </div>
+      </div>
       <div
         style={{
           position: "relative",
-          width: 48,
-          height: 5,
-          borderRadius: 3,
+          width: "100%",
+          height: 4,
+          background: "#171921",
+          borderRadius: 2,
           overflow: "hidden",
-          background: "linear-gradient(90deg, #50ffe2, #29E9A9, #FFD146, #ff7300, #FF4D4D)",
         }}
       >
         <div
           style={{
             position: "absolute",
-            top: 0,
-            bottom: 0,
-            right: 0,
-            width: `${100 - filledPct}%`,
-            background: "rgba(255,255,255,0.08)",
+            inset: 0,
+            height: "100%",
+            borderRadius: 1,
+            width: `${fillPct}%`,
+            background: `linear-gradient(90deg, #50ffe2 0%, #ff9800 50%, #ff7300 90%, #ff4d4d 100%) 0% 0% / ${
+              fillPct > 0 ? (100 / fillPct) * 100 : 100
+            }% 100%`,
+            transition: "width 1.5s cubic-bezier(0.65, 0, 0.35, 1)",
           }}
         />
+        {ticks.map((left) => (
+          <div key={`t-${left}`} style={{ position: "absolute", top: 0, width: 2, height: 1, background: "#101117", zIndex: 10, left: `${left}%` }} />
+        ))}
+        {ticks.map((left) => (
+          <div key={`b-${left}`} style={{ position: "absolute", bottom: 0, width: 2, height: 1, background: "#101117", zIndex: 10, left: `${left}%` }} />
+        ))}
       </div>
-      <span
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 4,
-          fontSize: 10,
-          fontWeight: 700,
-          padding: "2px 8px",
-          borderRadius: 999,
-          background: status.background,
-          color: status.color,
-          letterSpacing: 0.03,
-          whiteSpace: "nowrap",
-        }}
-      >
-        <FlameIcon />
-        {status.label}
-      </span>
     </div>
   );
 }
@@ -171,7 +188,7 @@ export default function StrategiesSection({ strategies, symbol }: Props) {
                     key={h}
                     className="mono-label"
                     style={{
-                      textAlign: h === "STRATEGY" || h === "TYPE" ? "left" : "right",
+                      textAlign: h === "STRATEGY" || h === "TYPE" || h === "CAPACITY" ? "left" : "right",
                       padding: "14px 16px",
                       borderBottom: "1px solid var(--border)",
                       fontWeight: 500,
@@ -291,7 +308,7 @@ function StrategyRow({ s, symbol }: { s: StrategyOut; symbol: string }) {
           <Sparkline data={s.equityCurve} />
         </div>
       </td>
-      <td style={{ padding: "14px 16px", textAlign: "right", minWidth: 90 }}>
+      <td style={{ padding: "14px 16px", textAlign: "left", minWidth: 100, width: 120 }}>
         <CapacityCell pct={s.capacityPct} />
       </td>
       <td style={{ padding: "14px 16px", textAlign: "right" }}>

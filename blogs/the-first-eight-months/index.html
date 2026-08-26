@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="subscribe-api" content="">
+<title>AlphaNet — The First Eight Months</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#060608;
+    --surface:#0b0b10;
+    --surface2:#0e0e14;
+    --line:rgba(255,255,255,.08);
+    --line2:rgba(255,255,255,.14);
+    --text:#ececf1;
+    --muted:#9b9ba7;
+    --dim:#6d6d78;
+    --green:#3ef0b6;
+    --green-dim:rgba(62,240,182,.12);
+    --red:#ff5470;
+    --red-dim:rgba(255,84,112,.12);
+    --amber:#f0b34a;
+    --steel:#7d8496;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:17px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:rgba(62,240,182,.25)}
+  .mono{font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+
+  /* ---------- header ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    background:rgba(6,6,8,.85);
+    backdrop-filter:blur(12px);
+    position:sticky;top:0;z-index:50;
+  }
+  .header-inner{
+    max-width:1160px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .header-logo{display:flex;align-items:center;gap:14px;text-decoration:none}
+  .header-logo img{height:20px;width:auto;display:block}
+  .header-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--dim);display:flex;align-items:center;gap:10px;
+  }
+  .header-meta .dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+  @media (max-width:640px){.header-meta .hm-text{display:none}}
+  .header-right{display:flex;align-items:center;gap:18px}
+  .header-btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);text-decoration:none;
+    border:1px solid var(--line2);border-radius:2px;
+    padding:7px 14px;transition:color .2s,border-color .2s,background .2s;
+    white-space:nowrap;
+  }
+  .header-btn:hover{color:var(--green);border-color:rgba(62,240,182,.5);background:var(--green-dim)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:88px 0 56px;border-bottom:1px solid var(--line)}
+  .kicker{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--green);display:flex;align-items:center;gap:12px;margin-bottom:28px;
+  }
+  .kicker::before{content:"";width:28px;height:1px;background:var(--green);display:inline-block}
+  h1{
+    font-size:clamp(38px,6.2vw,62px);
+    line-height:1.04;font-weight:800;letter-spacing:-.025em;margin-bottom:28px;
+  }
+  h1 .thin{color:var(--dim);font-weight:600}
+  .lede{font-size:clamp(18px,2.4vw,22px);line-height:1.55;color:var(--muted);max-width:720px;font-weight:500}
+  .lede strong{color:var(--text);font-weight:700}
+  .hero-stats{
+    display:flex;flex-wrap:wrap;gap:1px;background:var(--line);
+    border:1px solid var(--line);margin-top:52px;
+  }
+  .hero-stat{flex:1 1 180px;background:var(--bg);padding:20px 24px}
+  .hero-stat .v{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;letter-spacing:-.02em}
+  .hero-stat .v.red{color:var(--red)} .hero-stat .v.green{color:var(--green)} .hero-stat .v.amber{color:var(--amber)}
+  .hero-stat .k{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:6px;font-family:'JetBrains Mono',monospace}
+
+  /* ---------- article ---------- */
+  article{padding:64px 0 0}
+  .sec{margin-bottom:72px}
+  .sec-tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:12px;
+  }
+  .sec-tag .n{color:var(--green)}
+  h2{font-size:clamp(26px,3.6vw,34px);line-height:1.15;font-weight:800;letter-spacing:-.02em;margin-bottom:24px}
+  h3{font-size:19px;font-weight:700;letter-spacing:-.01em;margin:36px 0 12px}
+  p{margin-bottom:18px;color:#c9c9d2}
+  p strong, li strong{color:var(--text);font-weight:700}
+  p .hl-g{color:var(--green);font-weight:700}
+  p .hl-r{color:var(--red);font-weight:700}
+  p .hl-a{color:var(--amber);font-weight:700}
+  .pull{
+    border-left:2px solid var(--green);
+    padding:6px 0 6px 28px;margin:36px 0;
+    font-size:clamp(21px,3vw,26px);line-height:1.4;font-weight:700;letter-spacing:-.015em;color:var(--text);
+  }
+  .pull span{color:var(--dim)}
+
+  /* ---------- cards ---------- */
+  .fails{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+  @media (max-width:760px){.fails{grid-template-columns:1fr}}
+  .fail{
+    background:var(--surface);border:1px solid var(--line);
+    padding:28px;position:relative;transition:border-color .25s;
+  }
+  .fail:hover{border-color:var(--line2)}
+  .fail.span{grid-column:1/-1}
+  .fail .num{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;
+    color:var(--red);margin-bottom:16px;display:flex;align-items:center;gap:10px;
+  }
+  .fail .num.green{color:var(--green)}
+  .fail h4{font-size:18px;font-weight:750;line-height:1.35;margin-bottom:12px;letter-spacing:-.01em}
+  .fail p{font-size:14.5px;line-height:1.7;color:var(--muted);margin-bottom:12px}
+  .fail p:last-child{margin-bottom:0}
+  .fail .kickerline{
+    margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);
+    font-size:13.5px;color:var(--text);font-weight:600;
+  }
+  .fail .kickerline em{font-style:normal;color:var(--red)}
+  .fail .kickerline em.g{color:var(--green)}
+
+  /* ---------- CTA / subscribe / footer ---------- */
+  .cta{
+    border:1px solid rgba(62,240,182,.3);
+    background:linear-gradient(160deg,rgba(62,240,182,.07),rgba(62,240,182,.015) 55%,transparent);
+    padding:52px 44px;margin:64px 0;text-align:left;position:relative;overflow:hidden;
+  }
+  .cta h2{margin-bottom:14px}
+  .cta p{color:var(--muted);max-width:560px}
+
+  /* Subscribe Form (from alphanet.global/blog) */
+  .subscribe-form{display:flex;gap:8px;max-width:480px;margin-top:26px}
+  .subscribe-input{
+    flex:1;height:52px;padding:0 18px;
+    background:var(--surface);
+    border:1px solid var(--line2);border-radius:6px;
+    color:var(--text);font-size:15px;font-family:inherit;
+    transition:border-color .2s ease,background .2s ease,box-shadow .2s ease;
+  }
+  .subscribe-input::placeholder{color:var(--dim)}
+  .subscribe-input:focus{
+    outline:none;border-color:var(--green);
+    background:var(--surface2);
+    box-shadow:0 0 0 3px var(--green-dim);
+  }
+  .subscribe-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    height:52px;padding:0 24px;
+    background:var(--green);border:none;border-radius:6px;
+    color:#060608;font-size:15px;font-weight:600;font-family:inherit;
+    white-space:nowrap;cursor:pointer;
+    transition:background .2s ease,transform .2s ease;
+  }
+  .subscribe-btn:hover{background:#6ff5c8}
+  .subscribe-btn:active{transform:scale(.97)}
+  @media (max-width:640px){
+    .subscribe-form{flex-direction:column}
+    .subscribe-input,.subscribe-btn{width:100%}
+    .subscribe-btn{justify-content:center}
+  }
+
+  footer{border-top:1px solid var(--line);padding:44px 0 56px;margin-top:24px}
+  footer .f-top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+  footer img{height:16px;opacity:.8}
+  footer .disc{font-size:12px;line-height:1.7;color:var(--dim);max-width:760px}
+  footer .follow{border-left:2px solid var(--green);padding:4px 0 4px 24px;margin:0 0 32px;display:flex;justify-content:space-between;align-items:center;gap:14px 24px;flex-wrap:wrap}
+  footer .follow .ft{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--muted)}
+  footer .follow .ft em{font-style:normal;color:var(--green);font-weight:700}
+  footer .follow .links{display:flex;gap:8px;flex-wrap:wrap}
+  footer .follow .links a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--line2);border-radius:2px;padding:7px 14px;transition:all .2s}
+  footer .follow .links a:hover{color:var(--green);border-color:var(--green)}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a class="header-logo" href="#"><img src="../logo.png" alt="AlphaNet"></a>
+    <div class="header-right">
+      <div class="header-meta">
+        <span class="dot"></span>
+        <span class="hm-text">AlphaNet&nbsp;&nbsp;·&nbsp;&nbsp;August 2026</span>
+      </div>
+      <a class="header-btn" href="https://alphanet.global/blog">Blog</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="kicker">AlphaNet · August 2026</div>
+    <h1>The First Eight Months</h1>
+    <p class="lede">What we set out to build, what we delivered, and what ships next.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="v green">+32.6%</div><div class="k">Equal-weighted basket · Jan–Aug 2026</div></div>
+      <div class="hero-stat"><div class="v green">+177.0%</div><div class="k">Capital-weighted platform return</div></div>
+      <div class="hero-stat"><div class="v amber">45</div><div class="k">Strategy-asset pairs running</div></div>
+      <div class="hero-stat"><div class="v green">+4.9%</div><div class="k">June · avg asset −23.6%</div></div>
+    </div>
+  </section>
+
+  <article>
+    <!-- ============ INTRO ============ -->
+    <section class="sec">
+      <p>Somewhere in every quantitative fund there is a machine that never gets shown to anyone: prediction models trained on years of granular data, execution algorithms that work an order into the book instead of paying the spread, risk plumbing that cuts exposure at a threshold. For decades that machinery has pointed inward — built by a firm, for the firm, funded by the firm's own capital and the handful of people wealthy enough to be in it.</p>
+      <p>AlphaNet started from a simple, slightly heretical question. Not <em>can we build that machine</em> — Tensor Investment already had, across crypto, fixed income, equity indices and commodities, on a cluster of over a thousand GPU nodes. The question was whether it could be turned around. Pointed outward. Made to run for someone who arrives with a wallet and a thousand dollars instead of an introduction and ten million.</p>
+      <p>Every layer of the answer had to change. Custody, so capital never leaves the user. Capacity discipline, so the door closes before performance dilutes. A venue where the record writes itself in public, because the moment you hand this machinery to strangers, "trust me" stops being an acceptable answer. And the strategies themselves had to become a selection, not a single product — because good alpha and a high Sharpe ratio are not one-size-fits-all. Every user wants something different from the machine. Some want their capital to grow without ever feeling a drawdown. Some want the exciting ten-bagger and will stomach the ride. Some want arbitrage — steady, predictable, boring in the best sense. So we design different families of strategies for different temperaments, and let each user pick the machine that matches theirs.</p>
+      <p>In January 2026, our first group of strategies went live.</p>
+    </section>
+
+    <!-- ============ LIVE, ON ORDERLY ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">01</span></div>
+      <h2>Live, on Orderly</h2>
+      <p>The strategies launched on Orderly with real capital and real users. Eight months later there are <strong>45 strategy-asset pairs</strong> running, and the first cohort of users has been served through the whole stretch — allocations deployed, positions managed, around the clock, without asking anyone to watch a screen.</p>
+    </section>
+
+    <!-- ============ WHAT THE LIVE BOOK SHOWED ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">02</span></div>
+      <h2>What the live book showed</h2>
+      <p>The headline: an equal-weighted basket of every strategy on the platform returned <strong class="hl-g">+32.6%</strong>, over a period in which the same assets, held passively, lost <strong class="hl-r">12.0%</strong>. Thirty-two of the forty-five pairs finished positive.</p>
+      <p>Weighted by where users actually put their capital, the platform did exceptionally well: <strong class="hl-g">+177.0%</strong>. That gap between the equal-weighted and the capital-weighted number is not an accident — it's the users. Give people transparent performance and a real choice of strategies, and capital flows toward the engines that are earning. The platform's return is partly the machine's work and partly the crowd's judgement, and we find that genuinely satisfying.</p>
+      <p>The shape of the returns matters more than the size. The best strategies did the two things every trader wants and almost none manage: they captured the rallies, and they stepped aside from the losses while the same assets were falling. Long exposure when the trend was paying, flat when it wasn't. And some strategies did better than that — they won in every condition the period offered, earning through the moves up and the moves down alike.</p>
+      <p>Then there was June. The market broke. The average asset in our universe lost <strong class="hl-r">23.6%</strong> in a single month and nothing in the universe finished higher. Our strategy suite finished June up <strong class="hl-g">4.9%</strong>. Compounding in a bull market is a solved problem — leverage and patience will get you there. Finishing a 23% crash month in the black is what the architecture was designed for.</p>
+      <p>And then the mirror image, August. In the past week the market ripped — Bitcoin ran roughly 27% off its mid-August low, breaking $80,000, with ETH up around 30% over the same stretch. The strategies were positioned for it: the suite returned <strong class="hl-g">+34.6%</strong> capital-weighted over the seven days. The system banked the storm in June and the melt-up in August, eight weeks apart.</p>
+    </section>
+
+    <!-- ============ WHY IT HELD ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">03</span></div>
+      <h2>Why it held</h2>
+      <p>The white paper made a specific bet: that alpha in perpetuals comes not from one brilliant model but from <strong>ensembles of many independent sub-strategies</strong>, each firing on its own signal, sized according to the strength of the signal. No single model carried the book. Dozens of sub-strategies entered and exited on their own logic. Disciplined exposure is why the drawdowns stayed survivable. The engines typically hold well under half of capital in the market. They scale in when a trend establishes itself and stand aside when it doesn't — and standing aside turns out to be a position. Several strategies sat flat for weeks this summer.</p>
+      <div class="pull">Flat cost nothing. <span>The market cost holders double digits over the same weeks.</span></div>
+      <p>Underneath all of it sits the <strong>regime detection model</strong> — the layer that answers the question that is the most difficult to get right: what kind of market is this? It classifies the tape into states — high-volatility trend, low-volatility grind, chop, liquidation cascade — and it often catches the shift before price confirms it. Every entry the strategies propose is gated and sized against that read. It's why the dip didn't get bought in June while the knife was still falling, and why exposure was already leaning in when August turned.</p>
+    </section>
+
+    <!-- ============ WHAT SHIPS NEXT ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">04</span></div>
+      <h2>What ships next</h2>
+      <div class="fails">
+        <div class="fail span">
+          <div class="num green">01</div>
+          <h4>Hyperliquid integration</h4>
+          <p>In September, Hyperliquid joins the stack — the deepest decentralized perpetuals venue in the market. We will allow users to choose between different DEX infrastructures. Three things improve at once.</p>
+          <p><strong style="color:var(--text)">Capacity.</strong> Deeper order books support materially larger strategy deployments before size starts degrading the signals that drive them.</p>
+          <p><strong style="color:var(--text)">Fills.</strong> Tighter spreads and deeper liquidity shrink the gap between what a strategy decides and what an account receives.</p>
+          <p><strong style="color:var(--text)">Robustness.</strong> A purpose-built trading L1 handles order flow best in exactly the moments that matter, when a queue backing up is the difference between an exit and a liquidation.</p>
+        </div>
+        <div class="fail">
+          <div class="num green">02</div>
+          <h4>Strategies that keep getting sharper</h4>
+          <p>The engines arriving on Hyperliquid are not the engines that went live in January. Retraining, better regime gating, improved sizing, and exit signals — the strategy layer is under continuous revision, and the September versions carry eight months of live feedback no backtest could have provided.</p>
+        </div>
+        <div class="fail">
+          <div class="num green">03</div>
+          <h4>A research engine that compounds</h4>
+          <p>This is the part users will see least and feel most. Strategy research has always been artisanal: a researcher has an idea, builds the features, tests it, kills it, starts again. Much of that loop is craft — but a surprising amount is mechanical, and the mechanical part can be automated.</p>
+          <p>We are building a harness around our proprietary research pipeline: an inner loop that generates, tests and prunes candidate strategies against held-out data, and an outer loop that improves the search itself, learning which directions have been productive and steering compute there. The researchers stop hand-cranking the parts that don't need judgement and spend themselves on the parts that do.</p>
+          <p>The point is rate. More alpha, discovered faster, with the same bench. Every specific edge decays; the ability to find the next one is the only edge that doesn't. A research organisation that gets better at getting better is the most valuable thing we could possibly build, and it's under construction now.</p>
+          <div class="kickerline">Every specific edge decays; <em class="g">the ability to find the next one is the only edge that doesn't.</em></div>
+        </div>
+        <div class="fail">
+          <div class="num green">04</div>
+          <h4>The assets you actually want</h4>
+          <p>Hyperliquid's builder-deployed markets have quietly become the most interesting shelf in trading: gold and oil that trade through the weekend. Tokenized equities — SpaceX, SK Hynix mid-memory-cycle. The markets people actually argue about at dinner, all settling as perpetuals, all on one margin base, 24/7.</p>
+          <p>The shift is already in the volume. By mid-2026, tokenized equities and commodities had grown to roughly half of Hyperliquid's flow. These are also the tapes our engines were built for. A memory cycle is a trend that runs for quarters. Gold has regimes as legible as any token's. Macro shocks are exactly what regime detection was trained to catch early. That's where we want to be. Pointing the machine at the assets our users already want to trade is the roadmap item with the biggest ceiling, and it's next.</p>
+        </div>
+        <div class="fail">
+          <div class="num green">05</div>
+          <h4>Leverage, governed</h4>
+          <p>Leverage is coming to the strategies. The engines typically hold well under half of the capital in the market, and the headroom is what makes leverage sensible here: users will be able to scale a strategy's exposure up, putting capital to work that the strategy was leaving idle. What doesn't move is the drawdown limit. Every strategy carries a loss threshold set before deployment, and the system cuts exposure before it's reached.</p>
+          <p>You choose the amplification; the drawdown limit holds beneath it. Gains scale with the multiple you pick. Losses get cut at a budget you set, and the system enforces it at 3am whether or not you are awake. Most retail leverage works the other way around: it amplifies in both directions and hands the loss side to a liquidation engine.</p>
+          <div class="kickerline">You choose the amplification; <em class="g">the drawdown limit holds beneath it.</em></div>
+        </div>
+        <div class="fail span">
+          <div class="num green">06</div>
+          <h4>Copilot: the toolbox, unbundled</h4>
+          <p>Autopilot assumes you'd rather not have an opinion. Plenty of good traders have one — and the view usually isn't their problem; the execution around it is. Copilot is being built for them, and let's be precise about what it is not: it is not an LLM picking trades. What it does instead is take the AI quantitative trading toolbox apart and hand you the pieces. Every trade is a chain of decisions — entry timing, leverage sizing against current volatility, when to take risk off, when the setup is finished — and Copilot assigns a purpose-built model to each link while you keep the one that matters: the view. Regime detection reads what kind of market your position is sitting in; a dynamic exit model re-scores the setup continuously and closes when the models say it's done. The design goal is asymmetric: maximise the gain when your view is right, protect the downside when it's wrong. Autopilot ships first; Copilot follows once its components have survived the same live testing as everything else here.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WHERE THIS IS GOING ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">05</span></div>
+      <h2>Where this is going</h2>
+      <p>Step back from the individual features and a product suite comes into focus. Autopilot for capital that wants to work unattended, in families tuned from arbitrage-calm to ten-bagger-wild. Copilot for traders who want to keep the wheel and borrow the instruments. Leverage for sizing conviction, with a machine-enforced drawdown budget standing behind it. A research harness turning out new engines faster than any human bench could. And the whole thing pointed at an expanding universe — crypto today; commodities and equities next — running from your own wallet, writing its record where anyone can read it.</p>
+      <p>Here is what we believe about the future of trading: the machines already won. Most of the flow on every serious venue is algorithmic now, and every year the share grows.</p>
+      <div class="pull">The question of the next decade isn't whether you'll trade with machines — you already do. <span>The question is whose machine, and who it works for.</span></div>
+      <p>We're building the same class of machine the institutions built for themselves — on your side of the trade, switched on from a wallet.</p>
+      <p>The team is heads down building. Hyperliquid integration landing, upgraded engines in final testing, the harness coming online, new markets in scope, Copilot moving from architecture to code. These next months will be the most consequential in AlphaNet's life, and the most fun.</p>
+
+      <!-- ============ SUBSCRIBE ============ -->
+      <div class="cta">
+        <div class="kicker" style="margin-bottom:18px">Subscribe</div>
+        <h2>Get AlphaNet in your inbox.</h2>
+        <p>Get the latest AlphaNet research, strategy reports, and market briefs delivered straight to your inbox.</p>
+        <form class="subscribe-form" id="subscribe-form">
+          <input type="email" class="subscribe-input" placeholder="your@email.com" required aria-label="Email address">
+          <button type="submit" class="subscribe-btn">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <img src="../logo.png" alt="AlphaNet">
+    </div>
+    <div class="follow">
+      <div class="ft">Follow us to get <em>early access</em> to our new product releases.</div>
+      <div class="links">
+        <a href="https://alphanet.global/" target="_blank" rel="noopener">Website</a>
+        <a href="https://x.com/AlphaNet_AI" target="_blank" rel="noopener">X</a>
+        <a href="https://t.me/AlphaNet_AI" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </div>
+    <p class="disc">Performance figures cover January–August 2026 across 45 strategy-asset pairs and are stated before trading costs. Past performance does not indicate future results. All trading involves risk of loss, and leverage amplifies losses as well as gains.</p>
+  </div>
+</footer>
+
+<script>
+// ============================================
+// SUBSCRIBE FORM — same behavior as alphanet.global/blog
+// ============================================
+const SUBSCRIBE_API_URL = (() => {
+  const fromMeta = document.querySelector('meta[name="subscribe-api"]')?.content?.trim();
+  if (fromMeta) return fromMeta;
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    return 'http://127.0.0.1:20001';
+  }
+  return new URL('/api/subscribe', location.origin).href;
+})();
+
+async function subscribeEmail(email) {
+  const res = await fetch(SUBSCRIBE_API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+
+  let data = {};
+  try {
+    data = await res.json();
+  } catch {
+    /* non-JSON body */
+  }
+
+  if (!res.ok) {
+    const err = new Error(data.error || 'Subscription failed');
+    err.status = res.status;
+    throw err;
+  }
+  return data;
+}
+
+function handleSubscribe(form) {
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = form.querySelector('input[type="email"]');
+    const btn = form.querySelector('button');
+    const originalText = btn.innerHTML;
+    const email = input.value.trim();
+
+    btn.innerHTML = 'Subscribing...';
+    btn.disabled = true;
+    btn.style.pointerEvents = 'none';
+
+    try {
+      await subscribeEmail(email);
+      btn.innerHTML = 'Subscribed ✓';
+      btn.style.background = 'var(--green)';
+      input.value = '';
+      input.placeholder = 'Thanks for subscribing!';
+    } catch (err) {
+      const alreadySubscribed = err.status === 409;
+      btn.innerHTML = alreadySubscribed ? 'Already subscribed' : 'Try again';
+      btn.style.background = alreadySubscribed ? 'var(--amber)' : 'var(--red)';
+      if (!alreadySubscribed) input.value = '';
+      input.placeholder = err.message || 'Something went wrong';
+    }
+
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.background = '';
+      btn.disabled = false;
+      btn.style.pointerEvents = '';
+      input.placeholder = 'your@email.com';
+    }, 3000);
+  });
+}
+
+handleSubscribe(document.getElementById('subscribe-form'));
+</script>
+</body>
+</html>

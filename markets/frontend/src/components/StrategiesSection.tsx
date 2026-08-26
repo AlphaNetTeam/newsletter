@@ -43,6 +43,98 @@ const BADGE_STYLES: Record<string, { background: string; color: string }> = {
 };
 const DEFAULT_BADGE_STYLE = { background: "var(--accent-amber-dim)", color: "var(--accent-amber)" };
 
+// CAPACITY column — matches the "STRATEGY CAPACITY" widget on AlphaNet's
+// own real strategy-details page (trade.alphanet.global/strategies?s=...&m=...).
+// Confirmed directly against that live page (not the `tag` field — a
+// strategy tagged "POPULAR" at low utilization still shows "OPEN", and
+// one tagged only "HIGH SHARPE" at high utilization still shows
+// "VERY POPULAR", so the badge word is purely a function of the real
+// actualCapacity/maxCapacity ratio, independent of `tag`):
+//   - Hackworth Trend - BTC,  22.0% -> OPEN          (green)
+//   - Hackworth Trend - BNB,  28.4% -> OPEN          (green, despite tag "Popular")
+//   - Hackworth OptimaShort - LINK, 37.5% -> OPEN    (green)
+//   - Hackworth Trend - DOGE, 40.0% -> POPULAR       (green)
+//   - Hackworth Prime - BTC,  54.0% -> POPULAR       (green)
+//   - Hackworth Prime - ZEC,  60.35% -> POPULAR      (green)
+//   - Hackworth OptimaShort - XMR, 80.2% -> VERY POPULAR (amber, despite tag only having "HIGH SHARPE" alongside POPULAR)
+// That pins the OPEN/POPULAR cutover at exactly 40%; the POPULAR/VERY
+// POPULAR cutover is only bracketed between 60.35% and 80.2% (no live
+// strategy currently sits in that gap to pin it exactly) — 75% is used
+// here as the midpoint estimate. No strategy currently reaches a
+// capacity high enough to reveal a fourth tier (e.g. "FULL"), so none
+// is implemented — flag if one ever needs adding.
+function capacityStatus(pct: number): { label: string; color: string; background: string } {
+  if (pct >= 0.75) return { label: "VERY POPULAR", color: "var(--accent-amber)", background: "var(--accent-amber-dim)" };
+  if (pct >= 0.4) return { label: "POPULAR", color: "var(--accent-green)", background: "var(--accent-green-dim)" };
+  return { label: "OPEN", color: "var(--accent-green)", background: "var(--accent-green-dim)" };
+}
+
+// Small solid flame glyph (Lucide "flame" path) — same icon the
+// reference capacity badge uses next to the status word, tinted via
+// currentColor so it always matches the pill's text color.
+function FlameIcon({ size = 10 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
+    </svg>
+  );
+}
+
+function CapacityCell({ pct }: { pct: number }) {
+  const filledPct = Math.round(pct * 100);
+  const status = capacityStatus(pct);
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "flex-end" }}>
+      {/* The gradient itself is painted across the bar's full width and
+          stays fixed (green -> amber -> red, low capacity to high) —
+          only the unfilled remainder is masked over with the track
+          color, so a half-full bar shows the low/cool half of the
+          gradient rather than a color picked in isolation. This is
+          what makes a 54%-full bar end in orange rather than jumping
+          straight to red, matching the reference widget. */}
+      <div
+        style={{
+          position: "relative",
+          width: 48,
+          height: 5,
+          borderRadius: 3,
+          overflow: "hidden",
+          background: "linear-gradient(90deg, var(--accent-green), var(--accent-amber), var(--accent-red))",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            right: 0,
+            width: `${100 - filledPct}%`,
+            background: "rgba(255,255,255,0.08)",
+          }}
+        />
+      </div>
+      <span
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 4,
+          fontSize: 10,
+          fontWeight: 700,
+          padding: "2px 8px",
+          borderRadius: 999,
+          background: status.background,
+          color: status.color,
+          letterSpacing: 0.03,
+          whiteSpace: "nowrap",
+        }}
+      >
+        <FlameIcon />
+        {status.label}
+      </span>
+    </div>
+  );
+}
+
 export default function StrategiesSection({ strategies, symbol }: Props) {
   const list = strategies?.strategies ?? [];
 
@@ -198,20 +290,7 @@ function StrategyRow({ s, symbol }: { s: StrategyOut; symbol: string }) {
         </div>
       </td>
       <td style={{ padding: "14px 16px", textAlign: "right", minWidth: 90 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "flex-end" }}>
-          <div style={{ width: 48, height: 5, borderRadius: 3, background: "rgba(255,255,255,0.08)", overflow: "hidden" }}>
-            <div
-              style={{
-                width: `${Math.round(s.capacityPct * 100)}%`,
-                height: "100%",
-                background: s.capacityPct >= 0.7 ? "var(--accent-amber)" : "var(--accent-green)",
-              }}
-            />
-          </div>
-          <span style={{ fontSize: 11, color: "var(--text-tertiary)" }}>
-            {Math.round(s.capacityPct * 100)}% FULL
-          </span>
-        </div>
+        <CapacityCell pct={s.capacityPct} />
       </td>
       <td style={{ padding: "14px 16px", textAlign: "right" }}>
         <a

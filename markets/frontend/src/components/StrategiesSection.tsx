@@ -45,28 +45,29 @@ const DEFAULT_BADGE_STYLE = { background: "var(--accent-amber-dim)", color: "var
 
 // CAPACITY column — matches the "STRATEGY CAPACITY" widget on AlphaNet's
 // own real strategy-details page (trade.alphanet.global/strategies?s=...&m=...).
-// Confirmed directly against that live page (not the `tag` field — a
-// strategy tagged "POPULAR" at low utilization still shows "OPEN", and
-// one tagged only "HIGH SHARPE" at high utilization still shows
-// "VERY POPULAR", so the badge word is purely a function of the real
-// actualCapacity/maxCapacity ratio, independent of `tag`):
-//   - Hackworth Trend - BTC,  22.0% -> OPEN          (green)
-//   - Hackworth Trend - BNB,  28.4% -> OPEN          (green, despite tag "Popular")
-//   - Hackworth OptimaShort - LINK, 37.5% -> OPEN    (green)
-//   - Hackworth Trend - DOGE, 40.0% -> POPULAR       (green)
-//   - Hackworth Prime - BTC,  54.0% -> POPULAR       (green)
-//   - Hackworth Prime - ZEC,  60.35% -> POPULAR      (green)
-//   - Hackworth OptimaShort - XMR, 80.2% -> VERY POPULAR (amber, despite tag only having "HIGH SHARPE" alongside POPULAR)
-// That pins the OPEN/POPULAR cutover at exactly 40%; the POPULAR/VERY
-// POPULAR cutover is only bracketed between 60.35% and 80.2% (no live
-// strategy currently sits in that gap to pin it exactly) — 75% is used
-// here as the midpoint estimate. No strategy currently reaches a
-// capacity high enough to reveal a fourth tier (e.g. "FULL"), so none
-// is implemented — flag if one ever needs adding.
+// This isn't a guess anymore: it's copied straight out of AlphaNet's own
+// production bundle (assets/appStateContext-*.js — the minified function
+// is called as `(e,t) => e>100 ? ... : e>90 ? ... : e>70 ? ... : e>40 ?
+// ... : ...`, where `e` is (actualCapacity/maxCapacity)*100 and `t` is
+// the i18n translator resolving keys like
+// "extend.alphanet.capacity.veryPopular"). All five tiers and their
+// exact colors, read directly from that function:
+//   e > 100  -> FULL          #FF4D4D  bg rgba(255, 77, 77, 0.1)
+//   e > 90   -> ALMOST FULL   #ff7300  bg rgba(255, 152, 0, 0.1)
+//   e > 70   -> VERY POPULAR  #FFD146  bg rgba(255, 209, 70, 0.1)
+//   e > 40   -> POPULAR       #29E9A9  bg rgba(41, 233, 169, 0.1)
+//   else     -> OPEN          #50ffe2  bg rgba(80, 255, 226, 0.1)
+// Only OPEN/POPULAR/VERY POPULAR are reachable with today's live data (no
+// strategy has broken 90% yet), which is exactly what was observed on the
+// live site before this was traced back to source. FULL/ALMOST FULL are
+// included anyway since they're part of the real function, not a guess.
 function capacityStatus(pct: number): { label: string; color: string; background: string } {
-  if (pct >= 0.75) return { label: "VERY POPULAR", color: "var(--accent-amber)", background: "var(--accent-amber-dim)" };
-  if (pct >= 0.4) return { label: "POPULAR", color: "var(--accent-green)", background: "var(--accent-green-dim)" };
-  return { label: "OPEN", color: "var(--accent-green)", background: "var(--accent-green-dim)" };
+  const e = pct * 100;
+  if (e > 100) return { label: "FULL", color: "#FF4D4D", background: "rgba(255, 77, 77, 0.1)" };
+  if (e > 90) return { label: "ALMOST FULL", color: "#ff7300", background: "rgba(255, 152, 0, 0.1)" };
+  if (e > 70) return { label: "VERY POPULAR", color: "#FFD146", background: "rgba(255, 209, 70, 0.1)" };
+  if (e > 40) return { label: "POPULAR", color: "#29E9A9", background: "rgba(41, 233, 169, 0.1)" };
+  return { label: "OPEN", color: "#50ffe2", background: "rgba(80, 255, 226, 0.1)" };
 }
 
 // Small solid flame glyph (Lucide "flame" path) — same icon the
@@ -86,12 +87,13 @@ function CapacityCell({ pct }: { pct: number }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "flex-end" }}>
       {/* The gradient itself is painted across the bar's full width and
-          stays fixed (green -> amber -> red, low capacity to high) —
-          only the unfilled remainder is masked over with the track
-          color, so a half-full bar shows the low/cool half of the
-          gradient rather than a color picked in isolation. This is
-          what makes a 54%-full bar end in orange rather than jumping
-          straight to red, matching the reference widget. */}
+          stays fixed (open -> popular -> very popular -> almost full ->
+          full, using the exact 5 tier colors above) — only the unfilled
+          remainder is masked over with the track color, so a half-full
+          bar shows the low/cool half of the gradient rather than a color
+          picked in isolation. This is what makes a 54%-full bar end in
+          teal-green rather than jumping straight to gold/red, matching
+          the reference widget. */}
       <div
         style={{
           position: "relative",
@@ -99,7 +101,7 @@ function CapacityCell({ pct }: { pct: number }) {
           height: 5,
           borderRadius: 3,
           overflow: "hidden",
-          background: "linear-gradient(90deg, var(--accent-green), var(--accent-amber), var(--accent-red))",
+          background: "linear-gradient(90deg, #50ffe2, #29E9A9, #FFD146, #ff7300, #FF4D4D)",
         }}
       >
         <div

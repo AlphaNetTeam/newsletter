@@ -241,23 +241,9 @@
       <div class="sec-tag"><span class="n">01</span></div>
       <h2>What separated the best AI trading agents from the rest</h2>
       <p>TradeRank's post-mortems across 656+ trades point to three factors — not model intelligence — that divided winners from losers:</p>
-      <div class="fails">
-        <div class="fail span">
-          <div class="num green">01</div>
-          <h4>Patience</h4>
-          <p>MiniMax M2.5 won a season trading 16 times. The model that traded 100 times finished last.</p>
-        </div>
-        <div class="fail span">
-          <div class="num green">02</div>
-          <h4>Sizing</h4>
-          <p>In one season a 17% win rate beat a 90% win rate, because the size was in the right trades. In another, GPT-5 Mini posted the highest win rate in the field — 55% — and still lost money.</p>
-        </div>
-        <div class="fail span">
-          <div class="num green">03</div>
-          <h4>Costs</h4>
-          <p>Gemini burned ~$50 of a $10,000 book on fees in two weeks; the busiest models gave up to 1.1% of their portfolio to transaction costs. In a simulation with zero slippage. Live is worse.</p>
-        </div>
-      </div>
+      <p><strong>Patience.</strong> MiniMax M2.5 won a season trading 16 times. The model that traded 100 times finished last.</p>
+      <p><strong>Sizing.</strong> In one season a 17% win rate beat a 90% win rate, because the size was in the right trades. In another, GPT-5 Mini posted the highest win rate in the field — 55% — and still lost money.</p>
+      <p><strong>Costs.</strong> Gemini burned ~$50 of a $10,000 book on fees in two weeks; the busiest models gave up to 1.1% of their portfolio to transaction costs. In a simulation with zero slippage. Live is worse.</p>
       <p>Patience, sizing, exits and cost control all sit in the execution layer. That is precisely the layer a chat model does not possess on its own. The useful question is therefore not which model reasons best, but what trading system surrounds it.</p>
       <p>The same pattern appears beyond one arena. When Agents Trade (ACM Web Conference 2026) tested four agent architectures across five model backbones. Architecture drove materially different trading behaviour; the backbone explained far less of the outcome variation. Swap the model and little changes. Swap the scaffolding — sizing rules, action frequency and exit logic — and everything changes.</p>
     </section>
@@ -288,23 +274,12 @@
     <section class="sec">
       <div class="sec-tag"><span class="n">04</span></div>
       <h2>Are AI trading bots reliable? Three questions to ask</h2>
-      <div class="fails">
-        <div class="fail span">
-          <div class="num green">Q1</div>
-          <h4>What handles sizing and exits?</h4>
-          <p>If it's the same model writing the thesis, the layer that decides outcomes wasn't engineered.</p>
-        </div>
-        <div class="fail span">
-          <div class="num green">Q2</div>
-          <h4>How was it validated before going live?</h4>
-          <p>A backtest of a model trained on the outcomes is not validation.</p>
-        </div>
-        <div class="fail span">
-          <div class="num green">Q3</div>
-          <h4>Can I verify the live results myself?</h4>
-          <p>A wallet address is an answer. A dashboard screenshot isn't.</p>
-        </div>
-      </div>
+      <h4>What handles sizing and exits?</h4>
+      <p>If it's the same model writing the thesis, the layer that decides outcomes wasn't engineered.</p>
+      <h4>How was it validated before going live?</h4>
+      <p>A backtest of a model trained on the outcomes is not validation.</p>
+      <h4>Can I verify the live results myself?</h4>
+      <p>A wallet address is an answer. A dashboard screenshot isn't.</p>
       <p class="sources">Sources: TradeRank Arena season records and post-mortems (traderank.ai — note TradeRank operates the arena it reports on); Nof1 Alpha Arena Season 1 (nof1.ai, on-chain on Hyperliquid); "When Agents Trade: Live Multi-Market Trading Arena for LLM Agents," ACM Web Conference 2026. Model architecture and validation methodology: Section C of the AlphaNet whitepaper.</p>
 
       <!-- ============ SUBSCRIBE ============ -->

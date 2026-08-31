@@ -8,6 +8,6 @@ npm run dev
 
 ### 服务器部署
 ```bash
-npm run build
-sudo systemctl restart alphanet-market
+SITE_URL=https://alphanet.global/markets & npm run build
+sudo systemctl restart alphanet-markets
 ```

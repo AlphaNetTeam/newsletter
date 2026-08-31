@@ -4,23 +4,23 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="subscribe-api" content="">
-<title>Can AI Agents Trade? GPT Trading Experiments | AlphaNet</title>
-<meta name="description" content="Seven seasons, 49 models and 2,686 trades: what live trading GPT experiments reveal about AI trading agents, execution and profitability.">
+<title>What Is Quant Trading? Inside AlphaNet's AI Quant Platform | AlphaNet</title>
+<meta name="description" content="A practical look at quant trading, quantitative strategies and the AI models, execution, risk controls and capacity discipline behind AlphaNet.">
 <!-- Open Graph 基本标签 -->
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="Can AI Agents Trade? GPT Trading Experiments | AlphaNet" />
-    <meta property="og:description" content="Seven seasons, 49 models and 2,686 trades: what live trading GPT experiments reveal about AI trading agents, execution and profitability." />
-    <meta property="og:url" content="https://alphanet.global/blog/can-ai-agent-trade/" />
+    <meta property="og:title" content="What Is AI Quant Trading? Inside AlphaNet's AI Quantitative Trading Platform | AlphaNet" />
+    <meta property="og:description" content="A practical look at quant trading, quantitative strategies and the AI models, execution, risk controls and capacity discipline behind AlphaNet." />
+    <meta property="og:url" content="https://alphanet.global/blog/what-is-ai-quant-trading/" />
     <!-- TODO: 上线前替换为实际封面图地址 -->
-    <meta property="og:image" content="https://alphanet.global/blog/blog-covers/cover-can-ai-agent-trade.png" />
+    <meta property="og:image" content="https://alphanet.global/blog/blog-covers/cover-what-is-ai-quant-trading.png" />
     <meta property="og:site_name" content="AlphaNet | Trading Evolved - Quantitative AI Trading Platform" />
 
     <!-- Twitter Card 标签 -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@AlphaNet_AI" />
-    <meta name="twitter:title" content="Can AI Agents Trade? GPT Trading Experiments | AlphaNet" />
-    <meta name="twitter:description" content="Seven seasons, 49 models and 2,686 trades: what live trading GPT experiments reveal about AI trading agents, execution and profitability." />
-    <meta name="twitter:image" content="https://alphanet.global/blog/blog-covers/cover-can-ai-agent-trade.png" />
+    <meta name="twitter:title" content="What Is AI Quant Trading? Inside AlphaNet's AI Quantitative Trading Platform | AlphaNet" />
+    <meta name="twitter:description" content="A practical look at quant trading, quantitative strategies and the AI models, execution, risk controls and capacity discipline behind AlphaNet." />
+    <meta name="twitter:image" content="https://alphanet.global/blog/blog-covers/cover-what-is-ai-quant-trading.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -126,6 +126,7 @@
   p .hl-g{color:var(--green);font-weight:700}
   p .hl-r{color:var(--red);font-weight:700}
   p .hl-a{color:var(--amber);font-weight:700}
+  p a{color:var(--green);text-decoration:underline}
 
   /* ---------- cards ---------- */
   .fails{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
@@ -150,6 +151,7 @@
     border-top:1px dashed var(--line);padding-top:24px;margin-top:8px;
     font-size:13px;line-height:1.7;color:var(--dim);
   }
+  .sources a{color:var(--green);text-decoration:underline}
 
   /* ---------- subscribe ---------- */
   .cta{
@@ -218,69 +220,80 @@
 <div class="wrap">
   <section class="hero">
     <div class="kicker">ALPHANET RESEARCH</div>
-    <h1>Can AI Agents Trade?<br><span class="thin">Inside the Trading GPT Experiments</span></h1>
-    <p class="lede">The models kept getting smarter. <strong>The AI trading results didn't.</strong></p>
+    <h1>What Is AI Quant Trading?<br><span class="thin">Inside AlphaNet's AI Quantitative Trading Platform</span></h1>
+    <p class="lede">A Hyperliquid trading bot built like a quant fund—<strong>not a rules engine.</strong></p>
     <div class="hero-stats">
-      <div class="hero-stat"><div class="v amber">7</div><div class="k">Seasons of live AI trading arenas</div></div>
-      <div class="hero-stat"><div class="v amber">49</div><div class="k">Models</div></div>
-      <div class="hero-stat"><div class="v amber">2,686</div><div class="k">Trades</div></div>
-      <div class="hero-stat"><div class="v red">41.5%</div><div class="k">Of model-seasons finished profitable</div></div>
+      <div class="hero-stat"><div class="v amber">1000+</div><div class="k">High-performance GPU nodes</div></div>
+      <div class="hero-stat"><div class="v amber">3</div><div class="k">Quant strategy families</div></div>
+      <div class="hero-stat"><div class="v green">84%</div><div class="k">Probability output, not triggers</div></div>
+      <div class="hero-stat"><div class="v amber">24/7</div><div class="k">Autopilot on Hyperliquid</div></div>
     </div>
   </section>
 
   <article>
     <!-- ============ INTRO ============ -->
     <section class="sec">
-      <p>Can ChatGPT trade profitably? Since January 2026, TradeRank Arena has tested that question continuously: give the newest models simulated capital, live prices and full autonomy, then let them trade against one another for a month. Across seven seasons, <strong>49 models and 2,686 trades</strong>, it offers the closest controlled evidence we have on whether a GPT trading bot — or any frontier-model AI trading agent — can make money.</p>
-      <p>The models improved dramatically over those months; the trading record did not. <strong class="hl-r">Only 41.5% of model-seasons finished profitable</strong> — fewer than half. No model stayed good: Season 1's winner finished last in Season 2. In Season 5, closed June 2026, the lighter, cheaper tiers swept the podium while the flagship reasoning models — GPT-5.5, Claude Opus and Grok — finished 8th, 6th and 7th.</p>
-      <p>TradeRank runs the arena with paper trading — fills at a fetched price, no market impact — so if anything it flatters the models. <strong>Whatever separates winning from losing here, it isn't intelligence.</strong></p>
+      <p>Strip the marketing off most "AI trading bots" and you find a rule in a costume: if price crosses the moving average, buy. One input, one trigger.</p>
+      <p>AlphaNet is built as something categorically different: the full stack a quantitative fund runs for itself—prediction models, market-context models, execution algorithms, risk plumbing and capacity discipline—reworked so an individual can deploy it from a wallet. The rest of this article shows how the system works, layer by layer, and what turns trading signals into an automated strategy.</p>
     </section>
 
-    <!-- ============ WHAT SEPARATED WINNERS ============ -->
+    <!-- ============ AI TRADING SIGNALS ============ -->
     <section class="sec">
       <div class="sec-tag"><span class="n">01</span></div>
-      <h2>What separated the best AI trading agents from the rest</h2>
-      <p>TradeRank's post-mortems across 656+ trades point to three factors — not model intelligence — that divided winners from losers:</p>
-      <p><strong>Patience.</strong> MiniMax M2.5 won a season trading 16 times. The model that traded 100 times finished last.</p>
-      <p><strong>Sizing.</strong> In one season a 17% win rate beat a 90% win rate, because the size was in the right trades. In another, GPT-5 Mini posted the highest win rate in the field — 55% — and still lost money.</p>
-      <p><strong>Costs.</strong> Gemini burned ~$50 of a $10,000 book on fees in two weeks; the busiest models gave up to 1.1% of their portfolio to transaction costs. In a simulation with zero slippage. Live is worse.</p>
-      <p>Patience, sizing, exits and cost control all sit in the execution layer. That is precisely the layer a chat model does not possess on its own. The useful question is therefore not which model reasons best, but what trading system surrounds it.</p>
-      <p>The same pattern appears beyond one arena. When Agents Trade (ACM Web Conference 2026) tested four agent architectures across five model backbones. Architecture drove materially different trading behaviour; the backbone explained far less of the outcome variation. Swap the model and little changes. Swap the scaffolding — sizing rules, action frequency and exit logic — and everything changes.</p>
+      <h2>AI trading signals: probabilities, not triggers</h2>
+      <p>The core is a set of deep learning models trained on years of granular data and run on live feeds. Instead of one chart, they read hundreds of factors at once: price behaviour and its derivatives, order-book imbalance and spread velocity, funding anomalies, open-interest shifts, liquidation clusters, BTC's relationship to ETH and to equity indices, coins flowing on-chain toward exchanges.</p>
+      <p>The output is not "buy." It's a <strong>probability</strong> — 84% chance of upward movement over the next hour — or a predicted return over a defined horizon: 15 minutes, 1 hour, 2 hours. The difference matters more than it sounds: a probability can be sized against, risk-managed and overruled; a signal can only be obeyed.</p>
     </section>
 
-    <!-- ============ WHY LLM TRADING DOESN'T CONVERT ============ -->
+    <!-- ============ THREE STRATEGIES ============ -->
     <section class="sec">
       <div class="sec-tag"><span class="n">02</span></div>
-      <h2>Why LLM trading does not turn reasoning into returns</h2>
-      <p><strong>The thesis is the easy part.</strong> A ChatGPT trading bot can produce a sharper trade rationale than most desk research, and an AI crypto prediction can sound entirely defensible. Accounts rarely fail because the thesis was badly written; they fail because losers are held out of hope and winners are cut out of fear. That is the execution gap the arenas keep exposing.</p>
-      <p><strong>Everyone gets the same answer.</strong> When much of the market prompts the same few models on the same public data, conclusions converge and the edge closes. An inference anyone can reproduce for a few cents is consensus, not private information — and this worsens as models improve.</p>
-      <p><strong>You can't validate before risking money.</strong> Systematic trading rests on out-of-sample testing: hold back data the strategy never saw. Impossible with a frontier model — it trained on data containing the outcomes. Ask about March 2020 and it knows how March 2020 ended. The lookahead bias is in the weights.</p>
+      <h2>Three quantitative trading strategies inside the system</h2>
+      <p><strong>Microtrend</strong> (a few hours to days) captures sustained moves long enough to cover costs but too short for macro investors to crowd out. The traditional flaw is that technical indicators lag: they confirm a trend only after the price has already moved, so you enter late and exit late. An LSTM or Transformer ingests price, volume, order-book imbalance and alternative data simultaneously, and reads the entire recent sequence to recognise the shape of a trend forming before a moving average would cross. The edge is early entry — three to four candles ahead of a moving average — and false-breakout filtering, because a real trend start and a fakeout look identical on price and differ across hundreds of correlated inputs.</p>
+      <p><strong>Single-asset mean reversion</strong> (30 minutes to hours) bets that price snaps back to an average. Traditional versions use fixed bands like Bollinger; in a strong crash, price hugs the band and keeps dropping, and the strategy keeps buying the dip until it's wiped out. A pre-model layer — typically a CNN or MLP — classifies the regime first: chopping, or crashing? In a crash regime it disables the buy signal outright however low the price goes, and re-enables mean reversion only when volatility stabilises. The edge here is survival: not the trades it takes, but the falling knife it refuses.</p>
+      <p><strong>AI leveraged scalping</strong> (10–30 minutes) is where an AI futures trading bot earns its keep. Standard scalping algorithms process data in frames — every second, every bar — which creates lag while the frame closes and wastes computation when nothing is happening. AlphaNet uses spiking neural networks instead: event-driven models that fire only when a specific change in price occurs. Quiet market, silence; significant burst, immediate reaction. The edge is latency and precision without HFT infrastructure — reacting to a volatility spike for entry or emergency exit far faster than a candle-based system, which is what protects a leveraged position from sudden slippage.</p>
     </section>
 
-    <!-- ============ HOW ALPHANET ENGINEERS THE EXECUTION LAYER ============ -->
+    <!-- ============ CONTEXT MODELS ============ -->
     <section class="sec">
       <div class="sec-tag"><span class="n">03</span></div>
-      <h2>How AlphaNet engineers the execution layer</h2>
-      <p>If execution determines returns, engineering goes there.</p>
-      <p>AlphaNet treats this as a quantitative trading problem. Signals come from a hybrid engine: researcher-designed market-structure factors competing alongside deep learning models trained on structured market data, with sizing and exits governed at the strategy layer. Order execution runs on adaptive deep-learning and reinforcement-learning algorithms that work orders into the book rather than paying the spread.</p>
-      <p>Three things follow.</p>
-      <p><strong>Validation before deployment.</strong> Our models train on data we control, so data can be held back. Walk-forward testing on genuinely unseen periods, net of fees and modelled slippage. Not proof, but a real out-of-sample process, which no frontier-model agent can have.</p>
-      <p><strong>A private edge.</strong> Proprietary models on a proprietary feature set. What they find isn't for sale by the token.</p>
-      <p><strong>Verifiable results.</strong> Strategies trade on our DEX, so every fill is on-chain. Users can check the live trades and performance without trusting us.</p>
-      <p>It's also why the strategies run as <strong>Autopilot</strong> — fully systematic, end to end. The arenas show exactly where discretionary judgement fails: entries, sizing, exits. Those are precisely the layers our strategies never hand back to a human mid-trade.</p>
+      <h2>Context models: knowing what kind of market this is</h2>
+      <p>Retail traders tend to obsess over signals. Quantitative traders obsess just as much over context: what kind of market is this? A separate family of machine-learning models answers that question, functioning more like a weather service:</p>
+      <p><strong>Regime detection</strong> classifies the market into states — high-vol trend, low-vol grind, chop, liquidation cascade — and often catches the shift before price confirms it, for instance by seeing order-book liquidity thin out ahead of a storm.</p>
+      <p><strong>Volatility forecasting</strong> predicts how rough the next hours will be, from realised variance plus options and funding flows — the input that turns position sizing and stop placement from guesses into calculations.</p>
+      <p><strong>Trend-strength reading</strong> measures a move's health through volume velocity and trade frequency, distinguishing a pullback (trend resting) from a reversal (trend dead) — the difference between holding a winner and watching it rip on without you.</p>
+      <p>Inside Autopilot strategies, these models gate and size every decision the brain proposes.</p>
     </section>
 
-    <!-- ============ THREE QUESTIONS ============ -->
+    <!-- ============ ALGORITHMIC EXECUTION ============ -->
     <section class="sec">
       <div class="sec-tag"><span class="n">04</span></div>
-      <h2>Are AI trading bots reliable? Three questions to ask</h2>
-      <h4>What handles sizing and exits?</h4>
-      <p>If it's the same model writing the thesis, the layer that decides outcomes wasn't engineered.</p>
-      <h4>How was it validated before going live?</h4>
-      <p>A backtest of a model trained on the outcomes is not validation.</p>
-      <h4>Can I verify the live results myself?</h4>
-      <p>A wallet address is an answer. A dashboard screenshot isn't.</p>
-      <p class="sources">Sources: TradeRank Arena season records and post-mortems (traderank.ai — note TradeRank operates the arena it reports on); Nof1 Alpha Arena Season 1 (nof1.ai, on-chain on Hyperliquid); "When Agents Trade: Live Multi-Market Trading Arena for LLM Agents," ACM Web Conference 2026. Model architecture and validation methodology: <a href="https://alphanet.global/docs/whitepaper/C.html" target="_blank" rel="noopener" style="color:var(--green);text-decoration:underline">Section C of the AlphaNet whitepaper</a>.</p>
+      <h2>Algorithmic execution: the hands that hide the footprint</h2>
+      <p>A quantitative trading system cannot rely on the retail default: the market order—instant, visible and taxed by slippage on every fill. AlphaNet routes orders through an algorithmic execution layer instead: parent orders are fragmented and worked over time or volume windows (TWAP/VWAP and hybrid AI variants), iceberg logic conceals size from front-runners and MEV bots, and dynamic routing seeks price improvement rather than simply accepting the spread. Every strategy therefore settles with fund-grade cost discipline rather than retail clumsiness.</p>
+    </section>
+
+    <!-- ============ CAPACITY DISCIPLINE ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">05</span></div>
+      <h2>Capacity discipline: the doorman</h2>
+      <p>Every strategy has a saturation point where added capital starts moving prices against itself, diluting returns for everyone in it. The industry norm is to never mention this, because revenue scales with deposits even when performance doesn't. AlphaNet's design inverts it: onboarding is algorithmically throttled so deployed capital never outruns the system's ability to generate returns. Full strategy, closed door.</p>
+      <p>Scarce capacity then has to be allocated somehow, and it isn't by deposit size. Access to the highest-demand strategies is ranked by a value-created score — trading results, capital deployed and its longevity, execution quality, referrals. The design goal: a platform where membership is maintained by the system's performance for existing users, not by unlimited growth at their expense. It's the most retail-aligned line in the architecture precisely because it costs the platform something.</p>
+    </section>
+
+    <!-- ============ NON-CUSTODIAL ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">06</span></div>
+      <h2>Non-custodial by design: your keys, your kill switch</h2>
+      <p>None of this asks for custody. Funds stay in your wallet; strategies trade through delegated permissions that cannot withdraw. Halt any strategy, flatten positions, pull capital instantly — no lock-ups, no redemption windows.</p>
+    </section>
+
+    <!-- ============ INFRASTRUCTURE ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">07</span></div>
+      <h2>The infrastructure behind AlphaNet</h2>
+      <p>The models, execution stack and compute come from Tensor Investment, a multi-strategy proprietary firm trading deep-learning strategies across crypto, fixed income, equity indices and commodities on a cluster of over a thousand high-performance GPU nodes. AlphaNet is that infrastructure with a retail-facing platform: an AI trading system for crypto that an individual can switch on, and a set of Hyperliquid strategies running on a Hyperliquid perp DEX rather than a signal feed.</p>
+      <p>The complete system ships as Autopilot strategies on Hyperliquid. One allocation puts every layer in this article to work—the brain, the context models, execution and capacity controls—trading from your own wallet, end to end, around the clock. Institutions have run quantitative trading machinery like this for decades, behind closed doors, for themselves. AlphaNet brings it on-chain: every live trade is written to a public ledger the moment it happens. <strong>Go watch it work.</strong></p>
+      <p class="sources">The full system design — architecture, the four-phase pipeline, execution mechanics and capacity rules — is in <a href="https://alphanet.global/docs/whitepaper/" target="_blank" rel="noopener">Section B and Section C of the whitepaper</a>. Related: <a href="../can-ai-agent-trade/index.html">Can Frontier Models Trade?</a> · <a href="../Why-Do-Retail-Traders-Lose-Money/index.html">Why Is It So Hard for Retail Traders to Make Money?</a></p>
 
       <!-- ============ SUBSCRIBE ============ -->
       <div class="cta">

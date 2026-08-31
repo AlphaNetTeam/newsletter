@@ -6,7 +6,7 @@
 <title>FAQ — What AlphaNet Is</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ============================================
    DESIGN SYSTEM — matched to faq/index.html
@@ -155,7 +155,7 @@ img { max-width: 100%; display: block; }
    FAQ LISTING PAGE
    ============================================ */
 .faq-list-page {
-  padding-top: 120px;
+  padding-top: 64px;
   padding-bottom: var(--space-16);
 }
 
@@ -399,6 +399,149 @@ img { max-width: 100%; display: block; }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-bottom { flex-direction: column; gap: var(--space-3); text-align: center; }
 }
+/* ============================================
+   HOME-STYLE NAV (matches alphanet.global)
+   ============================================ */
+.home-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  padding-inline: max(4vw, 24px);
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  transition: background .5s cubic-bezier(.52,.08,.18,1), border-color .5s cubic-bezier(.52,.08,.18,1), backdrop-filter .5s cubic-bezier(.52,.08,.18,1);
+}
+.home-nav.scrolled {
+  background: rgba(2,3,8,.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
+  border-bottom-color: rgba(255,255,255,.10);
+}
+.home-nav .brand { display: flex; align-items: center; gap: 19px; flex: none; color: var(--text-primary); }
+.home-nav .brand-logo { height: 30px; width: auto; display: block; }
+.home-nav .brand-sep { width: 1px; height: 22px; background: rgba(255,255,255,.36); }
+.home-nav .brand-sub { font-size: 16px; color: #B4BAC5; font-weight: 300; letter-spacing: .05em; }
+.home-nav .nav-right { margin-left: auto; display: flex; align-items: center; gap: 18px; }
+.home-nav .nav-links { display: flex; gap: 34px; margin-left: 20px; }
+.home-nav .nav-links a {
+  position: relative;
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-size: 16px; font-weight: 400; color: #D9DDE4;
+  padding: 6px 0;
+  transition: color .4s cubic-bezier(.52,.08,.18,1);
+}
+.home-nav .nav-links a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: linear-gradient(90deg, #22D3EE, #3D6FE8);
+  transform: scaleX(0); transform-origin: center;
+  transition: transform .55s cubic-bezier(.37,.16,.12,1);
+}
+.home-nav .nav-links a:hover { color: #F4F5F7; }
+.home-nav .nav-links a:hover::after { transform: scaleX(1); }
+.home-nav .nav-links a.active { color: #F4F5F7; }
+.home-nav .nav-links a.active::after { transform: scaleX(1); }
+.home-nav .chev { opacity: .55; transform: translateY(-1px); }
+.home-nav .icon-link { color: #B4BAC5; padding: 4px; transition: color .4s cubic-bezier(.52,.08,.18,1); }
+.home-nav .icon-link:hover { color: #F4F5F7; }
+.home-nav .icon-link svg { width: 21px; height: 21px; display: block; }
+.home-nav .btn-nav {
+  display: inline-flex; align-items: center;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 500; font-size: 15.5px; letter-spacing: .01em;
+  color: #F4F5F7; padding: 13px 26px; border-radius: 13px;
+  background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.12);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  transition: background .4s cubic-bezier(.52,.08,.18,1), transform .4s cubic-bezier(.52,.08,.18,1), border-color .4s cubic-bezier(.52,.08,.18,1);
+  white-space: nowrap;
+}
+.home-nav .btn-nav:hover { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.2); transform: translateY(-1px); }
+.home-nav .burger {
+  display: none; flex-direction: column; gap: 6px; align-items: center; justify-content: center;
+  width: 40px; height: 40px; background: none;
+  border: 1px solid rgba(255,255,255,.10); border-radius: 10px; cursor: pointer;
+}
+.home-nav .burger span { display: block; width: 18px; height: 1.5px; background: #F4F5F7; transition: transform .4s cubic-bezier(.37,.16,.12,1); }
+.home-nav .burger[aria-expanded="true"] span:first-child { transform: translateY(3.75px) rotate(45deg); }
+.home-nav .burger[aria-expanded="true"] span:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+
+/* Mobile menu overlay */
+.home-menu-overlay {
+  position: fixed; inset: 0; z-index: 45;
+  background: rgba(0,0,0,.92);
+  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  display: flex; align-items: center; padding: 8vw;
+  opacity: 0; pointer-events: none; transition: opacity .5s cubic-bezier(.37,.16,.12,1);
+}
+.home-menu-overlay.open { opacity: 1; pointer-events: auto; }
+.home-menu-overlay .menu-links { display: flex; flex-direction: column; gap: 6px; }
+.home-menu-overlay .menu-links a {
+  display: flex; align-items: baseline; gap: 16px;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 600; font-size: clamp(26px, 6vw, 42px);
+  letter-spacing: -.02em; color: #D9DDE4; padding: 6px 0;
+  transition: color .4s cubic-bezier(.52,.08,.18,1), transform .5s cubic-bezier(.37,.16,.12,1);
+}
+.home-menu-overlay .menu-links a:hover { color: #F4F5F7; transform: translateX(10px); }
+.home-menu-overlay .menu-links a .mono { font-size: 12px; color: #7C8494; }
+
+/* ============================================
+   HOME-STYLE FOOTER (matches alphanet.global)
+   ============================================ */
+.home-footer { padding: 70px 0 34px; margin-top: 60px; border-top: 1px solid rgba(255,255,255,.10); }
+.home-footer .footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 50px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+.home-footer .footer-brand { display: flex; flex-direction: column; }
+.home-footer .footer-brand .brand { display: flex; align-items: center; gap: 19px; flex: none; color: var(--text-primary); }
+.home-footer .footer-brand .brand-logo { height: 30px; width: auto; display: block; }
+.home-footer .footer-brand .brand-sep { width: 1px; height: 22px; background: rgba(255,255,255,.36); }
+.home-footer .footer-brand .brand-sub { font-size: 16px; color: #B4BAC5; font-weight: 300; letter-spacing: .05em; }
+.home-footer .footer-brand p { margin-top: 18px; font-size: 13px; color: #7C8494; line-height: 1.7; }
+.home-footer .footer-h { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .2em; color: #7C8494; margin-bottom: 18px; }
+.home-footer .footer-col { display: flex; flex-direction: column; gap: 11px; }
+.home-footer .footer-col a { font-size: 13.5px; color: #B4BAC5; transition: color .35s cubic-bezier(.52,.08,.18,1); }
+.home-footer .footer-col a:hover { color: #F4F5F7; }
+.home-footer .pill-new {
+  display: inline-block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px; letter-spacing: .14em;
+  color: #000; background: #97FCE4;
+  border-radius: 4px;
+  padding: 2px 6px 1px; margin-left: 8px;
+  vertical-align: 2px;
+  box-shadow: 0 0 14px rgba(151,252,228,.5);
+}
+.home-footer .footer-base {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  padding: 28px 24px 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px; letter-spacing: .14em; color: #7C8494;
+  max-width: 1200px; margin: 0 auto;
+}
+
+/* Home nav responsive */
+@media (max-width: 1080px) {
+  .home-nav .nav-links { display: none; }
+  .home-nav .btn-nav { font-size: 14.5px; padding: 11px 22px; border-radius: 12px; }
+  .home-nav .brand-logo { height: 27px; }
+  .home-nav .brand { gap: 16px; }
+  .home-nav .brand-sub { font-size: 15px; }
+  .home-nav .burger { display: flex; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
@@ -407,30 +550,42 @@ img { max-width: 100%; display: block; }
 <body>
 
 <!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="https://alphanet.global/" class="nav-logo" style="cursor:pointer;">
-      <img src="../logo.png" alt="AlphaNet" class="nav-logo-img">
+<header class="home-nav" id="nav">
+  <a class="brand" href="https://alphanet.global/" aria-label="AlphaNet home">
+    <img class="brand-logo" src="../logo.png" alt="AlphaNet">
+    <span class="brand-sep"></span>
+    <span class="brand-sub">Trading&nbsp;Evolved</span>
+  </a>
+  <div class="nav-right">
+    <a class="icon-link" href="https://t.me/AlphaNet_AI" target="_blank" rel="noopener" aria-label="AlphaNet on Telegram">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.009-1.252-.242-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
     </a>
-    <div class="nav-links">
-      <a href="https://trade.alphanet.global" class="nav-link" target="_blank" rel="noopener">Launch Trading</a>
-      <div class="nav-dropdown" id="nav-dropdown">
-        <button class="nav-dropdown-trigger" aria-haspopup="true" aria-expanded="false">
-          Resources
-          <svg class="nav-dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
-        </button>
-        <div class="nav-dropdown-menu">
-          <a href="https://alphanet.global/docs/whitepaper/" class="nav-dropdown-item" target="_blank" rel="noopener">Whitepaper</a>
-          <a href="https://alphanet.global/docs/guide/" class="nav-dropdown-item" target="_blank" rel="noopener">User Guide</a>
-          <a href="https://alphanet.global/docs/points/" class="nav-dropdown-item" target="_blank" rel="noopener">Points</a>
-        </div>
-      </div>
-    </div>
-    <button class="nav-mobile-toggle" aria-label="Menu">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <a class="icon-link" href="https://x.com/AlphaNet_AI" target="_blank" rel="noopener" aria-label="AlphaNet on X">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+    <a class="btn-nav" href="https://trade.alphanet.global/" target="_blank" rel="noopener">Launch Trading</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="https://alphanet.global/#resources" target="_blank" rel="noopener">Resources<svg class="chev" viewBox="0 0 10 6" width="9" height="6" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg></a>
+      <a href="https://alphanet.global/blog/">Insights</a>
+      <a href="https://alphanet.global/markets/" target="_blank" rel="noopener">Markets</a>
+      <a href="https://alphanet.global/#guild" target="_blank" rel="noopener">Guild&nbsp;Leaders</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span>
     </button>
   </div>
-</nav>
+</header>
+
+<!-- mobile menu overlay -->
+<div class="home-menu-overlay" id="menu-overlay">
+  <nav class="menu-links" aria-label="Mobile">
+    <a href="https://alphanet.global/#resources" target="_blank" rel="noopener"><span class="mono">01</span>Resources</a>
+    <a href="https://alphanet.global/blog/"><span class="mono">02</span>Insights</a>
+    <a href="https://alphanet.global/markets/" target="_blank" rel="noopener"><span class="mono">03</span>Markets</a>
+    <a href="https://alphanet.global/#guild" target="_blank" rel="noopener"><span class="mono">04</span>Guild Leaders</a>
+    <a href="https://trade.alphanet.global/" target="_blank" rel="noopener"><span class="mono">→</span>Launch Trading</a>
+  </nav>
+</div>
 
 <!-- MAIN -->
 <section class="faq-list-page">
@@ -496,91 +651,68 @@ img { max-width: 100%; display: block; }
 </section>
 
 <!-- FOOTER -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="https://alphanet.global/" class="nav-logo" style="cursor:pointer;">
-          <img src="../logo.png" alt="AlphaNet" class="nav-logo-img">
-        </a>
-        <p>Institutional-grade quantitative AI trading platform - redefining alpha and trading edge for retail.</p>
-        <div class="footer-follow">
-          <a href="https://t.me/AlphaNet_AI" class="follow-icon-btn telegram" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.329-.913.489-1.302.481-.428-.009-1.252-.242-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
-          <a href="https://x.com/AlphaNet_AI" class="follow-icon-btn x" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-          <a href="https://medium.com/@AlphaNet_AI" class="follow-icon-btn medium" target="_blank" rel="noopener" aria-label="Medium"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42z"/></svg></a>
-          <a href="https://www.reddit.com/user/AlphaNet_AI/" class="follow-icon-btn reddit" target="_blank" rel="noopener" aria-label="Reddit"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.07 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg></a>
-          <a href="https://www.youtube.com/@alphanet.global" class="follow-icon-btn youtube" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
-        </div>
-      </div>
-      <div class="footer-col"><h4>Platform</h4><ul>
-        <li><a href="https://trade.alphanet.global/" target="_blank" rel="noopener">Launch Trading</a></li>
-        <li><a href="https://trade.alphanet.global/strategies" target="_blank" rel="noopener">Strategy Marketplace</a></li>
-        <li><a href="https://trade.alphanet.global/leaderboard" target="_blank" rel="noopener">Leaderboard</a></li>
-        <li><a href="https://trade.alphanet.global/portfolio" target="_blank" rel="noopener">Portfolio</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Resources</h4><ul>
-        <li><a href="https://alphanet.global/docs/whitepaper/" target="_blank" rel="noopener">Whitepaper</a></li>
-        <li><a href="https://alphanet.global/docs/guide/" target="_blank" rel="noopener">User Guide</a></li>
-        <li><a href="https://alphanet.global/docs/points/" target="_blank" rel="noopener">Points</a></li>
-        <li><a href="https://alphanet.global/blog/" target="_blank" rel="noopener">Blog</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Research</h4><ul>
-        <li><a href="https://alphanet.global/Systematic_Feature_and_Factor_Mining.html" target="_blank" rel="noopener">Dynamic Factor Mining</a></li>
-        <li><a href="https://alphanet.global/Dynamic_TWAP_Control_Vs_DRL.html" target="_blank" rel="noopener">Algo Execution Systems</a></li>
-        <li><a href="https://alphanet.global/Alpha%20Mining%20vs%20DL%20V1.html" target="_blank" rel="noopener">Alpha Mining vs Deep Learning</a></li>
-        <li><a href="https://alphanet.global/Novel%20Agentic%20System%20for%20Strategy%20Selection%20V1.html" target="_blank" rel="noopener">Agentic Strategy Selection</a></li>
-      </ul></div>
+<footer class="home-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="https://alphanet.global/">
+        <img class="brand-logo" src="../logo.png" alt="AlphaNet">
+        <span class="brand-sep"></span>
+        <span class="brand-sub">Trading&nbsp;Evolved</span>
+      </a>
+      <p>End-to-end institutional-grade<br>AI futures trading platform.</p>
     </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 AlphaNet. All rights reserved.</span>
-      <div class="footer-bottom-links">
-        <a href="https://alphanet.global/" target="_blank" rel="noopener">Privacy</a>
-        <a href="https://alphanet.global/" target="_blank" rel="noopener">Terms</a>
-        <a href="https://alphanet.global" target="_blank" rel="noopener">alphanet.global</a>
-      </div>
+    <div class="footer-col">
+      <div class="mono footer-h">PLATFORM</div>
+      <a href="https://trade.alphanet.global/" target="_blank" rel="noopener">Launch Trading</a>
+      <a href="https://trade.alphanet.global/strategies/" target="_blank" rel="noopener">Strategy Marketplace</a>
+      <a href="https://trade.alphanet.global/leaderboard/" target="_blank" rel="noopener">Leaderboard</a>
+      <a href="https://alphanet.global/#ai-dex" target="_blank" rel="noopener">AI DEX <span class="pill-new">SEP</span></a>
     </div>
+    <div class="footer-col">
+      <div class="mono footer-h">RESOURCES</div>
+      <a href="https://alphanet.global/docs/whitepaper/" target="_blank" rel="noopener">Technical Whitepaper</a>
+      <a href="https://alphanet.global/docs/guide/" target="_blank" rel="noopener">User Guide</a>
+      <a href="https://alphanet.global/hackworth-v3/" target="_blank" rel="noopener">Hackworth V3</a>
+      <a href="https://alphanet.global/#guild" target="_blank" rel="noopener">Guild Program</a>
+    </div>
+    <div class="footer-col">
+      <div class="mono footer-h">COMMUNITY</div>
+      <a href="https://x.com/AlphaNet_AI" target="_blank" rel="noopener">Follow on X</a>
+      <a href="https://t.me/AlphaNet_AI" target="_blank" rel="noopener">Join on Telegram</a>
+    </div>
+  </div>
+  <div class="footer-base mono">
+    <span>© <span id="year">2026</span> ALPHANET. ALL RIGHTS RESERVED.</span>
+    <span>PAST PERFORMANCE DOES NOT GUARANTEE FUTURE RESULTS.</span>
   </div>
 </footer>
 
 <script>
-const nav = document.querySelector('.nav');
+// NAV SCROLL EFFECT (home style)
+const homeNav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
-  nav.style.borderBottomColor = window.scrollY > 20 ? 'var(--border-default)' : 'var(--border-subtle)';
+  if (homeNav) homeNav.classList.toggle('scrolled', window.scrollY > 20);
 });
 
-const mobileToggle = document.querySelector('.nav-mobile-toggle');
-const navLinks = document.querySelector('.nav-links');
-if (mobileToggle) {
-  mobileToggle.addEventListener('click', () => {
-    navLinks.style.display = navLinks.style.display === 'flex' ? '' : 'flex';
-    navLinks.style.flexDirection = 'column';
-    navLinks.style.position = 'absolute';
-    navLinks.style.top = '64px'; navLinks.style.left = '0'; navLinks.style.right = '0';
-    navLinks.style.background = 'var(--bg-primary)';
-    navLinks.style.padding = '16px';
-    navLinks.style.borderBottom = '1px solid var(--border-subtle)';
+// MOBILE MENU (burger overlay)
+const burger = document.getElementById('burger');
+const menuOverlay = document.getElementById('menu-overlay');
+if (burger && menuOverlay) {
+  const setMenu = (open) => {
+    menuOverlay.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  burger.addEventListener('click', () => {
+    setMenu(!menuOverlay.classList.contains('open'));
   });
-}
-
-const navDropdown = document.getElementById('nav-dropdown');
-const navDropdownTrigger = navDropdown?.querySelector('.nav-dropdown-trigger');
-if (navDropdownTrigger) {
-  navDropdownTrigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const open = navDropdown.classList.toggle('open');
-    navDropdownTrigger.setAttribute('aria-expanded', open);
-  });
-  document.addEventListener('click', (e) => {
-    if (!navDropdown.contains(e.target)) {
-      navDropdown.classList.remove('open');
-      navDropdownTrigger.setAttribute('aria-expanded', 'false');
-    }
+  menuOverlay.addEventListener('click', (e) => {
+    if (e.target.closest('a')) setMenu(false);
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && navDropdown.classList.contains('open')) {
-      navDropdown.classList.remove('open');
-      navDropdownTrigger.setAttribute('aria-expanded', 'false');
-      navDropdownTrigger.focus();
+    if (e.key === 'Escape' && menuOverlay.classList.contains('open')) {
+      setMenu(false);
+      burger.focus();
     }
   });
 }

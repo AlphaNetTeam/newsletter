@@ -566,6 +566,8 @@ img { max-width: 100%; display: block; }
 .cat-market { color: var(--cat-market); background: rgba(91, 159, 255, 0.1); }
 .cat-strategy { color: var(--cat-strategy); background: rgba(45, 212, 167, 0.1); }
 .cat-product { color: var(--cat-product); background: rgba(192, 132, 252, 0.1); }
+.cat-research { color: var(--cat-product); background: rgba(192, 132, 252, 0.1); }
+.cat-platform { color: var(--warning); background: rgba(240, 179, 74, 0.1); }
 
 .featured-date {
   font-family: var(--font-mono);
@@ -970,6 +972,14 @@ img { max-width: 100%; display: block; }
   background: linear-gradient(135deg, rgba(96, 165, 250, 0.1), rgba(96, 165, 250, 0.02));
 }
 .blog-card-cover[data-cat="market"] .blog-card-cover-visual { color: var(--accent); opacity: 0.5; }
+.blog-card-cover[data-cat="research"] {
+  background: linear-gradient(135deg, rgba(192, 132, 252, 0.1), rgba(192, 132, 252, 0.02));
+}
+.blog-card-cover[data-cat="research"] .blog-card-cover-visual { color: var(--cat-product); opacity: 0.5; }
+.blog-card-cover[data-cat="platform"] {
+  background: linear-gradient(135deg, rgba(240, 179, 74, 0.1), rgba(240, 179, 74, 0.02));
+}
+.blog-card-cover[data-cat="platform"] .blog-card-cover-visual { color: var(--warning); opacity: 0.5; }
 
 .blog-card-content {
   padding: var(--space-6);
@@ -1608,19 +1618,63 @@ img { max-width: 100%; display: block; }
           <button class="filter-btn active" data-filter="all">All <span class="filter-btn-count">0</span></button>
           <button class="filter-btn" data-filter="market">Market Brief <span class="filter-btn-count">0</span></button>
           <button class="filter-btn" data-filter="strategy">Strategy Reports <span class="filter-btn-count">0</span></button>
+          <button class="filter-btn" data-filter="research">Research <span class="filter-btn-count">0</span></button>
+          <button class="filter-btn" data-filter="platform">Platform Report <span class="filter-btn-count">0</span></button>
         </div>
 
         <!-- Blog Cards -->
         <div class="blog-list" id="archive">
 
+          <!-- Card: Why Do Retail Traders Lose Money? -->
+          <article class="blog-card" data-category="research" data-href="Why-Do-Retail-Traders-Lose-Money/">
+            <div class="blog-card-cover" data-cat="research" data-cover="10">
+              <img src="blog-covers/cover-why-do-retail-traders-lose-money.png" alt="Why Do Retail Traders Lose Money?" class="blog-card-cover-img">
+            </div>
+            <div class="blog-card-content">
+              <div class="blog-card-meta">
+                <span class="cat-tag cat-research">Research</span>
+                <span class="blog-card-date">Sep 1, 2026</span>
+              </div>
+              <h3 class="blog-card-title">Why Do Retail Traders Lose Money?</h3>
+              <p class="blog-card-excerpt">Why do most retail traders lose money? The statistics point to structural disadvantages, fees, position sizing and crypto risk-management failures.</p>
+              <div class="blog-card-footer">
+                <span class="blog-card-read">10 min read</span>
+                <div class="blog-card-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card: Can AI Agents Trade? -->
+          <article class="blog-card" data-category="research" data-href="can-ai-agent-trade/">
+            <div class="blog-card-cover" data-cat="research" data-cover="9">
+              <img src="blog-covers/cover-can-ai-agent-trade.png" alt="Can AI Agents Trade? Inside the Trading GPT Experiments" class="blog-card-cover-img">
+            </div>
+            <div class="blog-card-content">
+              <div class="blog-card-meta">
+                <span class="cat-tag cat-research">Research</span>
+                <span class="blog-card-date">Aug 31, 2026</span>
+              </div>
+              <h3 class="blog-card-title">Can AI Agents Trade? Inside the Trading GPT Experiments</h3>
+              <p class="blog-card-excerpt">Seven seasons, 49 models and 2,686 trades: what live trading GPT experiments reveal about AI trading agents, execution and profitability.</p>
+              <div class="blog-card-footer">
+                <span class="blog-card-read">10 min read</span>
+                <div class="blog-card-arrow">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </div>
+              </div>
+            </div>
+          </article>
+
           <!-- Card: The First Eight Months -->
-          <article class="blog-card" data-category="strategy" data-href="the_first_eight_months/">
-            <div class="blog-card-cover" data-cat="strategy" data-cover="8">
+          <article class="blog-card" data-category="platform" data-href="the_first_eight_months/">
+            <div class="blog-card-cover" data-cat="platform" data-cover="8">
               <img src="blog-covers/cover-8-first-eight-months.png" alt="The First Eight Months" class="blog-card-cover-img">
             </div>
             <div class="blog-card-content">
               <div class="blog-card-meta">
-                <span class="cat-tag cat-strategy">Strategy Report</span>
+                <span class="cat-tag cat-platform">Platform Report</span>
                 <span class="blog-card-date">Aug 26, 2026</span>
               </div>
               <h3 class="blog-card-title">The First Eight Months</h3>
@@ -1859,7 +1913,7 @@ img { max-width: 100%; display: block; }
 // AUTO-COUNT FILTER BUTTONS
 // ============================================
 const allCards = document.querySelectorAll('.blog-card');
-const counts = { all: allCards.length, market: 0, strategy: 0 };
+const counts = { all: allCards.length, market: 0, strategy: 0, research: 0, platform: 0 };
 allCards.forEach(card => {
   const cat = card.dataset.category;
   if (counts[cat] !== undefined) counts[cat]++;

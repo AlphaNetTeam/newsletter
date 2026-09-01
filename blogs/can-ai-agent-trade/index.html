@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="subscribe-api" content="">
+<title>Can AI Agents Trade? GPT Trading Experiments | AlphaNet</title>
+<meta name="description" content="Seven seasons, 49 models and 2,686 trades: what live trading GPT experiments reveal about AI trading agents, execution and profitability.">
+<!-- Open Graph 基本标签 -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Can AI Agents Trade? GPT Trading Experiments | AlphaNet" />
+    <meta property="og:description" content="Seven seasons, 49 models and 2,686 trades: what live trading GPT experiments reveal about AI trading agents, execution and profitability." />
+    <meta property="og:url" content="https://alphanet.global/blog/can-ai-agent-trade/" />
+    <!-- TODO: 上线前替换为实际封面图地址 -->
+    <meta property="og:image" content="https://alphanet.global/blog/blog-covers/cover-can-ai-agent-trade.png" />
+    <meta property="og:site_name" content="AlphaNet | Trading Evolved - Quantitative AI Trading Platform" />
+
+    <!-- Twitter Card 标签 -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@AlphaNet_AI" />
+    <meta name="twitter:title" content="Can AI Agents Trade? GPT Trading Experiments | AlphaNet" />
+    <meta name="twitter:description" content="Seven seasons, 49 models and 2,686 trades: what live trading GPT experiments reveal about AI trading agents, execution and profitability." />
+    <meta name="twitter:image" content="https://alphanet.global/blog/blog-covers/cover-can-ai-agent-trade.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#060608;
+    --surface:#0b0b10;
+    --surface2:#0e0e14;
+    --line:rgba(255,255,255,.08);
+    --line2:rgba(255,255,255,.14);
+    --text:#ececf1;
+    --muted:#9b9ba7;
+    --dim:#6d6d78;
+    --green:#3ef0b6;
+    --green-dim:rgba(62,240,182,.12);
+    --red:#ff5470;
+    --red-dim:rgba(255,84,112,.12);
+    --amber:#f0b34a;
+    --steel:#7d8496;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:17px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:rgba(62,240,182,.25)}
+  .mono{font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+
+  /* ---------- header ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    background:rgba(6,6,8,.85);
+    backdrop-filter:blur(12px);
+    position:sticky;top:0;z-index:50;
+  }
+  .header-inner{
+    max-width:1160px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .header-logo{display:flex;align-items:center;gap:14px;text-decoration:none}
+  .header-logo img{height:20px;width:auto;display:block}
+  .header-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--dim);display:flex;align-items:center;gap:10px;
+  }
+  .header-meta .dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+  @media (max-width:640px){.header-meta .hm-text{display:none}}
+  .header-right{display:flex;align-items:center;gap:18px}
+  .header-btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);text-decoration:none;
+    border:1px solid var(--line2);border-radius:2px;
+    padding:7px 14px;transition:color .2s,border-color .2s,background .2s;
+    white-space:nowrap;
+  }
+  .header-btn:hover{color:var(--green);border-color:rgba(62,240,182,.5);background:var(--green-dim)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:88px 0 56px;border-bottom:1px solid var(--line)}
+  .kicker{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--green);display:flex;align-items:center;gap:12px;margin-bottom:28px;
+  }
+  .kicker::before{content:"";width:28px;height:1px;background:var(--green);display:inline-block}
+  h1{
+    font-size:clamp(38px,6.2vw,62px);
+    line-height:1.04;font-weight:800;letter-spacing:-.025em;margin-bottom:28px;
+  }
+  h1 .thin{color:var(--dim);font-weight:600}
+  .lede{font-size:clamp(18px,2.4vw,22px);line-height:1.55;color:var(--muted);max-width:720px;font-weight:500}
+  .lede strong{color:var(--text);font-weight:700}
+  .hero-stats{
+    display:flex;flex-wrap:wrap;gap:1px;background:var(--line);
+    border:1px solid var(--line);margin-top:52px;
+  }
+  .hero-stat{flex:1 1 180px;background:var(--bg);padding:20px 24px}
+  .hero-stat .v{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;letter-spacing:-.02em}
+  .hero-stat .v.red{color:var(--red)} .hero-stat .v.green{color:var(--green)} .hero-stat .v.amber{color:var(--amber)}
+  .hero-stat .k{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:6px;font-family:'JetBrains Mono',monospace}
+
+  /* ---------- article ---------- */
+  article{padding:64px 0 0}
+  .sec{margin-bottom:72px}
+  .sec-tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:12px;
+  }
+  .sec-tag .n{color:var(--green)}
+  h2{font-size:clamp(26px,3.6vw,34px);line-height:1.15;font-weight:800;letter-spacing:-.02em;margin-bottom:24px}
+  h3{font-size:19px;font-weight:700;letter-spacing:-.01em;margin:36px 0 12px}
+  p{margin-bottom:18px;color:#c9c9d2}
+  p strong, li strong{color:var(--text);font-weight:700}
+  p .hl-g{color:var(--green);font-weight:700}
+  p .hl-r{color:var(--red);font-weight:700}
+  p .hl-a{color:var(--amber);font-weight:700}
+
+  /* ---------- cards ---------- */
+  .fails{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
+  @media (max-width:760px){.fails{grid-template-columns:1fr}}
+  .fail{
+    background:var(--surface);border:1px solid var(--line);
+    padding:28px;position:relative;transition:border-color .25s;
+  }
+  .fail:hover{border-color:var(--line2)}
+  .fail.span{grid-column:1/-1}
+  .fail .num{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;
+    color:var(--red);margin-bottom:16px;display:flex;align-items:center;gap:10px;
+  }
+  .fail .num.green{color:var(--green)}
+  .fail h4{font-size:18px;font-weight:750;line-height:1.35;margin-bottom:12px;letter-spacing:-.01em}
+  .fail p{font-size:14.5px;line-height:1.7;color:var(--muted);margin-bottom:12px}
+  .fail p:last-child{margin-bottom:0}
+
+  /* ---------- sources note ---------- */
+  .sources{
+    border-top:1px dashed var(--line);padding-top:24px;margin-top:8px;
+    font-size:13px;line-height:1.7;color:var(--dim);
+  }
+
+  /* ---------- subscribe ---------- */
+  .cta{
+    border:1px solid rgba(62,240,182,.3);
+    background:linear-gradient(160deg,rgba(62,240,182,.07),rgba(62,240,182,.015) 55%,transparent);
+    padding:52px 44px;margin:64px 0;text-align:left;position:relative;overflow:hidden;
+  }
+  .cta h2{margin-bottom:14px}
+  .cta p{color:var(--muted);max-width:560px}
+  .subscribe-form{display:flex;gap:8px;max-width:480px;margin-top:26px}
+  .subscribe-input{
+    flex:1;height:52px;padding:0 18px;
+    background:var(--surface);
+    border:1px solid var(--line2);border-radius:6px;
+    color:var(--text);font-size:15px;font-family:inherit;
+    transition:border-color .2s ease,background .2s ease,box-shadow .2s ease;
+  }
+  .subscribe-input::placeholder{color:var(--dim)}
+  .subscribe-input:focus{
+    outline:none;border-color:var(--green);
+    background:var(--surface2);
+    box-shadow:0 0 0 3px var(--green-dim);
+  }
+  .subscribe-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    height:52px;padding:0 24px;
+    background:var(--green);border:none;border-radius:6px;
+    color:#060608;font-size:15px;font-weight:600;font-family:inherit;
+    white-space:nowrap;cursor:pointer;
+    transition:background .2s ease,transform .2s ease;
+  }
+  .subscribe-btn:hover{background:#6ff5c8}
+  .subscribe-btn:active{transform:scale(.97)}
+  @media (max-width:640px){
+    .subscribe-form{flex-direction:column}
+    .subscribe-input,.subscribe-btn{width:100%}
+    .subscribe-btn{justify-content:center}
+  }
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);padding:44px 0 56px;margin-top:24px}
+  footer .f-top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+  footer img{height:16px;opacity:.8}
+  footer .follow{border-left:2px solid var(--green);padding:4px 0 4px 24px;margin:0;display:flex;justify-content:space-between;align-items:center;gap:14px 24px;flex-wrap:wrap}
+  footer .follow .ft{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--muted)}
+  footer .follow .ft em{font-style:normal;color:var(--green);font-weight:700}
+  footer .follow .links{display:flex;gap:8px;flex-wrap:wrap}
+  footer .follow .links a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--line2);border-radius:2px;padding:7px 14px;transition:all .2s}
+  footer .follow .links a:hover{color:var(--green);border-color:var(--green)}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a class="header-logo" href="#"><img src="../logo.png" alt="AlphaNet"></a>
+    <div class="header-right">
+      <div class="header-meta">
+        <span class="dot"></span>
+        <span class="hm-text">ALPHANET RESEARCH</span>
+      </div>
+      <a class="header-btn" href="https://alphanet.global/blog">Blog</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="kicker">ALPHANET RESEARCH</div>
+    <h1>Can AI Agents Trade?<br><span class="thin">Inside the Trading GPT Experiments</span></h1>
+    <p class="lede">The models kept getting smarter. <strong>The AI trading results didn't.</strong></p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="v amber">7</div><div class="k">Seasons of live AI trading arenas</div></div>
+      <div class="hero-stat"><div class="v amber">49</div><div class="k">Models</div></div>
+      <div class="hero-stat"><div class="v amber">2,686</div><div class="k">Trades</div></div>
+      <div class="hero-stat"><div class="v red">41.5%</div><div class="k">Of model-seasons finished profitable</div></div>
+    </div>
+  </section>
+
+  <article>
+    <!-- ============ INTRO ============ -->
+    <section class="sec">
+      <p>Can ChatGPT trade profitably? Since January 2026, TradeRank Arena has tested that question continuously: give the newest models simulated capital, live prices and full autonomy, then let them trade against one another for a month. Across seven seasons, <strong>49 models and 2,686 trades</strong>, it offers the closest controlled evidence we have on whether a GPT trading bot — or any frontier-model AI trading agent — can make money.</p>
+      <p>The models improved dramatically over those months; the trading record did not. <strong class="hl-r">Only 41.5% of model-seasons finished profitable</strong> — fewer than half. No model stayed good: Season 1's winner finished last in Season 2. In Season 5, closed June 2026, the lighter, cheaper tiers swept the podium while the flagship reasoning models — GPT-5.5, Claude Opus and Grok — finished 8th, 6th and 7th.</p>
+      <p>TradeRank runs the arena with paper trading — fills at a fetched price, no market impact — so if anything it flatters the models. <strong>Whatever separates winning from losing here, it isn't intelligence.</strong></p>
+    </section>
+
+    <!-- ============ WHAT SEPARATED WINNERS ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">01</span></div>
+      <h2>What separated the best AI trading agents from the rest</h2>
+      <p>TradeRank's post-mortems across 656+ trades point to three factors — not model intelligence — that divided winners from losers:</p>
+      <p><strong>Patience.</strong> MiniMax M2.5 won a season trading 16 times. The model that traded 100 times finished last.</p>
+      <p><strong>Sizing.</strong> In one season a 17% win rate beat a 90% win rate, because the size was in the right trades. In another, GPT-5 Mini posted the highest win rate in the field — 55% — and still lost money.</p>
+      <p><strong>Costs.</strong> Gemini burned ~$50 of a $10,000 book on fees in two weeks; the busiest models gave up to 1.1% of their portfolio to transaction costs. In a simulation with zero slippage. Live is worse.</p>
+      <p>Patience, sizing, exits and cost control all sit in the execution layer. That is precisely the layer a chat model does not possess on its own. The useful question is therefore not which model reasons best, but what trading system surrounds it.</p>
+      <p>The same pattern appears beyond one arena. When Agents Trade (ACM Web Conference 2026) tested four agent architectures across five model backbones. Architecture drove materially different trading behaviour; the backbone explained far less of the outcome variation. Swap the model and little changes. Swap the scaffolding — sizing rules, action frequency and exit logic — and everything changes.</p>
+    </section>
+
+    <!-- ============ WHY LLM TRADING DOESN'T CONVERT ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">02</span></div>
+      <h2>Why LLM trading does not turn reasoning into returns</h2>
+      <p><strong>The thesis is the easy part.</strong> A ChatGPT trading bot can produce a sharper trade rationale than most desk research, and an AI crypto prediction can sound entirely defensible. Accounts rarely fail because the thesis was badly written; they fail because losers are held out of hope and winners are cut out of fear. That is the execution gap the arenas keep exposing.</p>
+      <p><strong>Everyone gets the same answer.</strong> When much of the market prompts the same few models on the same public data, conclusions converge and the edge closes. An inference anyone can reproduce for a few cents is consensus, not private information — and this worsens as models improve.</p>
+      <p><strong>You can't validate before risking money.</strong> Systematic trading rests on out-of-sample testing: hold back data the strategy never saw. Impossible with a frontier model — it trained on data containing the outcomes. Ask about March 2020 and it knows how March 2020 ended. The lookahead bias is in the weights.</p>
+    </section>
+
+    <!-- ============ HOW ALPHANET ENGINEERS THE EXECUTION LAYER ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">03</span></div>
+      <h2>How AlphaNet engineers the execution layer</h2>
+      <p>If execution determines returns, engineering goes there.</p>
+      <p>AlphaNet treats this as a quantitative trading problem. Signals come from a hybrid engine: researcher-designed market-structure factors competing alongside deep learning models trained on structured market data, with sizing and exits governed at the strategy layer. Order execution runs on adaptive deep-learning and reinforcement-learning algorithms that work orders into the book rather than paying the spread.</p>
+      <p>Three things follow.</p>
+      <p><strong>Validation before deployment.</strong> Our models train on data we control, so data can be held back. Walk-forward testing on genuinely unseen periods, net of fees and modelled slippage. Not proof, but a real out-of-sample process, which no frontier-model agent can have.</p>
+      <p><strong>A private edge.</strong> Proprietary models on a proprietary feature set. What they find isn't for sale by the token.</p>
+      <p><strong>Verifiable results.</strong> Strategies trade on our DEX, so every fill is on-chain. Users can check the live trades and performance without trusting us.</p>
+      <p>It's also why the strategies run as <strong>Autopilot</strong> — fully systematic, end to end. The arenas show exactly where discretionary judgement fails: entries, sizing, exits. Those are precisely the layers our strategies never hand back to a human mid-trade.</p>
+    </section>
+
+    <!-- ============ THREE QUESTIONS ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">04</span></div>
+      <h2>Are AI trading bots reliable? Three questions to ask</h2>
+      <h4>What handles sizing and exits?</h4>
+      <p>If it's the same model writing the thesis, the layer that decides outcomes wasn't engineered.</p>
+      <h4>How was it validated before going live?</h4>
+      <p>A backtest of a model trained on the outcomes is not validation.</p>
+      <h4>Can I verify the live results myself?</h4>
+      <p>A wallet address is an answer. A dashboard screenshot isn't.</p>
+      <p class="sources">Sources: TradeRank Arena season records and post-mortems (traderank.ai — note TradeRank operates the arena it reports on); Nof1 Alpha Arena Season 1 (nof1.ai, on-chain on Hyperliquid); "When Agents Trade: Live Multi-Market Trading Arena for LLM Agents," ACM Web Conference 2026. Model architecture and validation methodology: <a href="https://alphanet.global/docs/whitepaper/C.html" target="_blank" rel="noopener" style="color:var(--green);text-decoration:underline">Section C of the AlphaNet whitepaper</a>.</p>
+
+      <!-- ============ SUBSCRIBE ============ -->
+      <div class="cta">
+        <div class="kicker" style="margin-bottom:18px">Subscribe</div>
+        <h2>Get AlphaNet in your inbox.</h2>
+        <p>Get the latest AlphaNet research, strategy reports, and market briefs delivered straight to your inbox.</p>
+        <form class="subscribe-form" id="subscribe-form">
+          <input type="email" class="subscribe-input" placeholder="your@email.com" required aria-label="Email address">
+          <button type="submit" class="subscribe-btn">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <img src="../logo.png" alt="AlphaNet">
+    </div>
+    <div class="follow">
+      <div class="ft">Follow us to get <em>early access</em> to our new product releases.</div>
+      <div class="links">
+        <a href="https://alphanet.global/" target="_blank" rel="noopener">Website</a>
+        <a href="https://x.com/AlphaNet_AI" target="_blank" rel="noopener">X</a>
+        <a href="https://t.me/AlphaNet_AI" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ============================================
+// SUBSCRIBE FORM — same behavior as alphanet.global/blog
+// ============================================
+const SUBSCRIBE_API_URL = (() => {
+  const fromMeta = document.querySelector('meta[name="subscribe-api"]')?.content?.trim();
+  if (fromMeta) return fromMeta;
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    return 'http://127.0.0.1:20001';
+  }
+  return new URL('/api/subscribe', location.origin).href;
+})();
+
+async function subscribeEmail(email) {
+  const res = await fetch(SUBSCRIBE_API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+
+  let data = {};
+  try {
+    data = await res.json();
+  } catch {
+    /* non-JSON body */
+  }
+
+  if (!res.ok) {
+    const err = new Error(data.error || 'Subscription failed');
+    err.status = res.status;
+    throw err;
+  }
+  return data;
+}
+
+function handleSubscribe(form) {
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = form.querySelector('input[type="email"]');
+    const btn = form.querySelector('button');
+    const originalText = btn.innerHTML;
+    const email = input.value.trim();
+
+    btn.innerHTML = 'Subscribing...';
+    btn.disabled = true;
+    btn.style.pointerEvents = 'none';
+
+    try {
+      await subscribeEmail(email);
+      btn.innerHTML = 'Subscribed ✓';
+      btn.style.background = 'var(--green)';
+      input.value = '';
+      input.placeholder = 'Thanks for subscribing!';
+    } catch (err) {
+      const alreadySubscribed = err.status === 409;
+      btn.innerHTML = alreadySubscribed ? 'Already subscribed' : 'Try again';
+      btn.style.background = alreadySubscribed ? 'var(--amber)' : 'var(--red)';
+      if (!alreadySubscribed) input.value = '';
+      input.placeholder = err.message || 'Something went wrong';
+    }
+
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.background = '';
+      btn.disabled = false;
+      btn.style.pointerEvents = '';
+      input.placeholder = 'your@email.com';
+    }, 3000);
+  });
+}
+
+handleSubscribe(document.getElementById('subscribe-form'));
+</script>
+</body>
+</html>

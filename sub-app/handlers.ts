@@ -26,6 +26,7 @@ import {
 } from "./http.ts";
 import { sendBroadcastMail, smtpReady } from "./mail.ts";
 import { trackingUrl, unsubscribeKey, unsubscribeUrl } from "./unsub.ts";
+import { log, logError } from "./log.ts";
 
 function parseSource(value: unknown): { ok: true; source: string } | { ok: false; response: Response } {
   if (value === undefined || value === null) return { ok: true, source: "" };
@@ -46,6 +47,7 @@ export async function handleSubscribe(req: Request): Promise<Response> {
   const email = parsed.value.email.trim();
   const emailKey = email.toLowerCase();
   if (!email || !EMAIL_RE.test(emailKey)) {
+    log("subscribe invalid email");
     return json({ error: "邮箱格式无效" }, 400);
   }
 
@@ -54,10 +56,14 @@ export async function handleSubscribe(req: Request): Promise<Response> {
 
   try {
     const created = await addSubscriber(emailKey, email, sourceParsed.source);
-    if (!created) return json({ error: "该邮箱已订阅" }, 409);
+    if (!created) {
+      log("subscribe duplicate", { email: emailKey, source: sourceParsed.source });
+      return json({ error: "该邮箱已订阅" }, 409);
+    }
+    log("subscribe ok", { email: emailKey, source: sourceParsed.source });
     return json({ ok: true, message: "订阅成功" }, 201);
   } catch (err) {
-    console.error(err);
+    logError("subscribe failed", err);
     return json({ error: "服务器错误" }, 500);
   }
 }
@@ -68,15 +74,18 @@ export async function handleUnsubscribe(req: Request): Promise<Response> {
   const key = params.get("key") ?? "";
 
   if (!emailKey || !EMAIL_RE.test(emailKey) || !key) {
+    log("unsubscribe invalid link");
     return html("<p>This unsubscribe link is invalid.</p>", 400);
   }
 
   const expected = await unsubscribeKey(emailKey);
   if (!timingSafeEqual(expected, key)) {
+    log("unsubscribe bad key", { email: emailKey });
     return html("<p>This unsubscribe link is invalid.</p>", 400);
   }
 
   await removeSubscriber(emailKey);
+  log("unsubscribe ok", { email: emailKey });
   return html("<p>You have been unsubscribed.</p>");
 }
 
@@ -95,6 +104,7 @@ export function handleList(req: Request): Response {
 function requirePassword(req: Request): Response | null {
   const password = new URL(req.url).searchParams.get("password") ?? "";
   if (!timingSafeEqual(password, LIST_PASSWORD)) {
+    log("auth failed", { path: new URL(req.url).pathname });
     return json({ error: "密码无效" }, 401);
   }
   return null;
@@ -159,8 +169,9 @@ export async function handleOpen(req: Request): Promise<Response> {
   if (signed && getCampaign(signed.campaignId)) {
     try {
       await recordTracking(signed.campaignId, signed.emailKey, "open");
+      log("open", { id: signed.campaignId, email: signed.emailKey });
     } catch (err) {
-      console.error("record open failed", err);
+      logError("record open failed", err);
     }
   }
   return trackingPixel();
@@ -169,16 +180,19 @@ export async function handleOpen(req: Request): Promise<Response> {
 export async function handleClick(req: Request): Promise<Response> {
   const signed = await signedTrackParams(req);
   if (!signed) {
+    log("click invalid link");
     return html("<p>This link is invalid.</p>", 400);
   }
   const campaign = getCampaign(signed.campaignId);
   if (!campaign) {
+    log("click missing campaign", { id: signed.campaignId, email: signed.emailKey });
     return html("<p>This link is invalid.</p>", 404);
   }
   try {
     await recordTracking(signed.campaignId, signed.emailKey, "click");
+    log("click", { id: signed.campaignId, email: signed.emailKey });
   } catch (err) {
-    console.error("record click failed", err);
+    logError("record click failed", err);
   }
   return Response.redirect(campaign.link, 302);
 }
@@ -206,23 +220,30 @@ export async function handleBroadcast(req: Request): Promise<Response> {
   const link = parseHttpUrl(parsed.value.link);
 
   if (!timingSafeEqual(password, LIST_PASSWORD)) {
+    log("auth failed", { path: "/api/subscribe/broadcast" });
     return json({ error: "密码无效" }, 401);
   }
   if (!link) {
     return json({ error: "link 必须是 http(s) URL" }, 400);
   }
   if (!PUBLIC_BASE_URL) {
+    log("broadcast missing PUBLIC_BASE_URL");
     return json({ error: "未配置 PUBLIC_BASE_URL，无法生成追踪/退订链接" }, 503);
   }
   const smtpError = smtpReady();
-  if (smtpError) return json({ error: smtpError }, 503);
+  if (smtpError) {
+    log("broadcast smtp not ready", { error: smtpError });
+    return json({ error: smtpError }, 503);
+  }
 
   const subscribers = listSubscribers();
   if (subscribers.length === 0) {
+    log("broadcast skipped, no subscribers");
     return json({ ok: true, sent: 0, failed: 0, message: "没有订阅用户" });
   }
 
   const campaign = await createCampaign(link);
+  log("broadcast start", { id: campaign.id, link, recipients: subscribers.length });
 
   let sent = 0;
   let failed = 0;
@@ -241,11 +262,12 @@ export async function handleBroadcast(req: Request): Promise<Response> {
       failed++;
       const message = err instanceof Error ? err.message : String(err);
       errors.push(`${sub.emailKey}: ${message}`);
-      console.error(`broadcast failed for ${sub.emailKey}`, err);
+      logError(`broadcast send failed ${sub.emailKey}`, err);
     }
   });
 
   await setCampaignSent(campaign.id, sent);
+  log("broadcast done", { id: campaign.id, sent, failed });
 
   return json({
     ok: failed === 0,

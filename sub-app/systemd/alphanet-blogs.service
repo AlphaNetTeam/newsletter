@@ -7,18 +7,17 @@ Wants=network-online.target
 Type=simple
 User=ubuntu
 Group=ubuntu
-WorkingDirectory=/home/ubuntu/alphanet-space/blog-sub
+WorkingDirectory=/home/ubuntu/alphanet-space/newsletter/sub-app
 ExecStart=/home/ubuntu/.deno/bin/deno task start
 Restart=on-failure
 RestartSec=60
-# Environment=PUBLIC_BASE_URL=https://你的域名
-# Environment=SMTP_HOST=smtp.example.com
-# Environment=SMTP_PORT=587
-# Environment=SMTP_USER=
-# Environment=SMTP_PASS=
-# Environment=SMTP_FROM=noreply@example.com
-# Environment=APP_SECRET=
-# Environment=LIST_PASSWORD=
+
+Environment=PUBLIC_BASE_URL=https://alphanet.global
+Environment=SMTP_HOST=smtpdm.aliyun.com
+Environment=SMTP_PORT=80
+Environment=SMTP_USER=support@send.alphanet.global
+Environment=SMTP_PASS=Alphan98ClodNet
+Environment=SMTP_FROM=AlphaNet support@send.alphanet.global
 
 [Install]
 WantedBy=multi-user.target

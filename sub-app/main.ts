@@ -9,8 +9,9 @@ import {
   handleUnsubscribe,
 } from "./handlers.ts";
 import { json, routeName } from "./http.ts";
+import { log } from "./log.ts";
 
-Deno.serve({ port, hostname }, (req) => {
+async function dispatch(req: Request): Promise<Response> {
   const url = new URL(req.url);
   const route = routeName(url.pathname);
 
@@ -50,11 +51,24 @@ Deno.serve({ port, hostname }, (req) => {
   if (req.method === "GET") return handleList(req);
   if (req.method === "POST") return handleSubscribe(req);
   return json({ error: "请使用 POST 提交订阅" }, 405);
+}
+
+Deno.serve({ port, hostname }, async (req) => {
+  const started = Date.now();
+  const url = new URL(req.url);
+  try {
+    const res = await dispatch(req);
+    log(`${req.method} ${url.pathname} ${res.status} ${Date.now() - started}ms`);
+    return res;
+  } catch (err) {
+    log(`${req.method} ${url.pathname} 500 ${Date.now() - started}ms`);
+    throw err;
+  }
 });
 
-console.log(`邮件订阅服务: http://${hostname}:${port}${API_PATH}`);
+log(`listening http://${hostname}:${port}${API_PATH}`);
 if (PUBLIC_BASE_URL) {
-  console.log(`退订链接基准: ${PUBLIC_BASE_URL}${API_PATH}/unsubscribe`);
+  log(`public base ${PUBLIC_BASE_URL}${API_PATH}`);
 } else {
-  console.log("未设置 PUBLIC_BASE_URL，群发前请配置公网前缀");
+  log("PUBLIC_BASE_URL unset; broadcast will fail until configured");
 }

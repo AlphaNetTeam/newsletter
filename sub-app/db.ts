@@ -1,4 +1,6 @@
 import initSqlJs, { type Database, type Statement } from "sql.js";
+import { log, logError } from "./log.ts";
+
 
 const DB_PATH = "subscribers.db";
 
@@ -6,8 +8,10 @@ const SQL = await initSqlJs();
 let db: Database;
 try {
   db = new SQL.Database(await Deno.readFile(DB_PATH));
+  log("db loaded", { path: DB_PATH });
 } catch {
   db = new SQL.Database();
+  log("db created", { path: DB_PATH });
 }
 
 db.run(`
@@ -42,6 +46,7 @@ db.run(`
 
 if (!columnNames("subscribers").has("source")) {
   db.run("ALTER TABLE subscribers ADD COLUMN source TEXT NOT NULL DEFAULT ''");
+  log("db migrated: subscribers.source");
 }
 
 let writeChain = Promise.resolve();
@@ -49,7 +54,9 @@ let writeChain = Promise.resolve();
 function persistDb(): Promise<void> {
   const bytes = db.export();
   const job = writeChain.then(() => Deno.writeFile(DB_PATH, bytes));
-  writeChain = job.then(() => {}, () => {});
+  writeChain = job.then(() => {}, (err) => {
+    logError("db persist failed", err);
+  });
   return job;
 }
 

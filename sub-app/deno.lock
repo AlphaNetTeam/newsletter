@@ -1,15 +1,20 @@
 {
   "version": "5",
   "specifiers": {
+    "npm:nodemailer@6.10.1": "6.10.1",
     "npm:sql.js@1.12.0": "1.12.0"
   },
   "npm": {
+    "nodemailer@6.10.1": {
+      "integrity": "sha512-Z+iLaBGVaSjbIzQ4pX6XV41HrooLsQ10ZWPUehGmuantvzWoDVBnmsdUcOIDM1t+yPor5pDhVlDESgOMEGxhHA=="
+    },
     "sql.js@1.12.0": {
       "integrity": "sha512-Bi+43yMx/tUFZVYD4AUscmdL6NHn3gYQ+CM+YheFWLftOmrEC/Mz6Yh7E96Y2WDHYz3COSqT+LP6Z79zgrwJlA=="
     }
   },
   "workspace": {
     "dependencies": [
+      "npm:nodemailer@6.10.1",
       "npm:sql.js@1.12.0"
     ]
   }

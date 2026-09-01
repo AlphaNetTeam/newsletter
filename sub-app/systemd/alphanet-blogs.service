@@ -11,6 +11,14 @@ WorkingDirectory=/home/ubuntu/alphanet-space/blog-sub
 ExecStart=/home/ubuntu/.deno/bin/deno task start
 Restart=on-failure
 RestartSec=60
+# Environment=PUBLIC_BASE_URL=https://你的域名
+# Environment=SMTP_HOST=smtp.example.com
+# Environment=SMTP_PORT=587
+# Environment=SMTP_USER=
+# Environment=SMTP_PASS=
+# Environment=SMTP_FROM=noreply@example.com
+# Environment=APP_SECRET=
+# Environment=LIST_PASSWORD=
 
 [Install]
 WantedBy=multi-user.target

@@ -4,6 +4,7 @@
     "start": "deno run -A main.ts"
   },
   "imports": {
-    "sql.js": "npm:sql.js@1.12.0"
+    "sql.js": "npm:sql.js@1.12.0",
+    "nodemailer": "npm:nodemailer@6.10.1"
   }
 }

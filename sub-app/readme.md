@@ -2,7 +2,7 @@
 
 Deno 服务，监听 `127.0.0.1:20001`。订阅数据在工作目录的 `subscribers.db`。
 
-功能：订阅（带来源和时间）、导出名单、群发、退订、打开/点击统计。
+功能：订阅（带来源和时间）、导出名单、群发、退订、打开/点击统计、活动广告点击。
 
 ## 本地运行
 
@@ -122,6 +122,45 @@ curl 'http://127.0.0.1:20001/api/subscribe/stats?password=alphanet-0807&id=1'
 ```
 
 `opens` / `clicks` 是总次数，`unique_*` 按邮箱去重。不少客户端会拦截邮件图片，打开数会偏低。
+
+### 活动广告点击
+
+用户点开带邮箱的链接后记到库里，页面直接显示 `waitlist added`。只需 `email`。
+
+```
+GET /api/subscribe/ad?email=<邮箱>
+```
+
+批量生成订阅用户的链接：
+
+```bash
+curl 'http://127.0.0.1:20001/api/subscribe/ad/links?password=alphanet-0807'
+```
+
+```json
+{
+  "count": 2,
+  "links": [
+    { "email": "you@example.com", "url": "https://你的域名/api/subscribe/ad?email=you%40example.com" }
+  ]
+}
+```
+
+查看谁点了：
+
+```bash
+curl 'http://127.0.0.1:20001/api/subscribe/ad/stats?password=alphanet-0807'
+```
+
+```json
+{
+  "clicks": 3,
+  "unique_clicks": 2,
+  "users": [
+    { "email": "you@example.com", "clicks": 2, "first_at": "...", "last_at": "..." }
+  ]
+}
+```
 
 ### 退订 / 打开 / 点击
 

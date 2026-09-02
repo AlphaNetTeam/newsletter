@@ -10,8 +10,10 @@ import {
   createCampaign,
   getCampaign,
   getCampaignStats,
+  listAdClicks,
   listCampaignStats,
   listSubscribers,
+  recordAdClick,
   recordTracking,
   removeSubscriber,
   setCampaignSent,
@@ -20,12 +22,13 @@ import {
   html,
   json,
   parseHttpUrl,
+  publicOrigin,
   readJsonObject,
   timingSafeEqual,
   trackingPixel,
 } from "./http.ts";
 import { sendBroadcastMail, smtpReady } from "./mail.ts";
-import { trackingUrl, unsubscribeKey, unsubscribeUrl } from "./unsub.ts";
+import { adClickUrl, trackingUrl, unsubscribeKey, unsubscribeUrl } from "./unsub.ts";
 import { log, logError } from "./log.ts";
 
 function parseSource(value: unknown): { ok: true; source: string } | { ok: false; response: Response } {
@@ -276,4 +279,52 @@ export async function handleBroadcast(req: Request): Promise<Response> {
     failed,
     errors: errors.slice(0, 20),
   });
+}
+
+export async function handleAdClick(req: Request): Promise<Response> {
+  const emailKey = (new URL(req.url).searchParams.get("email") ?? "").trim().toLowerCase();
+
+  if (!emailKey || !EMAIL_RE.test(emailKey)) {
+    log("ad click invalid email");
+    return html("<p>This link is invalid.</p>", 400);
+  }
+
+  try {
+    await recordAdClick(emailKey);
+    log("ad click", { email: emailKey });
+  } catch (err) {
+    logError("record ad click failed", err);
+  }
+
+  return new Response("waitlist added", {
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
+  });
+}
+
+export function handleAdStats(req: Request): Response {
+  const denied = requirePassword(req);
+  if (denied) return denied;
+  const data = listAdClicks();
+  return json({
+    clicks: data.clicks,
+    unique_clicks: data.uniqueClicks,
+    users: data.users.map((u) => ({
+      email: u.email,
+      clicks: u.clicks,
+      first_at: u.firstAt,
+      last_at: u.lastAt,
+    })),
+  });
+}
+
+export function handleAdLinks(req: Request): Response {
+  const denied = requirePassword(req);
+  if (denied) return denied;
+
+  const origin = publicOrigin(req);
+  const links = listSubscribers().map((s) => ({
+    email: s.email,
+    url: adClickUrl(origin, s.emailKey),
+  }));
+  return json({ count: links.length, links });
 }

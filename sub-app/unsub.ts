@@ -33,3 +33,9 @@ export async function trackingUrl(
   url.searchParams.set("id", String(campaignId));
   return url.toString();
 }
+
+export function adClickUrl(origin: string, emailKey: string): string {
+  const url = new URL(`${origin.replace(/\/$/, "")}${API_PATH}/ad`);
+  url.searchParams.set("email", emailKey);
+  return url.toString();
+}

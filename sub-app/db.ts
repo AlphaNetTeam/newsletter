@@ -43,6 +43,18 @@ db.run(`
   CREATE INDEX IF NOT EXISTS idx_tracking_campaign_kind
   ON tracking_events (campaign_id, kind)
 `);
+db.run(`
+  CREATE TABLE IF NOT EXISTS ad_clicks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email_key TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  )
+`);
+db.run(`
+  CREATE INDEX IF NOT EXISTS idx_ad_clicks_name
+  ON ad_clicks (name, email_key)
+`);
 
 if (!columnNames("subscribers").has("source")) {
   db.run("ALTER TABLE subscribers ADD COLUMN source TEXT NOT NULL DEFAULT ''");
@@ -244,4 +256,46 @@ export function getCampaignStats(id: number): CampaignStats | null {
   const campaign = getCampaign(id);
   if (!campaign) return null;
   return { ...campaign, ...campaignCounts(id) };
+}
+
+export async function recordAdClick(emailKey: string): Promise<void> {
+  db.run(
+    "INSERT INTO ad_clicks (name, email_key) VALUES (?, ?)",
+    ["ad", emailKey],
+  );
+  await persistDb();
+}
+
+export type AdClickUser = {
+  email: string;
+  clicks: number;
+  firstAt: string;
+  lastAt: string;
+};
+
+export function listAdClicks(): {
+  clicks: number;
+  uniqueClicks: number;
+  users: AdClickUser[];
+} {
+  const stmt = db.prepare(`
+    SELECT email_key,
+           COUNT(*) AS clicks,
+           MIN(created_at) AS first_at,
+           MAX(created_at) AS last_at
+    FROM ad_clicks
+    GROUP BY email_key
+    ORDER BY last_at DESC
+  `);
+  const users = collect(stmt, (row) => ({
+    email: String(row.email_key).toLowerCase(),
+    clicks: Number(row.clicks),
+    firstAt: String(row.first_at),
+    lastAt: String(row.last_at),
+  }));
+  return {
+    clicks: users.reduce((n, u) => n + u.clicks, 0),
+    uniqueClicks: users.length,
+    users,
+  };
 }

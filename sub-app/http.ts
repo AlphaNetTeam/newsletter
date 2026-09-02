@@ -1,4 +1,4 @@
-import { API_PATH } from "./config.ts";
+import { API_PATH, PUBLIC_BASE_URL } from "./config.ts";
 
 export type Route =
   | "subscribe"
@@ -7,6 +7,9 @@ export type Route =
   | "open"
   | "click"
   | "stats"
+  | "ad"
+  | "ad-stats"
+  | "ad-links"
   | "unknown";
 
 export function json(body: unknown, status = 200): Response {
@@ -46,8 +49,19 @@ export function routeName(pathname: string): Route {
   if (p === `${API_PATH}/open`) return "open";
   if (p === `${API_PATH}/click`) return "click";
   if (p === `${API_PATH}/stats`) return "stats";
+  if (p === `${API_PATH}/ad/stats`) return "ad-stats";
+  if (p === `${API_PATH}/ad/links`) return "ad-links";
+  if (p === `${API_PATH}/ad`) return "ad";
   if (p === API_PATH) return "subscribe";
   return "unknown";
+}
+
+export function publicOrigin(req: Request): string {
+  if (PUBLIC_BASE_URL) return PUBLIC_BASE_URL;
+  const url = new URL(req.url);
+  const proto = req.headers.get("x-forwarded-proto") ?? url.protocol.replace(":", "");
+  const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host") ?? url.host;
+  return `${proto}://${host}`.replace(/\/$/, "");
 }
 
 export function parseHttpUrl(value: unknown): string | null {

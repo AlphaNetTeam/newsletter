@@ -1,5 +1,8 @@
 import { API_PATH, hostname, port, PUBLIC_BASE_URL } from "./config.ts";
 import {
+  handleAdClick,
+  handleAdLinks,
+  handleAdStats,
   handleBroadcast,
   handleClick,
   handleList,
@@ -42,6 +45,21 @@ async function dispatch(req: Request): Promise<Response> {
   if (route === "stats") {
     if (req.method !== "GET") return json({ error: "请使用 GET" }, 405);
     return handleStats(req);
+  }
+
+  if (route === "ad") {
+    if (req.method !== "GET") return json({ error: "请使用 GET" }, 405);
+    return handleAdClick(req);
+  }
+
+  if (route === "ad-stats") {
+    if (req.method !== "GET") return json({ error: "请使用 GET" }, 405);
+    return handleAdStats(req);
+  }
+
+  if (route === "ad-links") {
+    if (req.method !== "GET") return json({ error: "请使用 GET" }, 405);
+    return handleAdLinks(req);
   }
 
   if (route !== "subscribe") {

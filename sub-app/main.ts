@@ -1,101 +1,74 @@
-import initSqlJs, { type Database } from "sql.js";
+import { API_PATH, hostname, port, PUBLIC_BASE_URL } from "./config.ts";
+import {
+  handleBroadcast,
+  handleClick,
+  handleList,
+  handleOpen,
+  handleStats,
+  handleSubscribe,
+  handleUnsubscribe,
+} from "./handlers.ts";
+import { json, routeName } from "./http.ts";
+import { log } from "./log.ts";
 
-const DB_PATH = "subscribers.db";
+async function dispatch(req: Request): Promise<Response> {
+  const url = new URL(req.url);
+  const route = routeName(url.pathname);
 
-const SQL = await initSqlJs();
-let db: Database;
-try {
-  const bytes = await Deno.readFile(DB_PATH);
-  db = new SQL.Database(bytes);
-} catch {
-  db = new SQL.Database();
-}
+  if (route === "unsubscribe") {
+    if (req.method !== "GET" && req.method !== "POST") {
+      return json({ error: "请使用 GET 打开退订链接" }, 405);
+    }
+    return handleUnsubscribe(req);
+  }
 
-function persistDb(): void {
-  Deno.writeFileSync(DB_PATH, db.export());
-}
+  if (route === "broadcast") {
+    if (req.method !== "POST") {
+      return json({ error: "请使用 POST 群发" }, 405);
+    }
+    return handleBroadcast(req);
+  }
 
-db.run(`
-  CREATE TABLE IF NOT EXISTS subscribers (
-    email_key TEXT PRIMARY KEY,
-    email TEXT NOT NULL,
-    created_at TEXT NOT NULL DEFAULT (datetime('now'))
-  )
-`);
+  if (route === "open") {
+    if (req.method !== "GET") return json({ error: "请使用 GET" }, 405);
+    return handleOpen(req);
+  }
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const LIST_PASSWORD = "alphanet-0807";
-const port = 20001;
-const hostname = "127.0.0.1";
+  if (route === "click") {
+    if (req.method !== "GET") return json({ error: "请使用 GET" }, 405);
+    return handleClick(req);
+  }
 
-function json(body: unknown, status = 200): Response {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: { "Content-Type": "application/json" },
-  });
-}
+  if (route === "stats") {
+    if (req.method !== "GET") return json({ error: "请使用 GET" }, 405);
+    return handleStats(req);
+  }
 
-function txt(body: string, status = 200, filename = "subscribers.txt"): Response {
-  return new Response(body, {
-    status,
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      "Content-Disposition": `attachment; filename="${filename}"`,
-    },
-  });
-}
+  if (route !== "subscribe") {
+    return json({ error: "未找到接口" }, 404);
+  }
 
-function listEmails(): string {
-  const rows = db.exec("SELECT email_key FROM subscribers ORDER BY created_at ASC");
-  if (rows.length === 0) return "";
-  return rows[0].values.map((row) => String(row[0]).toLowerCase()).join("\n");
+  if (req.method === "GET") return handleList(req);
+  if (req.method === "POST") return handleSubscribe(req);
+  return json({ error: "请使用 POST 提交订阅" }, 405);
 }
 
 Deno.serve({ port, hostname }, async (req) => {
-  if (req.method === "GET") {
-    const password = new URL(req.url).searchParams.get("password") ?? "";
-    if (password !== LIST_PASSWORD) {
-      return json({ error: "密码无效" }, 401);
-    }
-    return txt(listEmails());
-  }
-
-  if (req.method !== "POST") {
-    return json({ error: "请使用 POST 提交订阅" }, 405);
-  }
-
-  let email: string;
-  let emailKey: string;
+  const started = Date.now();
+  const url = new URL(req.url);
   try {
-    const body = await req.json();
-    if (typeof body?.email !== "string") {
-      return json({ error: "缺少 email 字段" }, 400);
-    }
-    email = body.email.trim();
-    emailKey = email.toLowerCase();
-  } catch {
-    return json({ error: "请求体必须是 JSON" }, 400);
-  }
-
-  if (!email || !EMAIL_RE.test(emailKey)) {
-    return json({ error: "邮箱格式无效" }, 400);
-  }
-
-  try {
-    db.run(
-      "INSERT INTO subscribers (email_key, email) VALUES (?, ?)",
-      [emailKey, email],
-    );
-    persistDb();
-    return json({ ok: true, message: "订阅成功" }, 201);
+    const res = await dispatch(req);
+    log(`${req.method} ${url.pathname} ${res.status} ${Date.now() - started}ms`);
+    return res;
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    if (message.includes("UNIQUE")) {
-      return json({ error: "该邮箱已订阅" }, 409);
-    }
-    console.error(err);
-    return json({ error: "服务器错误" }, 500);
+    log(`${req.method} ${url.pathname} 500 ${Date.now() - started}ms`);
+    throw err;
   }
 });
 
-console.log(`邮件订阅服务: http://${hostname}:${port}`);
+log(`listening http://${hostname}:${port}${API_PATH}`);
+if (PUBLIC_BASE_URL) {
+  log(`public base ${PUBLIC_BASE_URL}${API_PATH}`);
+} else {
+  log("PUBLIC_BASE_URL unset; broadcast will fail until configured");
+}

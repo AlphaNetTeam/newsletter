@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="subscribe-api" content="">
+<title>Best AI Trading Bots 2026: Bots vs Agents vs Vaults vs AlphaNet</title>
+<meta name="description" content="Compare rules-based bots, LLM trading agents, Hyperliquid copy trading and vaults—and see where AlphaNet fits as a 3Commas alternative.">
+<!-- Open Graph 基本标签 -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Best AI Trading Bots: AlphaNet vs Bots, Agents and Hyperliquid Vaults | AlphaNet" />
+    <meta property="og:description" content="Compare rules-based bots, LLM trading agents, Hyperliquid copy trading and vaults—and see where AlphaNet fits as a 3Commas alternative." />
+    <meta property="og:url" content="https://alphanet.global/blog/best-ai-trading-bots/" />
+    <!-- TODO: 上线前替换为实际封面图地址 -->
+    <meta property="og:image" content="https://alphanet.global/blog/blog-covers/cover-best-ai-trading-bots.png" />
+    <meta property="og:site_name" content="AlphaNet | Trading Evolved - Quantitative AI Trading Platform" />
+
+    <!-- Twitter Card 标签 -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@AlphaNet_AI" />
+    <meta name="twitter:title" content="Best AI Trading Bots: AlphaNet vs Bots, Agents and Hyperliquid Vaults | AlphaNet" />
+    <meta name="twitter:description" content="Compare rules-based bots, LLM trading agents, Hyperliquid copy trading and vaults—and see where AlphaNet fits as a 3Commas alternative." />
+    <meta name="twitter:image" content="https://alphanet.global/blog/blog-covers/cover-best-ai-trading-bots.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#060608;
+    --surface:#0b0b10;
+    --surface2:#0e0e14;
+    --line:rgba(255,255,255,.08);
+    --line2:rgba(255,255,255,.14);
+    --text:#ececf1;
+    --muted:#9b9ba7;
+    --dim:#6d6d78;
+    --green:#3ef0b6;
+    --green-dim:rgba(62,240,182,.12);
+    --red:#ff5470;
+    --red-dim:rgba(255,84,112,.12);
+    --amber:#f0b34a;
+    --steel:#7d8496;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    font-size:17px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  ::selection{background:rgba(62,240,182,.25)}
+  .mono{font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px}
+
+  /* ---------- header ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    background:rgba(6,6,8,.85);
+    backdrop-filter:blur(12px);
+    position:sticky;top:0;z-index:50;
+  }
+  .header-inner{
+    max-width:1160px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .header-logo{display:flex;align-items:center;gap:14px;text-decoration:none}
+  .header-logo img{height:20px;width:auto;display:block}
+  .header-meta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--dim);display:flex;align-items:center;gap:10px;
+  }
+  .header-meta .dot{width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+  @media (max-width:640px){.header-meta .hm-text{display:none}}
+  .header-right{display:flex;align-items:center;gap:18px}
+  .header-btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);text-decoration:none;
+    border:1px solid var(--line2);border-radius:2px;
+    padding:7px 14px;transition:color .2s,border-color .2s,background .2s;
+    white-space:nowrap;
+  }
+  .header-btn:hover{color:var(--green);border-color:rgba(62,240,182,.5);background:var(--green-dim)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:88px 0 56px;border-bottom:1px solid var(--line)}
+  .kicker{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--green);display:flex;align-items:center;gap:12px;margin-bottom:28px;
+  }
+  .kicker::before{content:"";width:28px;height:1px;background:var(--green);display:inline-block}
+  h1{
+    font-size:clamp(38px,6.2vw,62px);
+    line-height:1.04;font-weight:800;letter-spacing:-.025em;margin-bottom:28px;
+  }
+  h1 .thin{color:var(--dim);font-weight:600}
+  .lede{font-size:clamp(18px,2.4vw,22px);line-height:1.55;color:var(--muted);max-width:720px;font-weight:500}
+  .lede strong{color:var(--text);font-weight:700}
+  .hero-stats{
+    display:flex;flex-wrap:wrap;gap:1px;background:var(--line);
+    border:1px solid var(--line);margin-top:52px;
+  }
+  .hero-stat{flex:1 1 180px;background:var(--bg);padding:20px 24px}
+  .hero-stat .v{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;letter-spacing:-.02em}
+  .hero-stat .v.red{color:var(--red)} .hero-stat .v.green{color:var(--green)} .hero-stat .v.amber{color:var(--amber)}
+  .hero-stat .k{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:6px;font-family:'JetBrains Mono',monospace}
+
+  /* ---------- article ---------- */
+  article{padding:64px 0 0}
+  .sec{margin-bottom:72px}
+  .sec-tag{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:12px;
+  }
+  .sec-tag .n{color:var(--green)}
+  h2{font-size:clamp(26px,3.6vw,34px);line-height:1.15;font-weight:800;letter-spacing:-.02em;margin-bottom:24px}
+  h3{font-size:19px;font-weight:700;letter-spacing:-.01em;margin:36px 0 12px}
+  p{margin-bottom:18px;color:#c9c9d2}
+  p strong, li strong{color:var(--text);font-weight:700}
+  p .hl-g{color:var(--green);font-weight:700}
+  p .hl-r{color:var(--red);font-weight:700}
+  p .hl-a{color:var(--amber);font-weight:700}
+  p a{color:var(--green);text-decoration:underline}
+
+  /* ---------- cards ---------- */
+  .fails{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
+  @media (max-width:760px){.fails{grid-template-columns:1fr}}
+  .fail{
+    background:var(--surface);border:1px solid var(--line);
+    padding:28px;position:relative;transition:border-color .25s;
+  }
+  .fail:hover{border-color:var(--line2)}
+  .fail.span{grid-column:1/-1}
+  .fail .num{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;
+    color:var(--red);margin-bottom:16px;display:flex;align-items:center;gap:10px;
+  }
+  .fail .num.green{color:var(--green)}
+  .fail h4{font-size:18px;font-weight:750;line-height:1.35;margin-bottom:12px;letter-spacing:-.01em}
+  .fail p{font-size:14.5px;line-height:1.7;color:var(--muted);margin-bottom:12px}
+  .fail p:last-child{margin-bottom:0}
+
+  /* ---------- sources note ---------- */
+  .sources{
+    border-top:1px dashed var(--line);padding-top:24px;margin-top:8px;
+    font-size:13px;line-height:1.7;color:var(--dim);
+  }
+  .sources a{color:var(--green);text-decoration:underline}
+
+  /* ---------- subscribe ---------- */
+  .cta{
+    border:1px solid rgba(62,240,182,.3);
+    background:linear-gradient(160deg,rgba(62,240,182,.07),rgba(62,240,182,.015) 55%,transparent);
+    padding:52px 44px;margin:64px 0;text-align:left;position:relative;overflow:hidden;
+  }
+  .cta h2{margin-bottom:14px}
+  .cta p{color:var(--muted);max-width:560px}
+  .subscribe-form{display:flex;gap:8px;max-width:480px;margin-top:26px}
+  .subscribe-input{
+    flex:1;height:52px;padding:0 18px;
+    background:var(--surface);
+    border:1px solid var(--line2);border-radius:6px;
+    color:var(--text);font-size:15px;font-family:inherit;
+    transition:border-color .2s ease,background .2s ease,box-shadow .2s ease;
+  }
+  .subscribe-input::placeholder{color:var(--dim)}
+  .subscribe-input:focus{
+    outline:none;border-color:var(--green);
+    background:var(--surface2);
+    box-shadow:0 0 0 3px var(--green-dim);
+  }
+  .subscribe-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    height:52px;padding:0 24px;
+    background:var(--green);border:none;border-radius:6px;
+    color:#060608;font-size:15px;font-weight:600;font-family:inherit;
+    white-space:nowrap;cursor:pointer;
+    transition:background .2s ease,transform .2s ease;
+  }
+  .subscribe-btn:hover{background:#6ff5c8}
+  .subscribe-btn:active{transform:scale(.97)}
+  @media (max-width:640px){
+    .subscribe-form{flex-direction:column}
+    .subscribe-input,.subscribe-btn{width:100%}
+    .subscribe-btn{justify-content:center}
+  }
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--line);padding:44px 0 56px;margin-top:24px}
+  footer .f-top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:24px}
+  footer img{height:16px;opacity:.8}
+  footer .follow{border-left:2px solid var(--green);padding:4px 0 4px 24px;margin:0;display:flex;justify-content:space-between;align-items:center;gap:14px 24px;flex-wrap:wrap}
+  footer .follow .ft{font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--muted)}
+  footer .follow .ft em{font-style:normal;color:var(--green);font-weight:700}
+  footer .follow .links{display:flex;gap:8px;flex-wrap:wrap}
+  footer .follow .links a{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--line2);border-radius:2px;padding:7px 14px;transition:all .2s}
+  footer .follow .links a:hover{color:var(--green);border-color:var(--green)}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a class="header-logo" href="#"><img src="../logo.png" alt="AlphaNet"></a>
+    <div class="header-right">
+      <div class="header-meta">
+        <span class="dot"></span>
+        <span class="hm-text">ALPHANET RESEARCH</span>
+      </div>
+      <a class="header-btn" href="https://alphanet.global/blog">Blog</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <div class="kicker">ALPHANET RESEARCH</div>
+    <h1>Best AI Trading Bots:<br><span class="thin">AlphaNet vs Bots, Agents and Hyperliquid Vaults</span></h1>
+    <p class="lede">Four categories use the words "AI trading." They solve different problems—<strong>and should not be compared as if they were the same product.</strong></p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="v amber">4</div><div class="k">Categories using "AI trading"</div></div>
+      <div class="hero-stat"><div class="v amber">2,000+</div><div class="k">Hyperliquid vaults</div></div>
+      <div class="hero-stat"><div class="v amber">10%</div><div class="k">Leader profit share</div></div>
+      <div class="hero-stat"><div class="v amber">24h</div><div class="k">Vault withdrawal lock</div></div>
+    </div>
+  </section>
+
+  <article>
+    <!-- ============ INTRO ============ -->
+    <section class="sec">
+      <p>Search for the best AI trading bots in 2026 and the results mix four fundamentally different products: a rules-based bot, a chat interface that can place orders, a pooled Hyperliquid vault, and a deep-learning strategy engine. The label is the same; the job each product performs is not.</p>
+      <p>This guide maps the four categories—what each one does, who it suits and where AlphaNet fits. It also gives a more useful answer to "how does AI trading work?" than most trading bot reviews, because the answer depends entirely on the system behind the label.</p>
+    </section>
+
+    <!-- ============ RULES-BASED BOTS ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">01</span></div>
+      <h2>Rules-based bots: 3Commas, Cryptohopper and the grid/DCA category</h2>
+      <p>Strip the interface off a conventional bot and you find a conditional statement: buy when an indicator flips, add when price drops by a set percentage, sell at a target. Grid bots place a ladder of orders in a range; DCA bots average in on a schedule; a crypto scalping bot fires on small moves every few minutes; a crypto swing trading bot applies the same rules over days. The AI layer, when present, is usually a signal marketplace or parameter optimiser bolted on.</p>
+      <p><strong>What it's good for:</strong> mechanical execution of a strategy you already have. If you want to DCA into ETH every Monday or run a grid in a range you've identified yourself, a rules bot does that transparently and cheaply. You know exactly what it will do.</p>
+      <p><strong>Where it stops:</strong> the rule doesn't know what kind of market it's in. A grid that prints in a range keeps buying all the way down once the market starts trending; a DCA ladder averages into a coin that isn't coming back. The bot executes perfectly and the strategy fails anyway, because the strategy was the user's guess about the next month, frozen into parameters. And a bot that has to be tuned by hand is only as current as the last time someone tuned it.</p>
+      <p><strong>Where AlphaNet differs:</strong> there is nothing to configure, because the strategy is not a fixed rule—it is a model that reads the market and decides what the rule should be now. That makes AlphaNet a 3Commas or CryptoHopper alternative in kind, not simply another bot with more settings.</p>
+    </section>
+
+    <!-- ============ LLM TRADING AGENTS ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">02</span></div>
+      <h2>LLM trading agents: the ChatGPT trading bot category</h2>
+      <p>The newest category puts a language model between you and the exchange. Minara is the clearest example: a chat interface backed by a finance-tuned model and dozens of live data sources, where you can research a token, ask for a thesis, and place the order. Its Agent Factory builds automations from a sentence; its Strategy Studio backtests factor strategies you describe in plain language.</p>
+      <p><strong>What it's good for:</strong> automating the research workflow. Synthesizing filings, on-chain flows, sentiment and news into one answer is real work that a language model does well and fast — for a retail user drowning in dashboards and Telegram feeds, that consolidation is a genuine improvement.</p>
+      <p><strong>Where it stops:</strong> a language model is built to produce the most plausible next sentence, not the most probable next price. Ask it whether SOL bounces and it will give you an answer that sounds right — fluent, structured, confident. That's not a market decision; it's a convincing statement about one. The agent removed the research friction, but the position, the sizing and the exit are still yours, carried with the same psychology every retail trader brings.</p>
+      <p><strong>Where AlphaNet differs:</strong> there is no chat and no thesis to approve. The models are trained to make numerical predictions on market data, scored against what actually happened and kept only when they survive testing on periods they never saw. A language model's output is judged by whether it convinces; AlphaNet's is judged by whether it was right. Minara-style agents automate the interface around your decision; AlphaNet automates the decision from entry to exit.</p>
+    </section>
+
+    <!-- ============ HYPERLIQUID VAULT ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">03</span></div>
+      <h2>Hyperliquid vault and copy trading</h2>
+      <p>A Hyperliquid vault pools depositor capital behind one leader's account: the leader trades, each depositor's share moves with the result, and the leader takes 10% of profits above the high-water mark. More than 2,000 exist. Most function as Hyperliquid copy trading—your money mirrors one wallet's positions, with a 24-hour lock and a 5% skin-in-the-game requirement on the leader.</p>
+      <p><strong>What it's good for:</strong> following a trader with a real, on-chain track record. Nothing in traditional finance lets you inspect every fill a manager has ever made before you allocate; Hyperliquid vaults do, and the leader can't edit the history. For a depositor who has identified a wallet they trust, the wrapper is clean — one deposit, proportional exposure, exit in a day.</p>
+      <p><strong>Where it stops:</strong> you inherit whatever the leader is. A track record earned in one regime says little about the next, and a discretionary trader who was disciplined at $2M of TVL may behave differently at $40M. Copy trading through Hyperliquid vaults is only as good as the wallet being copied, and the past record cannot tell you with certainty how it will perform in the next regime.</p>
+      <p><strong>Where AlphaNet differs:</strong> the thing being followed is an AI quant trading strategy, not a person. Sizing and exits are governed by deep learning signals and hard drawdown limits rather than one leader's judgement on the day; strategies close to new deposits when they hit capacity, so a good track record can't be diluted by its own popularity; and there is no lock — you halt and withdraw when you choose.</p>
+    </section>
+
+    <!-- ============ WHERE ALPHANET FITS ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">04</span></div>
+      <h2>Where AlphaNet fits</h2>
+      <p>AlphaNet is an AI quantitative trading platform, deployed on the Hyperliquid perp DEX and accessible from an individual wallet.</p>
+      <p>Concretely: prediction models decide, execution algorithms place, capacity limits close the door when a strategy is full, custody never leaves your wallet, and the record is on-chain.</p>
+      <p><strong>AI trading should mean models that predict rather than rules that repeat, outputs that are scored rather than merely persuasive, and a system accountable to a public record.</strong> Bots automate your rules, agents accelerate your research, and vaults let you follow a trader. AlphaNet is the AI quantitative trading machinery itself.</p>
+      <p>Search for a Hyperliquid trading bot today and you will mostly find the first and third categories: rules bots with Hyperliquid support and vaults. Both are legitimate. But a bot executes your rules on the venue, while a vault follows a person; neither is automatically an AI-driven quantitative strategy.</p>
+    </section>
+
+    <!-- ============ HOW TO CHOOSE ============ -->
+    <section class="sec">
+      <div class="sec-tag"><span class="n">05</span></div>
+      <h2>How to choose the right AI trading product</h2>
+      <p>Three questions sort any product into its category:</p>
+      <p><strong>What generates the trade?</strong> A rule you wrote → bot. AI trading signals you approve → agent. Someone else's wallet → vault. A prediction model running end to end → AI quantitative trading.</p>
+      <p><strong>Who holds the position?</strong> If it's still your decision when to exit, it's a tool. If the system exits, it's an end-to-end AI strategy.</p>
+      <p><strong>How was it validated?</strong> Rules bots and vaults show you a live track record. Agents can't be backtested honestly. An AI quant engine should be able to show both — held-out testing before deployment, and the on-chain record after.</p>
+      <p class="sources">How AlphaNet's strategies are built: <a href="../What-Is-AI-Quant-Trading/index.html">AlphaNet's AI Quantitative Trading Platform</a>. Why the human in the loop is the problem it solves: <a href="../Why-Do-Retail-Traders-Lose-Money/index.html">Why Do Retail Traders Lose Money?</a>. Why LLM agents don't convert reasoning into returns: <a href="../can-ai-agent-trade/index.html">Can AI Agents Trade?</a></p>
+
+      <!-- ============ SUBSCRIBE ============ -->
+      <div class="cta">
+        <div class="kicker" style="margin-bottom:18px">Subscribe</div>
+        <h2>Get AlphaNet in your inbox.</h2>
+        <p>Get the latest AlphaNet research, strategy reports, and market briefs delivered straight to your inbox.</p>
+        <form class="subscribe-form" id="subscribe-form">
+          <input type="email" class="subscribe-input" placeholder="your@email.com" required aria-label="Email address">
+          <button type="submit" class="subscribe-btn">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </article>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="f-top">
+      <img src="../logo.png" alt="AlphaNet">
+    </div>
+    <div class="follow">
+      <div class="ft">Follow us to get <em>early access</em> to our new product releases.</div>
+      <div class="links">
+        <a href="https://alphanet.global/" target="_blank" rel="noopener">Website</a>
+        <a href="https://x.com/AlphaNet_AI" target="_blank" rel="noopener">X</a>
+        <a href="https://t.me/AlphaNet_AI" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ============================================
+// SUBSCRIBE FORM — same behavior as alphanet.global/blog
+// ============================================
+const SUBSCRIBE_API_URL = (() => {
+  const fromMeta = document.querySelector('meta[name="subscribe-api"]')?.content?.trim();
+  if (fromMeta) return fromMeta;
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    return 'http://127.0.0.1:20001';
+  }
+  return new URL('/api/subscribe', location.origin).href;
+})();
+
+async function subscribeEmail(email) {
+  const res = await fetch(SUBSCRIBE_API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+
+  let data = {};
+  try {
+    data = await res.json();
+  } catch {
+    /* non-JSON body */
+  }
+
+  if (!res.ok) {
+    const err = new Error(data.error || 'Subscription failed');
+    err.status = res.status;
+    throw err;
+  }
+  return data;
+}
+
+function handleSubscribe(form) {
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = form.querySelector('input[type="email"]');
+    const btn = form.querySelector('button');
+    const originalText = btn.innerHTML;
+    const email = input.value.trim();
+
+    btn.innerHTML = 'Subscribing...';
+    btn.disabled = true;
+    btn.style.pointerEvents = 'none';
+
+    try {
+      await subscribeEmail(email);
+      btn.innerHTML = 'Subscribed ✓';
+      btn.style.background = 'var(--green)';
+      input.value = '';
+      input.placeholder = 'Thanks for subscribing!';
+    } catch (err) {
+      const alreadySubscribed = err.status === 409;
+      btn.innerHTML = alreadySubscribed ? 'Already subscribed' : 'Try again';
+      btn.style.background = alreadySubscribed ? 'var(--amber)' : 'var(--red)';
+      if (!alreadySubscribed) input.value = '';
+      input.placeholder = err.message || 'Something went wrong';
+    }
+
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.background = '';
+      btn.disabled = false;
+      btn.style.pointerEvents = '';
+      input.placeholder = 'your@email.com';
+    }, 3000);
+  });
+}
+
+handleSubscribe(document.getElementById('subscribe-form'));
+</script>
+</body>
+</html>

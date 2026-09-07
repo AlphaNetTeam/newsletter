@@ -83,6 +83,20 @@ export const SITE_URL = (
 export const BROWSER_UA =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
 
+// HyperTracker (docs.coinmarketman.com) — used only for the "24H
+// LIQUIDATION" metric, which Hyperliquid's own info API does not expose.
+// Unlike CoinGlass/CoinAnk this indexes Hyperliquid's raw liquidation fills
+// directly and has a genuine free tier. Requires HYPERTRACKER_API_KEY; when
+// it's not configured, or the request fails, the metrics panel shows
+// "Incorrect source" instead of a fabricated number.
+export const HYPERTRACKER_BASE_URL = "https://ht-api.coinmarketman.com";
+export const HYPERTRACKER_API_KEY = process.env.HYPERTRACKER_API_KEY || "";
+// Free tier is 100 tokens/day and this project has up to 15 symbol pages,
+// each doing one liquidation fetch per revalidation window — six hours
+// keeps worst-case usage (15 symbols x 4 windows/day = 60 requests) safely
+// under that quota.
+export const HYPERTRACKER_REVALIDATE_SECONDS = 21600;
+
 export function listSymbols(): SymbolInfo[] {
   return Object.entries(SYMBOLS).map(([symbol, cfg]) => ({
     symbol,

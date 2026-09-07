@@ -11,36 +11,13 @@ export default function StatsRow({ stats }: { stats: StatsData }) {
   ];
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(5, 1fr)",
-        gap: 16,
-        marginTop: 16,
-        background: "var(--bg-card)",
-        border: "1px solid var(--border)",
-        borderRadius: "var(--radius-lg)",
-        padding: "16px 20px",
-      }}
-    >
+    <div className="mk-perf mono">
       {items.map((item) => (
-        <div key={item.label}>
-          <div className="mono-label">{item.label}</div>
-          <div
-            style={{
-              fontSize: 17,
-              fontWeight: 700,
-              marginTop: 4,
-              color:
-                item.positive === undefined
-                  ? "var(--text-primary)"
-                  : item.positive
-                    ? "var(--accent-green)"
-                    : "var(--accent-red)",
-            }}
-          >
+        <div className="mk-perf-cell" key={item.label}>
+          <span className="mk-perf-k">{item.label}</span>
+          <span className={`mk-perf-v${item.positive === undefined ? "" : item.positive ? " mk-pos" : " mk-neg"}`}>
             {item.value}
-          </div>
+          </span>
         </div>
       ))}
     </div>

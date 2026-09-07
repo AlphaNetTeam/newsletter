@@ -1,54 +1,40 @@
 import { formatNewsDate } from "@/lib/format";
 import type { NewsData } from "@/lib/types";
 
-export default function NewsPanel({ news }: { news: NewsData }) {
+export default function NewsPanel({ news, symbol }: { news: NewsData; symbol: string }) {
   const items = news.items;
 
   return (
-    <section id="news" aria-labelledby="news-heading">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-        <h2 id="news-heading" style={{ fontSize: 20, fontWeight: 700, margin: 0 }}>
-          Recent news
+    <>
+      <hgroup className="section-head">
+        <div className="label mono">NEWS FLOW</div>
+        <h2 id="news-heading">
+          Recent news<span className="accent-dot">.</span>
         </h2>
-        {news.source === "unavailable" && items.length === 0 && (
-          <span style={{ fontSize: 11, color: "var(--text-tertiary)" }}>unavailable</span>
-        )}
-      </div>
+        <p className="lede-sm">Headlines moving {symbol} right now.</p>
+      </hgroup>
 
       {items.length === 0 ? (
-        <p style={{ fontSize: 13, color: "var(--text-tertiary)", lineHeight: 1.6, margin: 0 }}>
+        <p style={{ fontSize: 14, color: "var(--txt-4)", lineHeight: 1.6 }}>
           {news.source === "unavailable"
             ? "No recent news available right now — the news feeds may be unreachable. Check back later."
             : "No dedicated headlines for this symbol right now. Rather than pad this out with unrelated general crypto news, we're just not showing anything — check back later."}
         </p>
       ) : (
-        <div>
-          {items.map((item, i) => (
-            <a
-              key={item.url}
-              href={item.url}
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                display: "block",
-                padding: i === 0 ? "0 0 14px" : "14px 0",
-                borderTop: i === 0 ? "none" : "1px solid var(--border)",
-                textDecoration: "none",
-              }}
-            >
-              <div className="mono-label" style={{ marginBottom: 6 }}>
-                <time dateTime={new Date(item.publishedAt).toISOString()}>
-                  {formatNewsDate(item.publishedAt)}
-                </time>{" "}
-                · {item.source.toUpperCase()}
+        <div className="mk-news-list">
+          {items.map((item) => (
+            <a key={item.url} href={item.url} target="_blank" rel="noreferrer" className="mk-news-row">
+              <div className="mk-news-meta mono">
+                <time dateTime={new Date(item.publishedAt).toISOString()}>{formatNewsDate(item.publishedAt)}</time>
+                {" · "}
+                {item.source.toUpperCase()}
               </div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: "var(--text-primary)", lineHeight: 1.4 }}>
-                {item.title}
-              </div>
+              <div className="mk-news-title">{item.title}</div>
+              <span className="btn-arrow">↗</span>
             </a>
           ))}
         </div>
       )}
-    </section>
+    </>
   );
 }

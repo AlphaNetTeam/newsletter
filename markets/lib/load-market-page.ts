@@ -5,6 +5,7 @@ import {
   listSymbols,
 } from "./config";
 import { buildFaq, getAbout } from "./content";
+import { fetchLiquidation24h } from "./hypertracker";
 import { fetchAssetCtxs, fetchCandlesFor } from "./hyperliquid";
 import { fetchAllMacro } from "./macro";
 import {
@@ -24,12 +25,13 @@ export const loadMarketPage = cache(async (symbol: string): Promise<MarketPageDa
     ...new Set([symbol, "BTC", ...CORRELATION_REFERENCE_ASSETS.filter((s) => s in SYMBOLS)]),
   ];
 
-  const [ctxs, candlesBySymbol, macro, news, strategiesRaw] = await Promise.all([
+  const [ctxs, candlesBySymbol, macro, news, strategiesRaw, liquidation24h] = await Promise.all([
     fetchAssetCtxs(),
     fetchCandlesFor(candleSymbols),
     fetchAllMacro(),
     getNewsForSymbol(symbol),
     fetchRecentStats(),
+    fetchLiquidation24h(symbol),
   ]);
 
   const candles = candlesBySymbol[symbol];
@@ -37,7 +39,7 @@ export const loadMarketPage = cache(async (symbol: string): Promise<MarketPageDa
   const livePrice = ctx?.markPx || ctx?.midPx || null;
   const { points } = getPriceSeries(symbol, candles, "ALL");
   const stats = getStats(symbol, candles, livePrice);
-  const metrics = getMetrics(symbol, ctx, candles);
+  const metrics = getMetrics(symbol, ctx, candles, liquidation24h);
   const correlation = getCorrelation(symbol, candlesBySymbol, macro);
   const strategies = getStrategies(symbol, strategiesRaw);
   const volatility = getVolatility(symbol, candlesBySymbol, macro, strategies);

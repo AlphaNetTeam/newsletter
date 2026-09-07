@@ -1,122 +1,40 @@
 import { formatPct } from "@/lib/format";
 import type { StrategiesData, StrategyOut } from "@/lib/types";
 
-function taglineColor(tagline: string): string {
-  const t = tagline.toLowerCase();
-  if (t.includes("short")) return "var(--accent-amber)";
-  if (t.includes("long")) return "var(--accent-green)";
-  return "var(--accent-blue)";
-}
-
-const BADGE_STYLES: Record<string, { background: string; color: string }> = {
-  POPULAR: { background: "var(--accent-green-dim)", color: "var(--accent-green)" },
-  "HIGH SHARPE": { background: "var(--accent-blue-dim)", color: "var(--accent-blue)" },
-  NEW: { background: "var(--accent-purple-dim)", color: "var(--accent-purple)" },
-};
-const DEFAULT_BADGE_STYLE = { background: "var(--accent-amber-dim)", color: "var(--accent-amber)" };
-
-// CAPACITY column — matches the "STRATEGY CAPACITY" pill/bar on
-// trade.alphanet.global/leaderboard exactly. This isn't a guess: it's
-// copied straight out of AlphaNet's own production bundle
-// (assets/appStateContext-*.js), where the badge is computed as
-// `e = (actualCapacity / maxCapacity) * 100`, run through:
-//   e > 100  -> FULL          #FF4D4D  bg rgba(255, 77, 77, 0.1)
-//   e > 90   -> ALMOST FULL   #ff7300  bg rgba(255, 152, 0, 0.1)
-//   e > 70   -> VERY POPULAR  #FFD146  bg rgba(255, 209, 70, 0.1)
-//   e > 40   -> POPULAR       #29E9A9  bg rgba(41, 233, 169, 0.1)
-//   else     -> OPEN          #50ffe2  bg rgba(80, 255, 226, 0.1)
-// Only OPEN/POPULAR/VERY POPULAR are reachable with today's live data (no
-// strategy has broken 90% yet); FULL/ALMOST FULL are included anyway
-// since they're part of the real function, not a guess.
-function capacityStatus(pct: number): { label: string; color: string; background: string } {
+// CAPACITY tiers — matches the "STRATEGY CAPACITY" pill on
+// trade.alphanet.global/leaderboard exactly. Copied out of AlphaNet's own
+// production bundle (assets/appStateContext-*.js), where the tier is
+// computed as `e = (actualCapacity / maxCapacity) * 100`:
+//   e > 100  -> FULL          #FF4D4D
+//   e > 90   -> ALMOST FULL   #ff7300
+//   e > 70   -> VERY POPULAR  #FFD146
+//   e > 40   -> POPULAR       #29E9A9 (rendered here as the reference's own
+//                                       mk-chip-violet — confirmed live on
+//                                       the reference page's CAPACITY column)
+//   else     -> OPEN          #50ffe2 (mk-chip-mint on the reference page)
+// Only OPEN/POPULAR are reachable with today's live data; the other three
+// use the closest chip colors available in the reference's own palette.
+function capacityChip(pct: number): { label: string; className: string } {
   const e = pct * 100;
-  if (e > 100) return { label: "FULL", color: "#FF4D4D", background: "rgba(255, 77, 77, 0.1)" };
-  if (e > 90) return { label: "ALMOST FULL", color: "#ff7300", background: "rgba(255, 152, 0, 0.1)" };
-  if (e > 70) return { label: "VERY POPULAR", color: "#FFD146", background: "rgba(255, 209, 70, 0.1)" };
-  if (e > 40) return { label: "POPULAR", color: "#29E9A9", background: "rgba(41, 233, 169, 0.1)" };
-  return { label: "OPEN", color: "#50ffe2", background: "rgba(80, 255, 226, 0.1)" };
+  if (e > 100) return { label: "FULL", className: "mk-chip-red" };
+  if (e > 90) return { label: "ALMOST FULL", className: "mk-chip-orange" };
+  if (e > 70) return { label: "VERY POPULAR", className: "mk-chip-amber" };
+  if (e > 40) return { label: "POPULAR", className: "mk-chip-violet" };
+  return { label: "OPEN", className: "mk-chip-mint" };
 }
 
-// Same solid droplet/flame glyph AlphaNet's own capacity badge uses — path
-// copied verbatim out of the real DOM (inspected on
-// trade.alphanet.global/leaderboard's CAPACITY column), tinted via
-// currentColor so it always matches the pill's text color. Only shown for
-// POPULAR and up — OPEN's real badge has no icon, just text.
-function CapacityIcon({ size = 10 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 2c0 0-1 3.5-3 5.5S5 12 5 15.5c0 3.866 3.134 7 7 7s7-3.134 7-7c0-3.5-2-7.5-3-9.5s-3-4.5-4-6zM12 18c-1.105 0-2-.895-2-2s.895-2 2-2 2 .895 2 2-.895 2-2 2z" />
-    </svg>
-  );
-}
+const BADGE_CLASS: Record<string, string> = {
+  POPULAR: "mk-chip-violet",
+  "HIGH SHARPE": "mk-chip-blue",
+  NEW: "mk-chip-mint",
+};
+const DEFAULT_BADGE_CLASS = "mk-chip-cyan";
 
-// Capacity cell, rebuilt to match trade.alphanet.global/leaderboard's
-// CAPACITY column exactly — every value below (colors, sizes, the tick
-// positions, the gradient's own stops) was read straight out of that
-// page's live DOM/computed styles, not eyeballed from a screenshot:
-//   - badge stacks ABOVE the bar (flex-col), not beside it
-//   - the bar's gradient is its own fixed 4-stop ramp, independent of the
-//     5 badge tier colors: cyan 0% -> orange 50% -> deep orange 90% ->
-//     red 100%. It's rendered at a background-size of (100/fillPct)*100%
-//     so the same fixed gradient always spans the full track width even
-//     though only the filled slice is visible — a half-full bar shows the
-//     cool half of the ramp rather than a color picked in isolation.
-//   - nine faint tick marks sit on the track at 10%/20%/.../90%, on both
-//     the top and bottom edges
-function CapacityCell({ pct }: { pct: number }) {
-  const fillPct = Math.min(100, Math.max(0, pct * 100));
-  const status = capacityStatus(pct);
-  const showIcon = status.label !== "OPEN";
-  const ticks = [10, 20, 30, 40, 50, 60, 70, 80, 90];
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 4, width: "100%", minWidth: 80 }}>
-      <div
-        style={{
-          padding: "4px 8px",
-          borderRadius: 9999,
-          background: status.background,
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 4 }}>
-          {showIcon && <CapacityIcon />}
-          <span style={{ fontSize: 10, fontWeight: 700, lineHeight: "10px", color: status.color, whiteSpace: "nowrap" }}>
-            {status.label}
-          </span>
-        </div>
-      </div>
-      <div
-        style={{
-          position: "relative",
-          width: "100%",
-          height: 4,
-          background: "#171921",
-          borderRadius: 2,
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            height: "100%",
-            borderRadius: 1,
-            width: `${fillPct}%`,
-            background: `linear-gradient(90deg, #50ffe2 0%, #ff9800 50%, #ff7300 90%, #ff4d4d 100%) 0% 0% / ${
-              fillPct > 0 ? (100 / fillPct) * 100 : 100
-            }% 100%`,
-            transition: "width 1.5s cubic-bezier(0.65, 0, 0.35, 1)",
-          }}
-        />
-        {ticks.map((left) => (
-          <div key={`t-${left}`} style={{ position: "absolute", top: 0, width: 2, height: 1, background: "#101117", zIndex: 10, left: `${left}%` }} />
-        ))}
-        {ticks.map((left) => (
-          <div key={`b-${left}`} style={{ position: "absolute", bottom: 0, width: 2, height: 1, background: "#101117", zIndex: 10, left: `${left}%` }} />
-        ))}
-      </div>
-    </div>
-  );
+function biasClass(tagline: string): string {
+  const t = tagline.toLowerCase();
+  if (t.includes("short")) return "mk-chip-violet";
+  if (t.includes("long")) return "mk-chip-cyan";
+  return "mk-chip-blue";
 }
 
 export default function StrategiesSection({
@@ -129,166 +47,93 @@ export default function StrategiesSection({
   const list = strategies.strategies;
 
   return (
-    <section id="strategies" aria-labelledby="strategies-heading">
-      <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 16 }}>
-        <h2 id="strategies-heading" style={{ fontSize: 22, fontWeight: 700, margin: 0 }}>
-          Strategies on {symbol}
+    <>
+      <hgroup className="section-head">
+        <div className="label mono">STRATEGIES</div>
+        <h2 id="strategies-heading">
+          Automated {symbol} trading strategies<span className="accent-dot">.</span>
         </h2>
         {strategies.source === "synthetic" && (
-          <span
-            title="AlphaNet's real strategy-performance API wasn't reachable, so these are example figures instead of live results."
-            style={{ fontSize: 11, color: "var(--text-tertiary)", cursor: "help" }}
-          >
-            example data
-          </span>
+          <p className="lede-sm" style={{ fontSize: 13 }}>
+            AlphaNet&apos;s real strategy-performance API wasn&apos;t reachable, so these are example figures instead
+            of live results.
+          </p>
         )}
-      </div>
+      </hgroup>
 
-      <div
-        style={{
-          background: "var(--bg-card)",
-          border: "1px solid var(--border)",
-          borderRadius: "var(--radius-lg)",
-          overflow: "hidden",
-        }}
-      >
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
-          <thead>
-            <tr>
-              {["STRATEGY", "TYPE", "ROI", "SHARPE RATIO", "MAX DRAWDOWN", "WIN RATE", "EQUITY CURVE", "CAPACITY", ""].map(
-                (h) => (
-                  <th
-                    key={h || "details"}
-                    className="mono-label"
-                    scope="col"
-                    style={{
-                      textAlign: h === "STRATEGY" || h === "TYPE" || h === "CAPACITY" ? "left" : "right",
-                      padding: "14px 16px",
-                      borderBottom: "1px solid var(--border)",
-                      fontWeight: 500,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
+      <div className="mk-panel">
+        <div className="dex-head">
+          <span className="dex-title mono">AlphaNet Strategies</span>
+        </div>
+        <div className="mk-table-scroll">
+          <table className="mk-table">
+            <thead>
+              <tr>
+                {["STRATEGY", "TYPE", "ROI", "SHARPE", "MAX DD", "WIN RATE", "EQUITY CURVE", "CAPACITY", ""].map((h) => (
+                  <th key={h || "details"} className="mono" scope="col">
                     {h}
                   </th>
-                ),
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {list.map((s) => (
-              <StrategyRow key={s.key} s={s} symbol={symbol} />
-            ))}
-          </tbody>
-        </table>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {list.map((s) => (
+                <StrategyRow key={s.key} s={s} symbol={symbol} />
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {list.length > 0 && (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: `repeat(${list.length}, 1fr)`,
-            gap: 16,
-            marginTop: 16,
-          }}
-        >
-          {list.map((s) => (
-            <article
-              key={s.key}
-              style={{
-                background: "var(--bg-card)",
-                border: "1px solid var(--border)",
-                borderRadius: "var(--radius-lg)",
-                padding: 16,
-              }}
-            >
-              <h3 style={{ fontSize: 13, fontWeight: 600, color: "var(--text-secondary)", margin: "0 0 6px" }}>
-                {s.name}
-              </h3>
-              <div className="mono-label" style={{ color: taglineColor(s.tagline), marginBottom: 10, letterSpacing: 0.04 }}>
-                {s.tagline}
-              </div>
-              <p style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.5, margin: 0 }}>{s.description}</p>
-            </article>
-          ))}
-        </div>
+        <>
+          <h3 className="mk-subhead">{symbol} strategy details</h3>
+          <div className="cap-grid three-col">
+            {list.map((s, i) => (
+              <article className="cap" key={s.key}>
+                <span className="cap-n mono">{String(i + 1).padStart(2, "0")}</span>
+                <h3 style={{ fontSize: 17 }}>{s.name}</h3>
+                <span className={`mk-chip mono mk-bias ${biasClass(s.tagline)}`}>{s.tagline.toUpperCase()}</span>
+                <p>{s.description}</p>
+              </article>
+            ))}
+          </div>
+        </>
       )}
-    </section>
+    </>
   );
 }
 
 function StrategyRow({ s, symbol }: { s: StrategyOut; symbol: string }) {
+  const capacity = capacityChip(s.capacityPct);
   return (
-    <tr style={{ borderBottom: "1px solid var(--border)" }}>
-      <td style={{ padding: "14px 16px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontWeight: 700 }}>{s.name}</span>
-          {s.badges.map((badge) => {
-            const style = BADGE_STYLES[badge] ?? DEFAULT_BADGE_STYLE;
-            return (
-              <span
-                key={badge}
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  padding: "2px 6px",
-                  borderRadius: 4,
-                  background: style.background,
-                  color: style.color,
-                  letterSpacing: 0.03,
-                }}
-              >
-                {badge}
-              </span>
-            );
-          })}
-        </div>
-        <div style={{ fontSize: 11, color: "var(--text-tertiary)", marginTop: 2 }}>
-          {s.version} · LIVE {s.liveSince} · {s.trades.toLocaleString()} TRADES
+    <tr>
+      <td>
+        <div className="mk-st-name">{s.name}</div>
+        <div className="mk-st-badges">
+          {s.badges.map((badge) => (
+            <span key={badge} className={`mk-chip mono ${BADGE_CLASS[badge] ?? DEFAULT_BADGE_CLASS}`}>
+              {badge}
+            </span>
+          ))}
         </div>
       </td>
-      <td style={{ padding: "14px 16px", color: "var(--text-secondary)" }}>{s.type}</td>
-      <td
-        style={{
-          padding: "14px 16px",
-          textAlign: "right",
-          fontWeight: 600,
-          color: s.roi >= 0 ? "var(--accent-green)" : "var(--accent-red)",
-        }}
-      >
+      <td className="mk-dim">{s.type}</td>
+      <td className={s.roi >= 0 ? "mk-pos" : "mk-neg"} style={{ fontWeight: 600 }}>
         {formatPct(s.roi)}
       </td>
-      <td style={{ padding: "14px 16px", textAlign: "right" }}>{s.sharpe.toFixed(2)}</td>
-      <td style={{ padding: "14px 16px", textAlign: "right", color: "var(--accent-red)" }}>
-        {(s.maxDrawdown * 100).toFixed(2)}%
+      <td>{s.sharpe.toFixed(2)}</td>
+      <td className="mk-dim">{(s.maxDrawdown * 100).toFixed(2)}%</td>
+      <td className="mk-dim">{(s.winRate * 100).toFixed(1)}%</td>
+      <td>
+        <Sparkline data={s.equityCurve} />
       </td>
-      <td style={{ padding: "14px 16px", textAlign: "right" }}>{(s.winRate * 100).toFixed(1)}%</td>
-      <td style={{ padding: "14px 16px", textAlign: "right" }}>
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <Sparkline data={s.equityCurve} />
-        </div>
+      <td>
+        <span className={`mk-chip mono ${capacity.className}`}>{capacity.label}</span>
       </td>
-      <td style={{ padding: "14px 16px", textAlign: "left", minWidth: 100, width: 120 }}>
-        <CapacityCell pct={s.capacityPct} />
-      </td>
-      <td style={{ padding: "14px 16px", textAlign: "right" }}>
-        <a
-          href={`https://trade.alphanet.global/perp/PERP_${symbol}_USDC`}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: "inline-block",
-            background: "transparent",
-            border: "1px solid var(--border-strong)",
-            borderRadius: 6,
-            color: "var(--text-primary)",
-            padding: "6px 12px",
-            fontSize: 12,
-            fontWeight: 600,
-            whiteSpace: "nowrap",
-          }}
-        >
-          Details
+      <td>
+        <a className="mk-details mono" href={`https://trade.alphanet.global/perp/PERP_${symbol}_USDC`} target="_blank" rel="noopener noreferrer">
+          Details<span className="btn-arrow">↗</span>
         </a>
       </td>
     </tr>
@@ -317,7 +162,7 @@ function Sparkline({ data }: { data: number[] }) {
       <polyline
         points={points}
         fill="none"
-        stroke={positive ? "var(--accent-green)" : "var(--accent-red)"}
+        stroke={positive ? "var(--win)" : "var(--loss)"}
         strokeWidth={1.5}
         strokeLinejoin="round"
         strokeLinecap="round"

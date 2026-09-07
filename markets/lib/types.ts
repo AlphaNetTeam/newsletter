@@ -39,6 +39,10 @@ export interface MetricsData {
   fundingAnnualized: number;
   realizedVol30d: number;
   maxLeverage: number;
+  // 24h liquidation volume in USD, from CoinGlass. null = unavailable
+  // (no API key configured, or the request failed) — render as an
+  // explicit error rather than a fabricated number.
+  liquidation24h: number | null;
   source: DataSource;
 }
 

@@ -109,6 +109,7 @@ export function getMetrics(
   symbol: string,
   ctx: AssetCtx | undefined,
   candles: Candle[] | undefined,
+  liquidation24h: number | null,
 ): MetricsData {
   const realized = candles ? realizedVol(candles.slice(-31).map((c) => c.close)) : null;
   if (ctx) {
@@ -120,6 +121,7 @@ export function getMetrics(
       fundingAnnualized: Math.round(ctx.fundingHourly * 24 * 365 * 10000) / 10000,
       realizedVol30d: realized ?? 0,
       maxLeverage: ctx.maxLeverage,
+      liquidation24h,
       source: "live",
     };
   }
@@ -132,6 +134,7 @@ export function getMetrics(
     fundingAnnualized: 0,
     realizedVol30d: realized ?? 0.35,
     maxLeverage: cfg.fallback_max_leverage,
+    liquidation24h,
     source: "synthetic",
   };
 }

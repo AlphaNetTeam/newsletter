@@ -10,105 +10,80 @@ import StatsRow from "./StatsRow";
 import StrategiesSection from "./StrategiesSection";
 import TabsNav from "./TabsNav";
 import VolatilityPanel from "./VolatilityPanel";
+import { symbolHeroLede, symbolHeroTitle } from "@/lib/seo";
 import type { MarketPageData } from "@/lib/types";
 
 export default function StrategyPage({ data }: { data: MarketPageData }) {
   const { symbol } = data;
 
   return (
-    <article style={{ maxWidth: 1180, margin: "0 auto", padding: "32px 32px 80px" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        <CoinSelector symbols={data.symbols} selected={symbol} />
-        <DataSourceBadge source={data.stats.source} />
-      </div>
-
-      <h1 style={{ fontSize: 44, fontWeight: 800, letterSpacing: -1, margin: "16px 0 24px" }}>
-        {symbol} trading strategy
-      </h1>
-
-      <div style={{ display: "flex", gap: 12, marginBottom: 28 }}>
-        <a
-          href={`https://trade.alphanet.global/perp/PERP_${symbol}_USDC`}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: "inline-block",
-            background: "linear-gradient(135deg, var(--accent-blue), var(--accent-blue-2))",
-            borderRadius: 8,
-            color: "#fff",
-            padding: "11px 20px",
-            fontSize: 14,
-            fontWeight: 600,
-          }}
-        >
-          Deploy on {symbol}
-        </a>
-        <a
-          href="https://trade.alphanet.global/strategies"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: "inline-block",
-            border: "1px solid var(--border-strong)",
-            borderRadius: 8,
-            color: "var(--text-primary)",
-            padding: "11px 20px",
-            fontSize: 14,
-            fontWeight: 600,
-          }}
-        >
-          Compare strategies
-        </a>
-      </div>
-
-      <TabsNav />
-
-      <section
-        id="price"
-        aria-labelledby="price-heading"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 300px",
-          gap: 20,
-          marginTop: 24,
-        }}
-      >
-        <h2 id="price-heading" className="sr-only">
-          {symbol} price
-        </h2>
-        <div>
-          <PriceChart symbol={symbol} points={data.points} />
-          <StatsRow stats={data.stats} />
+    <article>
+      <div className="mk-bar">
+        <div className="container mk-bar-in">
+          <div className="mk-left">
+            <CoinSelector symbols={data.symbols} selected={symbol} />
+            <DataSourceBadge source={data.stats.source} />
+          </div>
+          <TabsNav />
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <MarketMetricsPanel metrics={data.metrics} />
-          <CorrelationPanel correlation={data.correlation} />
+      </div>
+
+      <section className="mk-intro">
+        <div className="container">
+          <h1>{symbolHeroTitle(symbol)}</h1>
+          <p className="lede-sm">{symbolHeroLede(symbol)}</p>
         </div>
       </section>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 320px",
-          gap: 48,
-          marginTop: 56,
-        }}
-      >
-        <AboutPanel about={data.about} symbol={symbol} />
-        <NewsPanel news={data.news} />
-      </div>
+      <section id="price" aria-labelledby="price-heading" className="section">
+        <div className="container">
+          <hgroup className="section-head">
+            <div className="label mono">PRICE</div>
+            <h2 id="price-heading">
+              Live {symbol} price and market data<span className="accent-dot">.</span>
+            </h2>
+          </hgroup>
 
-      <div style={{ marginTop: 56 }}>
-        <StrategiesSection strategies={data.strategies} symbol={symbol} />
-      </div>
+          <div className="mk-price-grid">
+            <PriceChart symbol={symbol} points={data.points} />
+            <div className="mk-side">
+              <MarketMetricsPanel metrics={data.metrics} symbol={symbol} />
+              <CorrelationPanel correlation={data.correlation} />
+            </div>
+          </div>
+          <StatsRow stats={data.stats} />
+        </div>
+      </section>
 
-      <div style={{ marginTop: 56 }}>
-        <VolatilityPanel volatility={data.volatility} symbol={symbol} />
-      </div>
+      <section id="about" aria-labelledby="about-heading" className="section">
+        <div className="container">
+          <AboutPanel about={data.about} symbol={symbol} />
+        </div>
+      </section>
 
-      <div style={{ marginTop: 56 }}>
-        <FaqPanel faq={data.faq} symbol={symbol} />
-      </div>
+      <section id="news" aria-labelledby="news-heading" className="section">
+        <div className="container">
+          <NewsPanel news={data.news} symbol={symbol} />
+        </div>
+      </section>
+
+      <section id="strategies" aria-labelledby="strategies-heading" className="section">
+        <div className="container">
+          <StrategiesSection strategies={data.strategies} symbol={symbol} />
+        </div>
+      </section>
+
+      <section id="volatility" aria-labelledby="volatility-heading" className="section">
+        <div className="container">
+          <VolatilityPanel volatility={data.volatility} symbol={symbol} />
+        </div>
+      </section>
+
+      <section id="faq" aria-labelledby="faq-heading" className="section">
+        <div className="container">
+          <FaqPanel faq={data.faq} symbol={symbol} />
+        </div>
+      </section>
     </article>
   );
 }

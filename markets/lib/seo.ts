@@ -16,6 +16,18 @@ export function symbolDescription(symbol: string, stats?: StatsData | null): str
   return `${SITE_NAME} is an AI quantitative trading platform with live-tracked ${name} (${symbol}) trading strategies — real ROI, Sharpe ratio, drawdown and Hyperliquid market metrics.`;
 }
 
+// Hero H1 + lede shown at the top of each symbol page, matching the
+// SEO-keyword-bearing headline pattern of the redesigned markets pages:
+// "{SYM} Trading Strategies, Funding Rate & Open Interest" plus a lede that
+// name-checks funding rate, open interest, volatility, Sharpe and drawdown.
+export function symbolHeroTitle(symbol: string): string {
+  return `${symbol} Trading Strategies, Funding Rate & Open Interest`;
+}
+
+export function symbolHeroLede(symbol: string): string {
+  return `Compare systematic ${symbol} trading strategies. Track the current ${symbol} funding rate, perpetual futures open interest, 30-day historical volatility, Sharpe ratio and maximum drawdown in one place.`;
+}
+
 export function symbolMetadata(symbol: string, stats?: StatsData | null): Metadata {
   const title = symbolTitle(symbol);
   const description = symbolDescription(symbol, stats);
@@ -41,6 +53,8 @@ export function symbolMetadata(symbol: string, stats?: StatsData | null): Metada
     keywords: [
       `${symbol} trading strategy`,
       `${name} quantitative trading`,
+      `${symbol} funding rate`,
+      `${symbol} open interest`,
       "AlphaNet",
       "Hyperliquid",
       "crypto trading strategies",

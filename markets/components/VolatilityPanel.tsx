@@ -35,55 +35,48 @@ export default function VolatilityPanel({
   const series = volatility.series;
   const chartData = series.points.map((p) => ({ t: p.t, vol: p.vol * 100 }));
   const maxVal = Math.max(...volatility.drawdownCompare.map((e) => e.maxDrawdown), 0.01);
+  const isHolding = (label: string) => label.toLowerCase().startsWith("holding");
 
   return (
-    <section id="volatility" aria-labelledby="volatility-heading">
-      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 4 }}>
-        <h2 id="volatility-heading" style={{ fontSize: 22, fontWeight: 700, margin: 0 }}>
-          Volatility and risk profile
+    <>
+      <hgroup className="section-head">
+        <div className="label mono">VOLATILITY</div>
+        <h2 id="volatility-heading">
+          {symbol} volatility and risk<span className="accent-dot">.</span>
         </h2>
-        <span className="mono-label">30D REALISED, TRAILING 12 MONTHS</span>
-      </div>
-      <p style={{ fontSize: 13, color: "var(--text-secondary)", margin: "6px 0 16px" }}>
-        {volatilityBlurb(symbol, series)}
-      </p>
+        <p className="lede-sm">{volatilityBlurb(symbol, series)}</p>
+      </hgroup>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 20 }}>
-        <div
-          style={{
-            background: "var(--bg-card)",
-            border: "1px solid var(--border)",
-            borderRadius: "var(--radius-lg)",
-            padding: 20,
-          }}
-        >
-          <div style={{ height: 220 }}>
+      <div className="mk-vol-grid">
+        <div className="mk-panel">
+          <div className="dex-head">
+            <span className="dex-title mono">30D Realised Volatility</span>
+          </div>
+          <div style={{ height: 220, padding: "16px 20px 0" }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 16, right: 8, left: 0, bottom: 0 }}>
                 <XAxis
                   dataKey="t"
-                  tickFormatter={(t) =>
-                    new Date(t).toLocaleDateString("en-US", { month: "short", year: "2-digit" })
-                  }
-                  stroke="var(--text-tertiary)"
-                  tick={{ fontSize: 11, fill: "var(--text-tertiary)" }}
-                  axisLine={{ stroke: "var(--border)" }}
+                  tickFormatter={(t) => new Date(t).toLocaleDateString("en-US", { month: "short", year: "2-digit" })}
+                  stroke="var(--txt-4)"
+                  tick={{ fontSize: 11, fill: "var(--txt-4)" }}
+                  axisLine={{ stroke: "var(--line)" }}
                   tickLine={false}
                   minTickGap={80}
                 />
                 <YAxis
                   dataKey="vol"
                   tickFormatter={(v) => `${v}%`}
-                  stroke="var(--text-tertiary)"
-                  tick={{ fontSize: 11, fill: "var(--text-tertiary)" }}
+                  stroke="var(--txt-4)"
+                  tick={{ fontSize: 11, fill: "var(--txt-4)" }}
                   axisLine={false}
                   tickLine={false}
                   width={40}
                 />
                 <Tooltip
                   contentStyle={{
-                    background: "var(--bg-elevated)",
-                    border: "1px solid var(--border)",
+                    background: "var(--bg-1)",
+                    border: "1px solid var(--line)",
                     borderRadius: 8,
                     fontSize: 12,
                   }}
@@ -93,7 +86,7 @@ export default function VolatilityPanel({
                 <Line
                   type="monotone"
                   dataKey="vol"
-                  stroke="#e0a53d"
+                  stroke="var(--violet)"
                   strokeWidth={2}
                   dot={false}
                   activeDot={{ r: 4 }}
@@ -103,7 +96,7 @@ export default function VolatilityPanel({
             </ResponsiveContainer>
           </div>
 
-          <div style={{ display: "flex", gap: 32, marginTop: 12, fontSize: 13 }}>
+          <div className="mk-volstats mono">
             <Stat label="CURRENT" value={pct(series.current)} />
             <Stat label="12M HIGH" value={pct(series.high12m)} />
             <Stat label="12M LOW" value={pct(series.low12m)} />
@@ -111,34 +104,28 @@ export default function VolatilityPanel({
           </div>
         </div>
 
-        <Panel title="WORST DRAWDOWN, STRATEGY VS HOLDING">
-          {volatility.drawdownCompare.map((e) => (
-            <div key={e.label} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13 }}>
-                <span style={{ color: "var(--text-secondary)" }}>{e.label}</span>
-                <span style={{ fontWeight: 600 }}>{pct(e.maxDrawdown)}</span>
+        <Panel title="Worst Drawdown // Strategy vs Holding" bodyClassName="mk-dd mono">
+          {volatility.drawdownCompare.map((e) => {
+            const holding = isHolding(e.label);
+            return (
+              <div key={e.label} className="mk-dd-row">
+                <span className="mk-dd-name">{e.label}</span>
+                <div className="mk-dd-track">
+                  <i className={holding ? "mk-dd-hold" : undefined} style={{ width: `${(e.maxDrawdown / maxVal) * 100}%` }} />
+                </div>
+                <span className={`mk-dd-v${holding ? " mk-neg" : ""}`}>{pct(e.maxDrawdown)}</span>
               </div>
-              <div style={{ height: 6, borderRadius: 3, background: "rgba(255,255,255,0.06)", overflow: "hidden" }}>
-                <div
-                  style={{
-                    width: `${(e.maxDrawdown / maxVal) * 100}%`,
-                    height: "100%",
-                    background: "var(--accent-red)",
-                    borderRadius: 3,
-                  }}
-                />
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </Panel>
       </div>
-    </section>
+    </>
   );
 }
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div>
+    <div className="mk-volstat">
       <div className="mono-label" style={{ marginBottom: 4 }}>
         {label}
       </div>

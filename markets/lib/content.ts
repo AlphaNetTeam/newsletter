@@ -63,6 +63,14 @@ export function buildFaq(
         answer:
           "Every model runs under an alpha-decay monitor. Drifting strategies are capped, retrained or retired, and their full history stays published here.",
       },
+      {
+        question: `How do automated ${symbol} trading strategies work?`,
+        answer: `The model trades the ${symbol} perpetual long, short or flat — direction, size and timing all set from market data. Capital stays in your own account.`,
+      },
+      {
+        question: `What do ${symbol} funding rate and open interest indicate?`,
+        answer: `Positive funding means crowded longs paying shorts; negative means the reverse. Open interest is the total outstanding contracts on the ${symbol} perpetual.`,
+      },
     ],
   };
 }

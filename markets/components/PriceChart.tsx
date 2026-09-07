@@ -1,24 +1,38 @@
 "use client";
 
-import {
-  Area,
-  AreaChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
 import { useState } from "react";
-import { formatAxisTick, formatUsd } from "@/lib/format";
+import { formatUsd } from "@/lib/format";
 import { useLiveMids } from "@/hooks/useLiveMids";
 import type { PricePoint, RangeKey } from "@/lib/types";
 
 const RANGES: RangeKey[] = ["1M", "3M", "1Y", "ALL"];
 const RANGE_DAYS: Record<RangeKey, number> = { "1M": 30, "3M": 90, "1Y": 365, ALL: 1095 };
 
+// Logical coordinate space for the chart SVG. preserveAspectRatio="none" plus
+// a CSS width of 100% stretches this to whatever the card's actual pixel
+// width is, so the exact numbers here don't matter — only the ratios do.
+const VB_W = 716;
+const VB_H = 300;
+const MARGIN_LEFT = 10;
+const MARGIN_RIGHT = 16;
+const MARGIN_TOP = 18;
+const MARGIN_BOTTOM = 26;
+const PLOT_W = VB_W - MARGIN_LEFT - MARGIN_RIGHT;
+const PLOT_H = VB_H - MARGIN_TOP - MARGIN_BOTTOM;
+const Y_TICKS = 4;
+const X_TICKS = 5;
+
 interface Props {
   symbol: string;
   points: PricePoint[];
+}
+
+function formatYTick(v: number): string {
+  return `$${(v / 1000).toFixed(2)}K`;
+}
+
+function formatXTick(t: number): string {
+  return new Date(t).toLocaleDateString("en-US", { month: "short", year: "numeric" }).toUpperCase();
 }
 
 export default function PriceChart({ symbol, points }: Props) {
@@ -27,141 +41,122 @@ export default function PriceChart({ symbol, points }: Props) {
   const sliced = points.slice(-RANGE_DAYS[range]);
   const last = sliced[sliced.length - 1];
   const displayPrice = mids[symbol] ?? last?.price;
+  const latestDate = last ? new Date(last.t) : null;
+
+  const n = sliced.length;
+  const prices = sliced.map((p) => p.price);
+  const minP = n ? Math.min(...prices) : 0;
+  const maxP = n ? Math.max(...prices) : 1;
+  const priceRange = maxP - minP || 1;
+
+  const xAt = (i: number) => MARGIN_LEFT + (n <= 1 ? 0 : (i / (n - 1)) * PLOT_W);
+  const yAt = (price: number) => MARGIN_TOP + PLOT_H - ((price - minP) / priceRange) * PLOT_H;
+
+  const linePath = sliced.map((p, i) => `${i === 0 ? "M" : "L"}${xAt(i).toFixed(1)},${yAt(p.price).toFixed(1)}`).join(" ");
+  const baseY = MARGIN_TOP + PLOT_H;
+  const areaPath = n ? `${linePath} L${xAt(n - 1).toFixed(1)},${baseY} L${xAt(0).toFixed(1)},${baseY} Z` : "";
+
+  const yTicks = Array.from({ length: Y_TICKS }, (_, i) => minP + (priceRange * i) / (Y_TICKS - 1));
+
+  const xTickIdx = n
+    ? Array.from({ length: X_TICKS }, (_, i) => Math.round((i / (X_TICKS - 1)) * (n - 1)))
+    : [];
 
   return (
-    <div
-      style={{
-        background: "var(--bg-card)",
-        border: "1px solid var(--border)",
-        borderRadius: "var(--radius-lg)",
-        padding: 20,
-      }}
-    >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        <div>
-          <div style={{ fontSize: 16, fontWeight: 700 }}>{symbol} price</div>
-          <div style={{ fontSize: 12, color: "var(--text-tertiary)", marginTop: 2 }}>
-            SPOT PRICE, USD · {rangeLabel(range)}
+    <div className="mk-panel">
+      <div className="dex-head">
+        <span className="dex-title mono">{symbol} Spot Price</span>
+        {connected && (
+          <span
+            title="Live tick from Hyperliquid"
+            style={{
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              background: "var(--win)",
+              boxShadow: "0 0 0 3px rgba(74,222,128,0.14)",
+              animation: "pulse 1.6s ease-in-out infinite",
+            }}
+          />
+        )}
+      </div>
+
+      <div className="mk-chart-body">
+        <div className="mk-chart-top">
+          <div>
+            <div className="mk-latest mono">{displayPrice !== undefined ? formatUsd(displayPrice) : "—"}</div>
+            {latestDate && (
+              <div className="mk-latest-sub mono">
+                LATEST · {latestDate.toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase()}
+              </div>
+            )}
+          </div>
+          <div className="mk-ranges mono" role="group" aria-label="Chart range">
+            {RANGES.map((r) => (
+              <button key={r} type="button" onClick={() => setRange(r)} className={r === range ? "on" : undefined} aria-pressed={r === range}>
+                {r}
+              </button>
+            ))}
           </div>
         </div>
-        <div style={{ display: "flex", gap: 6 }} role="group" aria-label="Chart range">
-          {RANGES.map((r) => (
-            <button
-              key={r}
-              type="button"
-              onClick={() => setRange(r)}
-              aria-pressed={r === range}
-              style={{
-                background: r === range ? "rgba(255,255,255,0.08)" : "transparent",
-                border: "1px solid var(--border)",
-                borderRadius: 6,
-                color: r === range ? "var(--text-primary)" : "var(--text-secondary)",
-                fontSize: 12,
-                padding: "5px 10px",
-                cursor: "pointer",
-              }}
-            >
-              {r}
-            </button>
-          ))}
-        </div>
-      </div>
 
-      <div style={{ height: 260, marginTop: 16 }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={sliced} margin={{ top: 24, right: 8, left: 0, bottom: 0 }}>
-            <defs>
-              <linearGradient id="priceFill" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="var(--accent-green)" stopOpacity={0.35} />
-                <stop offset="100%" stopColor="var(--accent-green)" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <XAxis
-              dataKey="t"
-              tickFormatter={(t) => formatAxisTick(t, range)}
-              stroke="var(--text-tertiary)"
-              tick={{ fontSize: 11, fill: "var(--text-tertiary)" }}
-              axisLine={{ stroke: "var(--border)" }}
-              tickLine={false}
-              minTickGap={80}
-            />
-            <YAxis
-              dataKey="price"
-              orientation="left"
-              domain={[(min: number) => Math.max(0, min * 0.85), (max: number) => max * 1.08]}
-              tickFormatter={(v) => formatUsd(v, { compact: true })}
-              stroke="var(--text-tertiary)"
-              tick={{ fontSize: 11, fill: "var(--text-tertiary)" }}
-              axisLine={false}
-              tickLine={false}
-              width={64}
-            />
-            <Tooltip
-              contentStyle={{
-                background: "var(--bg-elevated)",
-                border: "1px solid var(--border)",
-                borderRadius: 8,
-                fontSize: 12,
-              }}
-              labelFormatter={(t) => new Date(t as number).toLocaleDateString()}
-              formatter={(value) => [formatUsd(Number(value)), "Price"]}
-            />
-            <Area
-              type="monotone"
-              dataKey="price"
-              stroke="var(--accent-green)"
-              strokeWidth={2}
-              fill="url(#priceFill)"
-              dot={false}
-              activeDot={{ r: 4 }}
-              isAnimationActive={false}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
-
-      {displayPrice !== undefined && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            gap: 8,
-            fontSize: 13,
-            color: "var(--text-secondary)",
-            marginTop: -8,
-          }}
+        <svg
+          className="mk-chart"
+          viewBox={`0 0 ${VB_W} ${VB_H}`}
+          preserveAspectRatio="none"
+          role="img"
+          aria-label="Price chart"
+          style={{ width: "100%", height: 300, display: "block" }}
         >
-          {connected && (
-            <span
-              title="Live tick from Hyperliquid"
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "var(--accent-green)",
-                boxShadow: "0 0 0 3px var(--accent-green-dim)",
-                animation: "pulse 1.6s ease-in-out infinite",
-              }}
-            />
+          <defs>
+            <linearGradient id="mkp-line" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stopColor="var(--blue)" />
+              <stop offset="1" stopColor="var(--cyan)" />
+            </linearGradient>
+            <linearGradient id="mkp-area" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stopColor="var(--cyan)" stopOpacity=".22" />
+              <stop offset="1" stopColor="var(--cyan)" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+
+          {yTicks.map((t) => {
+            const y = yAt(t);
+            return (
+              <g key={t}>
+                <line x1={MARGIN_LEFT} y1={y} x2={VB_W - MARGIN_RIGHT} y2={y} stroke="rgba(255,255,255,.06)" strokeWidth={1} />
+                <text x={MARGIN_LEFT + 2} y={y - 5} fill="var(--txt-4)" fontSize="10.5" fontFamily="IBM Plex Mono,monospace" letterSpacing=".04em">
+                  {formatYTick(t)}
+                </text>
+              </g>
+            );
+          })}
+
+          {n > 0 && (
+            <>
+              <path d={areaPath} fill="url(#mkp-area)" />
+              <path d={linePath} fill="none" stroke="url(#mkp-line)" strokeWidth={2} />
+            </>
           )}
-          Latest:{" "}
-          <span style={{ color: "var(--text-primary)", fontWeight: 600 }}>{formatUsd(displayPrice)}</span>
-        </div>
-      )}
+
+          {xTickIdx.map((idx, i) => {
+            const anchor = i === 0 ? "start" : i === xTickIdx.length - 1 ? "end" : "middle";
+            return (
+              <text
+                key={`${idx}-${i}`}
+                x={xAt(idx)}
+                y={VB_H - 8}
+                textAnchor={anchor}
+                fill="var(--txt-5)"
+                fontSize="10.5"
+                fontFamily="IBM Plex Mono,monospace"
+                letterSpacing=".08em"
+              >
+                {formatXTick(sliced[idx].t)}
+              </text>
+            );
+          })}
+        </svg>
+      </div>
     </div>
   );
-}
-
-function rangeLabel(r: RangeKey): string {
-  switch (r) {
-    case "1M":
-      return "1 MONTH";
-    case "3M":
-      return "3 MONTHS";
-    case "1Y":
-      return "1 YEAR";
-    case "ALL":
-      return "3 YEARS";
-  }
 }

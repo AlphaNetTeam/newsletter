@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { formatUsd } from "@/lib/format";
 import { useLiveMids } from "@/hooks/useLiveMids";
 import type { PricePoint, RangeKey } from "@/lib/types";
@@ -35,8 +35,16 @@ function formatXTick(t: number): string {
   return new Date(t).toLocaleDateString("en-US", { month: "short", year: "numeric" }).toUpperCase();
 }
 
+function formatFullDate(t: number): string {
+  return new Date(t)
+    .toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" })
+    .toUpperCase();
+}
+
 export default function PriceChart({ symbol, points }: Props) {
   const [range, setRange] = useState<RangeKey>("ALL");
+  const [activeIdx, setActiveIdx] = useState<number | null>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
   const { mids, connected } = useLiveMids();
   const sliced = points.slice(-RANGE_DAYS[range]);
   const last = sliced[sliced.length - 1];
@@ -61,6 +69,24 @@ export default function PriceChart({ symbol, points }: Props) {
   const xTickIdx = n
     ? Array.from({ length: X_TICKS }, (_, i) => Math.round((i / (X_TICKS - 1)) * (n - 1)))
     : [];
+
+  // Pointer x -> nearest data index. The SVG is stretched horizontally
+  // (preserveAspectRatio="none"), so map through the rendered width rather
+  // than assuming viewBox units equal CSS pixels.
+  function idxFromEvent(e: React.PointerEvent<SVGSVGElement>): number | null {
+    const svg = svgRef.current;
+    if (!svg || n === 0) return null;
+    const rect = svg.getBoundingClientRect();
+    if (!rect.width) return null;
+    const vbX = ((e.clientX - rect.left) / rect.width) * VB_W;
+    const ratio = (vbX - MARGIN_LEFT) / PLOT_W;
+    const i = Math.round(ratio * (n - 1));
+    return Math.max(0, Math.min(n - 1, i));
+  }
+
+  const active = activeIdx != null && activeIdx >= 0 && activeIdx < n ? sliced[activeIdx] : null;
+  // Keep the tooltip inside the card at both ends.
+  const tipLeft = active ? Math.min(94, Math.max(6, (xAt(activeIdx as number) / VB_W) * 100)) : 0;
 
   return (
     <div className="mk-panel">
@@ -87,7 +113,7 @@ export default function PriceChart({ symbol, points }: Props) {
             <div className="mk-latest mono">{displayPrice !== undefined ? formatUsd(displayPrice) : "—"}</div>
             {latestDate && (
               <div className="mk-latest-sub mono">
-                LATEST · {latestDate.toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase()}
+                LATEST · {formatFullDate(latestDate.getTime())}
               </div>
             )}
           </div>
@@ -100,62 +126,96 @@ export default function PriceChart({ symbol, points }: Props) {
           </div>
         </div>
 
-        <svg
-          className="mk-chart"
-          viewBox={`0 0 ${VB_W} ${VB_H}`}
-          preserveAspectRatio="none"
-          role="img"
-          aria-label="Price chart"
-          style={{ width: "100%", height: 300, display: "block" }}
-        >
-          <defs>
-            <linearGradient id="mkp-line" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stopColor="var(--blue)" />
-              <stop offset="1" stopColor="var(--cyan)" />
-            </linearGradient>
-            <linearGradient id="mkp-area" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="var(--cyan)" stopOpacity=".22" />
-              <stop offset="1" stopColor="var(--cyan)" stopOpacity="0" />
-            </linearGradient>
-          </defs>
+        <div className="mk-chart-wrap">
+          <svg
+            ref={svgRef}
+            className="mk-chart"
+            viewBox={`0 0 ${VB_W} ${VB_H}`}
+            preserveAspectRatio="none"
+            role="img"
+            aria-label="Price chart"
+            style={{ width: "100%", height: 300, display: "block" }}
+            onPointerMove={(e) => setActiveIdx(idxFromEvent(e))}
+            onPointerDown={(e) => setActiveIdx(idxFromEvent(e))}
+            onPointerLeave={() => setActiveIdx(null)}
+          >
+            <defs>
+              <linearGradient id="mkp-line" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stopColor="var(--blue)" />
+                <stop offset="1" stopColor="var(--cyan)" />
+              </linearGradient>
+              <linearGradient id="mkp-area" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="var(--cyan)" stopOpacity=".22" />
+                <stop offset="1" stopColor="var(--cyan)" stopOpacity="0" />
+              </linearGradient>
+            </defs>
 
-          {yTicks.map((t) => {
-            const y = yAt(t);
-            return (
-              <g key={t}>
-                <line x1={MARGIN_LEFT} y1={y} x2={VB_W - MARGIN_RIGHT} y2={y} stroke="rgba(255,255,255,.06)" strokeWidth={1} />
-                <text x={MARGIN_LEFT + 2} y={y - 5} fill="var(--txt-4)" fontSize="10.5" fontFamily="IBM Plex Mono,monospace" letterSpacing=".04em">
-                  {formatYTick(t)}
-                </text>
+            {yTicks.map((t) => {
+              const y = yAt(t);
+              return (
+                <g key={t}>
+                  <line x1={MARGIN_LEFT} y1={y} x2={VB_W - MARGIN_RIGHT} y2={y} stroke="rgba(255,255,255,.06)" strokeWidth={1} />
+                  <text x={MARGIN_LEFT + 2} y={y - 5} fill="var(--txt-4)" fontSize="10.5" fontFamily="IBM Plex Mono,monospace" letterSpacing=".04em">
+                    {formatYTick(t)}
+                  </text>
+                </g>
+              );
+            })}
+
+            {n > 0 && (
+              <>
+                <path d={areaPath} fill="url(#mkp-area)" />
+                <path d={linePath} fill="none" stroke="url(#mkp-line)" strokeWidth={2} />
+              </>
+            )}
+
+            {active && (
+              <g pointerEvents="none">
+                <line
+                  x1={xAt(activeIdx as number)}
+                  y1={MARGIN_TOP}
+                  x2={xAt(activeIdx as number)}
+                  y2={baseY}
+                  stroke="rgba(255,255,255,.28)"
+                  strokeWidth={1}
+                />
+                <circle
+                  cx={xAt(activeIdx as number)}
+                  cy={yAt(active.price)}
+                  r={4}
+                  fill="var(--cyan)"
+                  stroke="#05070D"
+                  strokeWidth={2}
+                />
               </g>
-            );
-          })}
+            )}
 
-          {n > 0 && (
-            <>
-              <path d={areaPath} fill="url(#mkp-area)" />
-              <path d={linePath} fill="none" stroke="url(#mkp-line)" strokeWidth={2} />
-            </>
+            {xTickIdx.map((idx, i) => {
+              const anchor = i === 0 ? "start" : i === xTickIdx.length - 1 ? "end" : "middle";
+              return (
+                <text
+                  key={`${idx}-${i}`}
+                  x={xAt(idx)}
+                  y={VB_H - 8}
+                  textAnchor={anchor}
+                  fill="var(--txt-5)"
+                  fontSize="10.5"
+                  fontFamily="IBM Plex Mono,monospace"
+                  letterSpacing=".08em"
+                >
+                  {formatXTick(sliced[idx].t)}
+                </text>
+              );
+            })}
+          </svg>
+
+          {active && (
+            <div className="mk-chart-tip mono" style={{ left: `${tipLeft}%` }}>
+              <div className="mk-chart-tip-date">{formatFullDate(active.t)}</div>
+              <div className="mk-chart-tip-price">{formatUsd(active.price)}</div>
+            </div>
           )}
-
-          {xTickIdx.map((idx, i) => {
-            const anchor = i === 0 ? "start" : i === xTickIdx.length - 1 ? "end" : "middle";
-            return (
-              <text
-                key={`${idx}-${i}`}
-                x={xAt(idx)}
-                y={VB_H - 8}
-                textAnchor={anchor}
-                fill="var(--txt-5)"
-                fontSize="10.5"
-                fontFamily="IBM Plex Mono,monospace"
-                letterSpacing=".08em"
-              >
-                {formatXTick(sliced[idx].t)}
-              </text>
-            );
-          })}
-        </svg>
+        </div>
       </div>
     </div>
   );

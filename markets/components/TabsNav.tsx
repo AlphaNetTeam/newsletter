@@ -1,7 +1,7 @@
 const TABS = [
+  { id: "strategies", label: "Strategies" },
   { id: "price", label: "Price" },
   { id: "news", label: "News" },
-  { id: "strategies", label: "Strategies" },
   { id: "volatility", label: "Volatility" },
   { id: "faq", label: "FAQ" },
 ] as const;

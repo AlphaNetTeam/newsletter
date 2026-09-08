@@ -61,24 +61,17 @@
   color-scheme: dark;
 }
 
-* {
+/* Full universal reset, matching the reference page exactly. Spacing is
+   built purely from the explicit margins/paddings each class sets, so any
+   browser UA default (h1: ~0.67em, p: ~1em, ul: 40px padding-left, and so
+   on) would otherwise add itself on whichever side nothing overrides and
+   quietly widen gaps. */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-}
-
-/* The reference page zeroes default heading/paragraph margins and builds
-   spacing purely from the explicit single-direction margins each class
-   sets (e.g. .lede-sm's margin-top, .mk-intro h1's margin-bottom). Without
-   this reset, the browser's UA default margin (h1: ~0.67em, p: ~1em) adds
-   itself on the side nothing else overrides, quietly extending gaps like
-   the one above/below the hero heading and lede text. */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
   margin: 0;
+  padding: 0;
 }
 
 html {
@@ -416,13 +409,27 @@ body:has(.mk-bar) .section {
   transform: scaleX(1);
 }
 
+/* Base icon-link (circular bordered button); the nav variant below strips
+   the border and fixed size, but still inherits the grid centering and
+   --txt-3 colour from here, exactly as on the reference page. */
+.icon-link {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--txt-3);
+  border: 1px solid var(--line);
+  transition: color 0.4s var(--ease-hov), border-color 0.4s var(--ease-hov),
+    transform 0.4s var(--ease-hov);
+}
+
 .nav .icon-link {
   border: none;
   width: auto;
   height: auto;
   padding: 4px;
   background: none;
-  color: var(--txt-2);
   cursor: pointer;
 }
 
@@ -524,16 +531,6 @@ body:has(.mk-bar) .section {
     transform 0.5s var(--ease-in);
 }
 
-@media (max-width: 860px) {
-  .nav-links,
-  .btn-nav {
-    display: none;
-  }
-  .burger {
-    display: flex;
-  }
-}
-
 /* ---------- footer ---------- */
 
 .footer {
@@ -587,12 +584,6 @@ body:has(.mk-bar) .section {
   font-size: 10.5px;
   letter-spacing: 0.14em;
   color: var(--txt-4);
-}
-
-@media (max-width: 860px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 /* ---------- sticky market bar (coin selector + section tabs) ---------- */
@@ -676,6 +667,11 @@ body:has(.mk-bar) .section {
   font-size: 11px;
   color: var(--txt-4);
   letter-spacing: 0.12em;
+}
+
+.chev {
+  opacity: 0.55;
+  transform: translateY(-1px);
 }
 
 .mk-select-btn .chev {
@@ -765,17 +761,6 @@ body:has(.mk-bar) .section {
   color: var(--cyan);
 }
 
-@media (max-width: 720px) {
-  .mk-bar-in {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .mk-tabs {
-    overflow-x: auto;
-    width: 100%;
-  }
-}
-
 /* ---------- shared panel ("dex" card) ---------- */
 
 .mk-panel,
@@ -832,6 +817,46 @@ body:has(.mk-bar) .section {
   grid-template-columns: 1.5fr 1fr;
   gap: 18px;
   align-items: stretch;
+}
+
+.mk-chart {
+  width: 100%;
+  display: block;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/* Hover/tap readout. The reference chart is static; this is an addition,
+   kept visually inert so the resting chart still matches it exactly. */
+.mk-chart-wrap {
+  position: relative;
+}
+
+.mk-chart-tip {
+  position: absolute;
+  top: 6px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 5;
+  background: rgba(5, 7, 13, 0.94);
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  padding: 7px 10px;
+  white-space: nowrap;
+  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.85);
+}
+
+.mk-chart-tip-date {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--txt-4);
+}
+
+.mk-chart-tip-price {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--txt);
+  margin-top: 2px;
 }
 
 .mk-chart-body {
@@ -924,12 +949,31 @@ body:has(.mk-bar) .section {
   font-weight: 600;
 }
 
+/* Correlation panel body. The reference gives this its own container
+   rather than the generic .dex-body (which is 20px padding / 16px gap),
+   so the rows sit tighter and 2px wider on each side. */
+.mk-corr {
+  padding: 14px 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
 .mk-corr-row {
   display: grid;
   grid-template-columns: 44px 1fr 40px;
   align-items: center;
   gap: 10px;
   font-size: 12px;
+}
+
+.mk-corr-sym {
+  color: var(--txt-3);
+}
+
+.mk-corr-v {
+  text-align: right;
+  font-weight: 600;
 }
 
 .mk-corr-track {
@@ -970,12 +1014,6 @@ body:has(.mk-bar) .section {
   font-weight: 700;
   margin-top: 5px;
   letter-spacing: -0.01em;
-}
-
-@media (max-width: 720px) {
-  .mk-perf {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 .mk-pos {
@@ -1249,15 +1287,6 @@ body:has(.mk-bar) .section {
   color: var(--txt-4);
 }
 
-@media (max-width: 900px) {
-  .cap-grid,
-  .cap-grid.three-col,
-  .mk-price-grid,
-  .mk-vol-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* ---------- volatility drawdown compare ---------- */
 
 .mk-volstats {
@@ -1342,18 +1371,6 @@ body:has(.mk-bar) .section {
   line-height: 1.72;
 }
 
-@media (max-width: 780px) {
-  .mk-faq-grid {
-    grid-template-columns: 1fr;
-  }
-  .mk-news-row {
-    grid-template-columns: 1fr auto;
-  }
-  .mk-news-row .mk-news-meta {
-    display: none;
-  }
-}
-
 @keyframes pulse {
   0% {
     box-shadow: 0 0 0 3px var(--accent-green-dim);
@@ -1366,5 +1383,170 @@ body:has(.mk-bar) .section {
   100% {
     box-shadow: 0 0 0 3px var(--accent-green-dim);
     opacity: 1;
+  }
+}
+
+/* ---------- responsive ----------
+   Breakpoints and values mirror the reference page exactly
+   (1080 / 1024 / 860 / 560), replacing the previous ad-hoc
+   860/900/780/720 set. */
+
+@media (max-width: 1080px) {
+  .nav-links {
+    display: none;
+  }
+
+  .btn-nav {
+    font-size: 14.5px;
+    padding: 11px 22px;
+    border-radius: 12px;
+  }
+
+  .brand-logo {
+    height: 27px;
+  }
+
+  .brand {
+    gap: 16px;
+  }
+
+  .brand-sub {
+    font-size: 15px;
+  }
+
+  .burger {
+    display: flex;
+  }
+
+  .mk-price-grid,
+  .mk-vol-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mk-tabs {
+    display: none;
+  }
+}
+
+@media (max-width: 1024px) {
+  body:has(.mk-bar) .section {
+    padding: 74px 0;
+  }
+}
+
+@media (max-width: 860px) {
+  .section {
+    padding: 96px 0;
+  }
+
+  .cap-grid,
+  .cap-grid.three-col {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .brand-sub {
+    display: none;
+  }
+
+  .dex-body {
+    padding: 14px;
+    gap: 13px;
+  }
+
+  .mk-perf {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mk-faq-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mk-news-row {
+    grid-template-columns: 1fr auto;
+  }
+
+  .mk-news-meta {
+    grid-column: 1 / -1;
+  }
+
+  .mk-volstats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mk-dd-row {
+    grid-template-columns: 110px 1fr 50px;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-right {
+    gap: 12px;
+  }
+
+  .nav-right .btn-nav {
+    padding: 10px 16px;
+    font-size: 13.5px;
+  }
+
+  .nav .icon-link {
+    display: none;
+  }
+
+  .brand-logo {
+    height: 23px;
+  }
+
+  .burger {
+    width: 38px;
+    height: 38px;
+  }
+
+  .mk-bar-in {
+    padding: 10px 0;
+  }
+
+  .mk-select-name {
+    font-size: 16.5px;
+  }
+
+  .mk-latest {
+    font-size: 25px;
+  }
+
+  .mk-chart-body {
+    padding: 14px;
+  }
+
+  .dex-head {
+    padding: 13px 15px;
+  }
+
+  .dex-title {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  .dex-live {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .live-dot,
+  .noise {
+    animation: none !important;
   }
 }

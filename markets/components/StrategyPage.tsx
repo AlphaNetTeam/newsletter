@@ -35,6 +35,12 @@ export default function StrategyPage({ data }: { data: MarketPageData }) {
         </div>
       </section>
 
+      <section id="strategies" aria-labelledby="strategies-heading" className="section">
+        <div className="container">
+          <StrategiesSection strategies={data.strategies} symbol={symbol} />
+        </div>
+      </section>
+
       <section id="price" aria-labelledby="price-heading" className="section">
         <div className="container">
           <hgroup className="section-head">
@@ -64,12 +70,6 @@ export default function StrategyPage({ data }: { data: MarketPageData }) {
       <section id="news" aria-labelledby="news-heading" className="section">
         <div className="container">
           <NewsPanel news={data.news} symbol={symbol} />
-        </div>
-      </section>
-
-      <section id="strategies" aria-labelledby="strategies-heading" className="section">
-        <div className="container">
-          <StrategiesSection strategies={data.strategies} symbol={symbol} />
         </div>
       </section>
 

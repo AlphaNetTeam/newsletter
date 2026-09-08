@@ -311,9 +311,12 @@ export function getVolatility(
   const holdingDd = maxDrawdown(holdingWindow);
 
   const drawdownCompare = [
+    // Strategies are compared over their whole live window (launch -> now),
+    // not the 30-day window used by the strategies table, so the bars are
+    // comparable with the buy-and-hold drawdown beside them.
     ...strategies.strategies.map((s) => ({
       label: s.name,
-      maxDrawdown: s.maxDrawdown,
+      maxDrawdown: s.maxDrawdownLive,
       source: strategies.source,
     })),
     {

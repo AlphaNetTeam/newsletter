@@ -48,8 +48,23 @@ function parseLiveItem(item: Record<string, unknown>): StrategyOut | null {
           (a, b) => Number(a.timestamp ?? 0) - Number(b.timestamp ?? 0),
         )
       : [];
-    let equityCurve = daily.map((d) => toFloat(d.pnl));
-    if (!equityCurve.length) equityCurve = [0, toFloat(item.totalReturn)];
+    // dailyStatList[].pnl is the strategy's CUMULATIVE return since inception,
+    // not a per-day figure — inside the 30-day window it reads e.g. 2.0039 ->
+    // 1.9959 (i.e. +200.39% -> +199.59% since launch). Plotted raw, the curve
+    // is a line hovering around 2.0 that has nothing to do with the 30-day ROI
+    // shown next to it. Rebase it onto the window's first point so the curve
+    // starts at 0 and ends at the window's own return, which is exactly what
+    // `totalReturn` reports for t=30.
+    const rawCurve = daily.map((d) => toFloat(d.pnl));
+    let equityCurve: number[];
+    if (rawCurve.length) {
+      const base = 1 + rawCurve[0];
+      equityCurve = base === 0
+        ? rawCurve.map((v) => v - rawCurve[0])
+        : rawCurve.map((v) => (1 + v) / base - 1);
+    } else {
+      equityCurve = [0, toFloat(item.totalReturn)];
+    }
 
     const startTime = Number(item.startTime ?? 0);
     const endTime = Number(item.endTime ?? startTime);
@@ -67,6 +82,7 @@ function parseLiveItem(item: Record<string, unknown>): StrategyOut | null {
       roi: Math.round(toFloat(item.totalReturn) * 10000) / 10000,
       sharpe: Math.round(toFloat(item.sharpeRatio) * 100) / 100,
       maxDrawdown: Math.round(toFloat(item.maxDrawDown) * 10000) / 10000,
+      maxDrawdownLive: Math.round(toFloat(item.maxDrawDown) * 10000) / 10000,
       winRate: Math.round(toFloat(item.winRate) * 10000) / 10000,
       capacityPct: Math.round(capacityPct * 10000) / 10000,
       equityCurve: equityCurve.map((v) => Math.round(v * 10000) / 10000),
@@ -126,6 +142,7 @@ function syntheticStrategies(symbol: string): StrategiesData {
       roi: Math.round(roi * 10000) / 10000,
       sharpe: Math.round(sharpe * 100) / 100,
       maxDrawdown: Math.round(maxDd * 10000) / 10000,
+      maxDrawdownLive: Math.round(maxDd * 10000) / 10000,
       winRate: Math.round(winRate * 10000) / 10000,
       capacityPct: Math.round(capacity * 10000) / 10000,
       equityCurve: syntheticEquityCurve(symbol, defn.key, roi),
@@ -137,13 +154,31 @@ function syntheticStrategies(symbol: string): StrategiesData {
 export function getStrategies(
   symbol: string,
   raw: Array<Record<string, unknown>>,
+  rawLifetime: Array<Record<string, unknown>> = [],
 ): StrategiesData {
   if (raw.length) {
     const target = phoenixSymbol(symbol);
+
+    // Max drawdown over each strategy's full live window, keyed by name.
+    // `raw` is the 30-day window, so its maxDrawDown only covers the last
+    // month; the drawdown comparison wants launch-to-now instead.
+    const liveDrawdown = new Map<string, number>();
+    for (const item of rawLifetime) {
+      if (item.symbol !== target) continue;
+      const nm = String(item.strategy ?? "");
+      if (nm) liveDrawdown.set(nm, toFloat(item.maxDrawDown));
+    }
+
     const parsed = raw
       .filter((item) => item.symbol === target)
       .map(parseLiveItem)
       .filter((s): s is StrategyOut => s != null)
+      .map((s) => {
+        const live = liveDrawdown.get(s.name);
+        return live == null
+          ? s
+          : { ...s, maxDrawdownLive: Math.round(live * 10000) / 10000 };
+      })
       .sort((a, b) => b.roi - a.roi)
       .slice(0, STRATEGIES_TOP_N);
     if (parsed.length) return { symbol, strategies: parsed, source: "live" };

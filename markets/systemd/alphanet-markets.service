@@ -10,6 +10,7 @@ Group=ubuntu
 WorkingDirectory=/home/ubuntu/alphanet-space/newsletter/markets
 Environment=SITE_URL=https://alphanet.global/markets
 Environment=NEXT_PUBLIC_SITE_URL=https://alphanet.global/markets
+Environment=HYPERTRACKER_API_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjU0NTg4LCJtaWQiOjI1NzU2MCwiaWF0IjoxNzg0ODYzMDkxfQ.A0zwK6l2O10cUMauNuACgpns-g8esZd3dTIBoEG7QXg
 Environment=PATH=/home/ubuntu/.local/share/mise/installs/node/16/bin/:/usr/local/bin:/usr/bin:/bin
 ExecStart=/home/ubuntu/.local/share/mise/installs/node/16/bin/npm start -- --hostname 127.0.0.1 --port 20002
 Restart=on-failure

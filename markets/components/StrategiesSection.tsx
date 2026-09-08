@@ -1,5 +1,14 @@
+import { PHOENIX_RECENT_STAT_WINDOW_DAYS } from "@/lib/config";
 import { formatPct } from "@/lib/format";
 import type { StrategiesData, StrategyOut } from "@/lib/types";
+
+// ROI, MAX DD, WIN RATE and the equity curve all come from the Phoenix
+// recentStat API windowed to this many days (?t=30), so label them rather
+// than letting them read as lifetime figures. SHARPE is deliberately
+// unlabelled: the upstream API returns the same lifetime Sharpe regardless
+// of the window. Note the drawdown chart in the volatility section uses the
+// launch-to-now window instead, which is why its numbers are much larger.
+const WINDOW_LABEL = `${PHOENIX_RECENT_STAT_WINDOW_DAYS}D`;
 
 // CAPACITY tiers — matches the "STRATEGY CAPACITY" pill on
 // trade.alphanet.global/leaderboard exactly. Copied out of AlphaNet's own
@@ -69,7 +78,7 @@ export default function StrategiesSection({
           <table className="mk-table">
             <thead>
               <tr>
-                {["STRATEGY", "TYPE", "ROI", "SHARPE", "MAX DD", "WIN RATE", "EQUITY CURVE", "CAPACITY", ""].map((h) => (
+                {["STRATEGY", "TYPE", `ROI (${WINDOW_LABEL})`, "SHARPE", `MAX DD (${WINDOW_LABEL})`, `WIN RATE (${WINDOW_LABEL})`, `EQUITY CURVE (${WINDOW_LABEL})`, "CAPACITY", ""].map((h) => (
                   <th key={h || "details"} className="mono" scope="col">
                     {h}
                   </th>

@@ -109,7 +109,7 @@ export interface StrategyOut {
   roi: number;
   sharpe: number;
   maxDrawdown: number;
-  // Max drawdown over the strategy's whole live window (launch -> now),
+  // Max drawdown across the strategy's live-trading window (go-live -> now),
   // as opposed to maxDrawdown which is scoped to the 30-day window.
   maxDrawdownLive: number;
   winRate: number;

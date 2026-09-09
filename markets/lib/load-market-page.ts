@@ -16,7 +16,7 @@ import {
   getVolatility,
 } from "./market";
 import { getNewsForSymbol } from "./news";
-import { fetchLifetimeStats, fetchRecentStats } from "./phoenix";
+import { fetchLiveWindowStats, fetchRecentStats } from "./phoenix";
 import { getStrategies } from "./strategies";
 import type { MarketPageData } from "./types";
 
@@ -25,14 +25,14 @@ export const loadMarketPage = cache(async (symbol: string): Promise<MarketPageDa
     ...new Set([symbol, "BTC", ...CORRELATION_REFERENCE_ASSETS.filter((s) => s in SYMBOLS)]),
   ];
 
-  const [ctxs, candlesBySymbol, macro, news, strategiesRaw, strategiesLifetimeRaw, liquidation24h] =
+  const [ctxs, candlesBySymbol, macro, news, strategiesRaw, strategiesLiveRaw, liquidation24h] =
     await Promise.all([
       fetchAssetCtxs(),
       fetchCandlesFor(candleSymbols),
       fetchAllMacro(),
       getNewsForSymbol(symbol),
       fetchRecentStats(),
-      fetchLifetimeStats(),
+      fetchLiveWindowStats(),
       fetchLiquidation24h(symbol),
     ]);
 
@@ -43,7 +43,7 @@ export const loadMarketPage = cache(async (symbol: string): Promise<MarketPageDa
   const stats = getStats(symbol, candles, livePrice);
   const metrics = getMetrics(symbol, ctx, candles, liquidation24h);
   const correlation = getCorrelation(symbol, candlesBySymbol, macro);
-  const strategies = getStrategies(symbol, strategiesRaw, strategiesLifetimeRaw);
+  const strategies = getStrategies(symbol, strategiesRaw, strategiesLiveRaw);
   const volatility = getVolatility(symbol, candlesBySymbol, macro, strategies);
   const about = getAbout(symbol);
   const faq = buildFaq(symbol, strategies, volatility.holdingDrawdown);

@@ -154,16 +154,16 @@ function syntheticStrategies(symbol: string): StrategiesData {
 export function getStrategies(
   symbol: string,
   raw: Array<Record<string, unknown>>,
-  rawLifetime: Array<Record<string, unknown>> = [],
+  rawLiveWindow: Array<Record<string, unknown>> = [],
 ): StrategiesData {
   if (raw.length) {
     const target = phoenixSymbol(symbol);
 
-    // Max drawdown over each strategy's full live window, keyed by name.
+    // Max drawdown over each strategy's live-trading window, keyed by name.
     // `raw` is the 30-day window, so its maxDrawDown only covers the last
-    // month; the drawdown comparison wants launch-to-now instead.
+    // month; the drawdown comparison wants go-live-to-now instead.
     const liveDrawdown = new Map<string, number>();
-    for (const item of rawLifetime) {
+    for (const item of rawLiveWindow) {
       if (item.symbol !== target) continue;
       const nm = String(item.strategy ?? "");
       if (nm) liveDrawdown.set(nm, toFloat(item.maxDrawDown));

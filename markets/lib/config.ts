@@ -59,8 +59,14 @@ export const STOOQ_CSV_URL = "https://stooq.com/q/d/l/";
 export const STOOQ_TICKERS: Record<string, string> = { SPX: "^spx", XAU: "xauusd" };
 
 export const PHOENIX_RECENT_STAT_URL =
-  "https://alphanet.phoenix.global/api/orderly/trade/recentStat";
+  "https://trades.alphanet.global/api/orderly/trade/recentStat";
 export const PHOENIX_RECENT_STAT_WINDOW_DAYS = 30;
+// Unix timestamp (seconds) at which the strategies started trading live.
+// Passing it as ?t= scopes the stats to that live window; the API treats a
+// value this large as a start time rather than a day count. Requesting with
+// no ?t at all returns inception-to-now instead, which folds in pre-launch
+// backtest history and therefore overstates the drawdowns.
+export const STRATEGY_LIVE_SINCE_TS = 1766651212;
 export const STRATEGIES_TOP_N = 4;
 
 export const NEWS_MAX_ITEMS_PER_FEED = 30;

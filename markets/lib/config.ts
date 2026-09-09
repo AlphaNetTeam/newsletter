@@ -91,11 +91,14 @@ export const BROWSER_UA =
 // "Incorrect source" instead of a fabricated number.
 export const HYPERTRACKER_BASE_URL = "https://ht-api.coinmarketman.com";
 export const HYPERTRACKER_API_KEY = process.env.HYPERTRACKER_API_KEY || "";
-// Free tier is 100 tokens/day and this project has up to 15 symbol pages,
-// each doing one liquidation fetch per revalidation window — six hours
-// keeps worst-case usage (15 symbols x 4 windows/day = 60 requests) safely
-// under that quota.
-export const HYPERTRACKER_REVALIDATE_SECONDS = 21600;
+// Free tier is 100 requests/day and this project has 15 symbol pages, each
+// doing one liquidation fetch per revalidation window. Note a full
+// `npm run build` also costs 15 requests up front, because
+// generateStaticParams pre-renders every symbol — so a day with a few
+// redeploys can burn the quota fast. At 24h the steady-state cost is
+// 15 requests/day, leaving room for several builds on top; the previous
+// 6h setting cost 60/day and left almost none.
+export const HYPERTRACKER_REVALIDATE_SECONDS = 86400;
 
 export function listSymbols(): SymbolInfo[] {
   return Object.entries(SYMBOLS).map(([symbol, cfg]) => ({

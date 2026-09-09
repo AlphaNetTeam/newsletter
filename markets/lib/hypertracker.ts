@@ -27,7 +27,16 @@ interface LiquidationFillsResponse {
 // response can't be parsed; render that as "Incorrect source". A genuine
 // zero (no liquidations in the window) is returned as 0, not null.
 export async function fetchLiquidation24h(symbol: string): Promise<number | null> {
-  if (!HYPERTRACKER_API_KEY) return null;
+  // Every failure below renders identically as "Incorrect source", so log a
+  // distinguishable reason to the server journal. The key itself is never
+  // logged — only whether it is present and how long it is, which is enough
+  // to catch an empty, truncated or quote-wrapped value.
+  if (!HYPERTRACKER_API_KEY) {
+    console.warn(
+      `[hypertracker] ${symbol}: HYPERTRACKER_API_KEY is empty in this process — request skipped`,
+    );
+    return null;
+  }
   try {
     const end = new Date();
     const start = new Date(end.getTime() - 24 * 60 * 60 * 1000);
@@ -38,10 +47,22 @@ export async function fetchLiquidation24h(symbol: string): Promise<number | null
       headers: { Authorization: `Bearer ${HYPERTRACKER_API_KEY}` },
       next: { revalidate: HYPERTRACKER_REVALIDATE_SECONDS },
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      console.warn(
+        `[hypertracker] ${symbol}: HTTP ${res.status} ${res.statusText} ` +
+          `(keyLen=${HYPERTRACKER_API_KEY.length}) ${body.slice(0, 200)}`,
+      );
+      return null;
+    }
     const json = (await res.json()) as LiquidationFillsResponse;
     const fills = json.fills;
-    if (!Array.isArray(fills)) return null;
+    if (!Array.isArray(fills)) {
+      console.warn(
+        `[hypertracker] ${symbol}: unexpected response shape, keys=[${Object.keys(json ?? {}).join(",")}]`,
+      );
+      return null;
+    }
 
     let total = 0;
     for (const f of fills) {
@@ -51,8 +72,14 @@ export async function fetchLiquidation24h(symbol: string): Promise<number | null
         total += Math.abs(px * sz);
       }
     }
+    console.info(`[hypertracker] ${symbol}: ok, ${fills.length} fills, total=${Math.round(total)}`);
     return total;
-  } catch {
+  } catch (err) {
+    console.warn(
+      `[hypertracker] ${symbol}: request threw — ` +
+        `${err instanceof Error ? `${err.name}: ${err.message}` : String(err)} ` +
+        `(keyLen=${HYPERTRACKER_API_KEY.length})`,
+    );
     return null;
   }
 }

@@ -1,6 +1,7 @@
 import { cache } from "react";
 import {
   CORRELATION_REFERENCE_ASSETS,
+  STRATEGY_WINDOW_ORDER,
   SYMBOLS,
   listSymbols,
 } from "./config";
@@ -16,7 +17,7 @@ import {
   getVolatility,
 } from "./market";
 import { getNewsForSymbol } from "./news";
-import { fetchLiveWindowStats, fetchRecentStats } from "./phoenix";
+import { fetchLiveWindowStats, fetchStatsForWindow } from "./phoenix";
 import { getStrategies } from "./strategies";
 import type { MarketPageData } from "./types";
 
@@ -25,16 +26,22 @@ export const loadMarketPage = cache(async (symbol: string): Promise<MarketPageDa
     ...new Set([symbol, "BTC", ...CORRELATION_REFERENCE_ASSETS.filter((s) => s in SYMBOLS)]),
   ];
 
-  const [ctxs, candlesBySymbol, macro, news, strategiesRaw, strategiesLiveRaw, liquidation24h] =
+  const [ctxs, candlesBySymbol, macro, news, windowRaws, strategiesLiveRaw, liquidation24h] =
     await Promise.all([
       fetchAssetCtxs(),
       fetchCandlesFor(candleSymbols),
       fetchAllMacro(),
       getNewsForSymbol(symbol),
-      fetchRecentStats(),
+      // One request per selectable window so the table's toggle is instant.
+      // These URLs carry no symbol, so all 15 symbol pages share the same
+      // cached responses rather than multiplying the upstream load.
+      Promise.all(STRATEGY_WINDOW_ORDER.map((w) => fetchStatsForWindow(w))),
       fetchLiveWindowStats(),
       fetchLiquidation24h(symbol),
     ]);
+  const strategiesRawByWindow = Object.fromEntries(
+    STRATEGY_WINDOW_ORDER.map((w, i) => [w, windowRaws[i]]),
+  );
 
   const candles = candlesBySymbol[symbol];
   const ctx = ctxs[symbol];
@@ -43,7 +50,7 @@ export const loadMarketPage = cache(async (symbol: string): Promise<MarketPageDa
   const stats = getStats(symbol, candles, livePrice);
   const metrics = getMetrics(symbol, ctx, candles, liquidation24h);
   const correlation = getCorrelation(symbol, candlesBySymbol, macro);
-  const strategies = getStrategies(symbol, strategiesRaw, strategiesLiveRaw);
+  const strategies = getStrategies(symbol, strategiesRawByWindow, strategiesLiveRaw);
   const volatility = getVolatility(symbol, candlesBySymbol, macro, strategies);
   const about = getAbout(symbol);
   const faq = buildFaq(symbol, strategies, volatility.holdingDrawdown);

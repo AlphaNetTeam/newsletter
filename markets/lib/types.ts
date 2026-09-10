@@ -117,9 +117,18 @@ export interface StrategyOut {
   equityCurve: number[];
 }
 
+// Windows offered by the strategies table toggle, mirroring
+// trade.alphanet.global/leaderboard.
+export type StrategyWindow = "30D" | "60D" | "90D" | "ALL";
+
 export interface StrategiesData {
   symbol: string;
+  // The default (30D) list. Kept as its own field because the volatility
+  // drawdown chart and the FAQ read from it and must not follow the toggle.
   strategies: StrategyOut[];
+  // Same strategies re-fetched for every selectable window, so the toggle
+  // switches instantly instead of round-tripping to the API per click.
+  byWindow: Record<StrategyWindow, StrategyOut[]>;
   source: "live" | "synthetic";
 }
 

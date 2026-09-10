@@ -1,14 +1,14 @@
-import { PHOENIX_RECENT_STAT_WINDOW_DAYS } from "@/lib/config";
-import { formatRoiPct } from "@/lib/format";
-import type { StrategiesData, StrategyOut } from "@/lib/types";
+"use client";
 
-// ROI, MAX DD, WIN RATE and the equity curve all come from the Phoenix
-// recentStat API windowed to this many days (?t=30), so label them rather
-// than letting them read as lifetime figures. SHARPE is deliberately
-// unlabelled: the upstream API returns the same lifetime Sharpe regardless
-// of the window. Note the drawdown chart in the volatility section uses the
-// launch-to-now window instead, which is why its numbers are much larger.
-const WINDOW_LABEL = `${PHOENIX_RECENT_STAT_WINDOW_DAYS}D`;
+import { useState } from "react";
+import {
+  DEFAULT_STRATEGY_WINDOW,
+  STRATEGY_WINDOW_LABELS,
+  STRATEGY_WINDOW_ORDER,
+} from "@/lib/config";
+import { formatRoiPct } from "@/lib/format";
+import type { StrategiesData, StrategyOut, StrategyWindow } from "@/lib/types";
+
 
 // CAPACITY tiers — matches the "STRATEGY CAPACITY" pill on
 // trade.alphanet.global/leaderboard exactly. Copied out of AlphaNet's own
@@ -53,7 +53,15 @@ export default function StrategiesSection({
   strategies: StrategiesData;
   symbol: string;
 }) {
-  const list = strategies.strategies;
+  const [window, setWindow] = useState<StrategyWindow>(DEFAULT_STRATEGY_WINDOW);
+  // Every window was fetched server-side, so switching is instant and needs
+  // no client-side request. Falling back to `strategies` keeps this safe if a
+  // window ever comes back missing.
+  const list = strategies.byWindow?.[window] ?? strategies.strategies;
+  // Only ROI carries the window in its header, like the leaderboard does; the
+  // other columns follow the same toggle but stay unsuffixed to keep the head
+  // readable. "All Time" is shortened to "All" so the column doesn't widen.
+  const roiLabel = window === "ALL" ? "All" : STRATEGY_WINDOW_LABELS[window];
 
   return (
     <>
@@ -73,12 +81,25 @@ export default function StrategiesSection({
       <div className="mk-panel">
         <div className="dex-head">
           <span className="dex-title mono">AlphaNet Strategies</span>
+          <div className="mk-ranges mono" role="group" aria-label="Performance window">
+            {STRATEGY_WINDOW_ORDER.map((w) => (
+              <button
+                key={w}
+                type="button"
+                onClick={() => setWindow(w)}
+                className={w === window ? "on" : undefined}
+                aria-pressed={w === window}
+              >
+                {STRATEGY_WINDOW_LABELS[w]}
+              </button>
+            ))}
+          </div>
         </div>
         <div className="mk-table-scroll">
           <table className="mk-table">
             <thead>
               <tr>
-                {["STRATEGY", "TYPE", `ROI (${WINDOW_LABEL})`, "SHARPE", `MAX DD (${WINDOW_LABEL})`, `WIN RATE (${WINDOW_LABEL})`, `EQUITY CURVE (${WINDOW_LABEL})`, "CAPACITY", ""].map((h) => (
+                {["STRATEGY", "TYPE", `ROI (${roiLabel})`, "SHARPE", "MAX DD", "WIN RATE", "EQUITY CURVE", "CAPACITY", ""].map((h) => (
                   <th key={h || "details"} className="mono" scope="col">
                     {h}
                   </th>

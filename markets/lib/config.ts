@@ -1,5 +1,5 @@
 import data from "./config-data.json";
-import type { RangeKey, SymbolInfo } from "./types";
+import type { RangeKey, StrategyWindow, SymbolInfo } from "./types";
 
 export interface SymbolConfig {
   name: string;
@@ -68,6 +68,24 @@ export const PHOENIX_RECENT_STAT_WINDOW_DAYS = 30;
 // backtest history and therefore overstates the drawdowns.
 export const STRATEGY_LIVE_SINCE_TS = 1766651212;
 export const STRATEGIES_TOP_N = 4;
+// The ?t= value the recentStat API expects for each selectable window.
+// Numeric values are day counts; "all" asks for the full history and is what
+// the leaderboard's "All Time" tab shows (verified against its rows — it
+// returns byte-identical data to omitting ?t entirely).
+export const STRATEGY_WINDOW_QUERY: Record<StrategyWindow, string> = {
+  "30D": "30",
+  "60D": "60",
+  "90D": "90",
+  ALL: "all",
+};
+export const STRATEGY_WINDOW_LABELS: Record<StrategyWindow, string> = {
+  "30D": "30D",
+  "60D": "60D",
+  "90D": "90D",
+  ALL: "All Time",
+};
+export const STRATEGY_WINDOW_ORDER: StrategyWindow[] = ["30D", "60D", "90D", "ALL"];
+export const DEFAULT_STRATEGY_WINDOW: StrategyWindow = "30D";
 
 export const NEWS_MAX_ITEMS_PER_FEED = 30;
 export const NEWS_ITEMS_PER_SYMBOL = 6;

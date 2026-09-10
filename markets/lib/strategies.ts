@@ -1,11 +1,13 @@
 import {
+  DEFAULT_STRATEGY_WINDOW,
   STRATEGY_DEFS,
   STRATEGY_DESCRIPTION_FALLBACK,
   STRATEGY_DESCRIPTIONS,
+  STRATEGY_WINDOW_ORDER,
   STRATEGIES_TOP_N,
 } from "./config";
 import { gauss, mulberry32, seedFor } from "./generator";
-import type { StrategiesData, StrategyOut } from "./types";
+import type { StrategiesData, StrategyOut, StrategyWindow } from "./types";
 
 const EQUITY_CURVE_POINTS = 48;
 
@@ -148,28 +150,32 @@ function syntheticStrategies(symbol: string): StrategiesData {
       equityCurve: syntheticEquityCurve(symbol, defn.key, roi),
     };
   });
-  return { symbol, strategies: out, source: "synthetic" };
+  const byWindow = Object.fromEntries(
+    STRATEGY_WINDOW_ORDER.map((w) => [w, out]),
+  ) as Record<StrategyWindow, StrategyOut[]>;
+  return { symbol, strategies: out, byWindow, source: "synthetic" };
 }
 
 export function getStrategies(
   symbol: string,
-  raw: Array<Record<string, unknown>>,
+  rawByWindow: Partial<Record<StrategyWindow, Array<Record<string, unknown>>>>,
   rawLiveWindow: Array<Record<string, unknown>> = [],
 ): StrategiesData {
-  if (raw.length) {
-    const target = phoenixSymbol(symbol);
+  const target = phoenixSymbol(symbol);
 
-    // Max drawdown over each strategy's live-trading window, keyed by name.
-    // `raw` is the 30-day window, so its maxDrawDown only covers the last
-    // month; the drawdown comparison wants go-live-to-now instead.
-    const liveDrawdown = new Map<string, number>();
-    for (const item of rawLiveWindow) {
-      if (item.symbol !== target) continue;
-      const nm = String(item.strategy ?? "");
-      if (nm) liveDrawdown.set(nm, toFloat(item.maxDrawDown));
-    }
+  // Max drawdown over each strategy's live-trading window, keyed by name.
+  // The per-window rows below are scoped to 30/60/90 days or all history;
+  // the volatility drawdown chart wants go-live-to-now regardless of which
+  // window the table is showing.
+  const liveDrawdown = new Map<string, number>();
+  for (const item of rawLiveWindow) {
+    if (item.symbol !== target) continue;
+    const nm = String(item.strategy ?? "");
+    if (nm) liveDrawdown.set(nm, toFloat(item.maxDrawDown));
+  }
 
-    const parsed = raw
+  function parseWindow(raw: Array<Record<string, unknown>>): StrategyOut[] {
+    return raw
       .filter((item) => item.symbol === target)
       .map(parseLiveItem)
       .filter((s): s is StrategyOut => s != null)
@@ -181,7 +187,25 @@ export function getStrategies(
       })
       .sort((a, b) => b.roi - a.roi)
       .slice(0, STRATEGIES_TOP_N);
-    if (parsed.length) return { symbol, strategies: parsed, source: "live" };
+  }
+
+  const parsed = {} as Record<StrategyWindow, StrategyOut[]>;
+  for (const w of STRATEGY_WINDOW_ORDER) parsed[w] = parseWindow(rawByWindow[w] ?? []);
+
+  // Only fall back to example data when the default window came back empty —
+  // that is the one the page renders first.
+  if (parsed[DEFAULT_STRATEGY_WINDOW].length) {
+    // A window the API answered with nothing would otherwise render as an
+    // empty table on toggle; reuse the default window's rows instead.
+    for (const w of STRATEGY_WINDOW_ORDER) {
+      if (!parsed[w].length) parsed[w] = parsed[DEFAULT_STRATEGY_WINDOW];
+    }
+    return {
+      symbol,
+      strategies: parsed[DEFAULT_STRATEGY_WINDOW],
+      byWindow: parsed,
+      source: "live",
+    };
   }
   return syntheticStrategies(symbol);
 }

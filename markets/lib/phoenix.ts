@@ -3,7 +3,9 @@ import {
   PHOENIX_RECENT_STAT_URL,
   PHOENIX_RECENT_STAT_WINDOW_DAYS,
   STRATEGY_LIVE_SINCE_TS,
+  STRATEGY_WINDOW_QUERY,
 } from "./config";
+import type { StrategyWindow } from "./types";
 
 async function fetchStats(query: string): Promise<Array<Record<string, unknown>>> {
   // An empty return here silently swaps the whole strategies section over to
@@ -40,9 +42,17 @@ async function fetchStats(query: string): Promise<Array<Record<string, unknown>>
   }
 }
 
-// Rolling 30-day window — powers ROI (30D) and the equity curve.
+// Rolling 30-day window — the table's default selection.
 export function fetchRecentStats(): Promise<Array<Record<string, unknown>>> {
   return fetchStats(`?t=${PHOENIX_RECENT_STAT_WINDOW_DAYS}`);
+}
+
+// One window for the strategies-table toggle. "ALL" sends ?t=all, which the
+// API answers with the full history.
+export function fetchStatsForWindow(
+  window: StrategyWindow,
+): Promise<Array<Record<string, unknown>>> {
+  return fetchStats(`?t=${STRATEGY_WINDOW_QUERY[window]}`);
 }
 
 // The live-trading window: everything since the strategies went live, up to

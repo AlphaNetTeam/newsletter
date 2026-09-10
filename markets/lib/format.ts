@@ -22,6 +22,16 @@ export function formatPct(value: number): string {
   return `${sign}${pct.toFixed(1)}%`;
 }
 
+// Two-decimal percentage, matching the ROI column on
+// trade.alphanet.global/leaderboard (e.g. "+110.67%", "-0.53%"). Kept
+// separate from formatPct because the stats row (1 MONTH / YTD / 1 YEAR)
+// and the page metadata deliberately stay at one decimal.
+export function formatRoiPct(value: number): string {
+  const pct = value * 100;
+  const sign = pct > 0 ? "+" : "";
+  return `${sign}${pct.toFixed(2)}%`;
+}
+
 export function formatSmallPct(value: number): string {
   const pct = value * 100;
   const sign = pct > 0 ? "+" : "";

@@ -1,5 +1,5 @@
 import { PHOENIX_RECENT_STAT_WINDOW_DAYS } from "@/lib/config";
-import { formatPct } from "@/lib/format";
+import { formatRoiPct } from "@/lib/format";
 import type { StrategiesData, StrategyOut } from "@/lib/types";
 
 // ROI, MAX DD, WIN RATE and the equity curve all come from the Phoenix
@@ -115,6 +115,12 @@ export default function StrategiesSection({
 
 function StrategyRow({ s, symbol }: { s: StrategyOut; symbol: string }) {
   const capacity = capacityChip(s.capacityPct);
+  // A drawdown is a loss by definition, but the upstream API reports it as a
+  // positive magnitude. Render it signed and in the loss colour, matching how
+  // trade.alphanet.global/leaderboard shows its DRAWDOWN column. Math.abs
+  // guards against the API ever switching to negative values itself, which
+  // would otherwise flip the sign back to positive.
+  const maxDdPct = Math.abs(s.maxDrawdown) * 100;
   return (
     <tr>
       <td>
@@ -129,10 +135,12 @@ function StrategyRow({ s, symbol }: { s: StrategyOut; symbol: string }) {
       </td>
       <td className="mk-dim">{s.type}</td>
       <td className={s.roi >= 0 ? "mk-pos" : "mk-neg"} style={{ fontWeight: 600 }}>
-        {formatPct(s.roi)}
+        {formatRoiPct(s.roi)}
       </td>
       <td>{s.sharpe.toFixed(2)}</td>
-      <td className="mk-dim">{(s.maxDrawdown * 100).toFixed(2)}%</td>
+      <td className={maxDdPct > 0 ? "mk-neg" : "mk-dim"}>
+        {maxDdPct > 0 ? `-${maxDdPct.toFixed(2)}%` : "0.00%"}
+      </td>
       <td className="mk-dim">{(s.winRate * 100).toFixed(1)}%</td>
       <td>
         <Sparkline data={s.equityCurve} />
